@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+ <head>
+
+   <!-- Link com os icones Framework Materialize-->
+   <link type="text/css" rel="stylesheet" href="css/material-icons.css">
+   
+   <!--Arquivos CSS do Framework Materialize-->
+   <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+   <link type="text/css" rel="stylesheet" href="css/alteracoes.css" media="screen,projection" />
+   <link type="text/css" rel="stylesheet" href="css/jquery-confirm.min.css" />
+   
+   
+   <meta charset="UTF-8"> 
+   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+   
+   <title>Sistema Loja</title>
+ </head>
+ 
+ <body>
+ 
+    <div class="navbar-fixed">
+     <nav class="grey darken-4">
+	       <div class="nav-wrapper">
+	        
+	        <a href="" class="brand-logo">   
+	          <img class="responsive-img" src="image/logofran.png" width="368em">    
+	        </a>
+	       
+	         <ul class="right">
+	          <li><a class="text-colorlink" href="/"><i class="material-icons left">add_shopping_cart</i>Meu Caixa</a></li>
+	          <li><a class="text-colorlink" href="cadastraritem">Cadastrar itens</a></li>
+	          <li><a class="text-colorlink" href="estoque">Estoque</a></li>
+	          <li><a class="text-colorlink" href="fornecedor">Fornecedor</a></li>
+	          <li><a class="text-colorlink" href="vendas">Minhas Vendas</a></li>
+	          <li><a class="text-colorlink" href="#">Sair</a></li> 
+	         </ul>
+	        </div>
+      </nav>
+    </div>
+    
+    <br/>
+    <div class="row">    			
+      <div class="card-panel col s12 grey darken-4">
+      	 <h5 class="center-align white-text">Minhas Vendas</h5>  
+      		                      
+      <form class="col s5" th:action="@{/buscarvendas}" method="get">
+      	 <h6 class="deep-orange white-text">Pesquisar por data ou Código da venda</h6>                           
+      	   
+      	<div class="input-field col s4 input-textcolor">
+      	   Data inicial
+          <input id="dtInicial" type="date" class="validate input-textcolor" th:name="datainicial">
+        </div>	
+        
+        <div class="input-field col s4 input-textcolor">
+      	   Data final
+          <input id="dtInicial" type="date" class="validate input-textcolor" th:name="datafinal">
+        </div>
+         
+         <div class="input-field col s4 input-textcolor">
+          Codigo da venda:
+          <input id="codigoVd" type="text" class="validate input-textcolor" th:name="codigovenda">          
+          
+        </div>
+        
+        <div class="row col s6">
+         <button class="waves-effect waves-light btn deep-orange accent-2" type="submit">BUSCAR VENDAS</button>        
+        </div>          
+      </form>
+      
+	          
+	       <table class="striped grey lighten-1 tabelaVenda">
+	        <thead>
+	          <tr>
+	              <th title="Código da venda">Cod.Venda</th>
+	              <th title="Data da venda">Data</th>
+	              <th title="Pagamento no Débito">Pag.Débito</th>
+	              <th title="Pagamento no Dinheiro">Pag.Dinheiro</th>
+	              <th title="Valor receido em dinheiro">V.Recebido</th>
+	              <th title="Valor do troco">V.Troco</th>
+	              <th title="Pagamento no Crédito">Pag.Crédito</th>
+	              <th title="Números de parcelas">Parcelas</th>
+	              <th title="Valor parcelado">V.Parcelado</th>
+	              <th title="Total de desconto por item">T.Descontos</th> 
+	              <th title="Valor da venda">Valor Venda</th>
+	              <th title="Itens vendido">Itens</th>
+	              <th title="Deletar">Deletar</th>
+	              
+	                         
+	          </tr>
+	        </thead>
+	
+	          <tbody>
+	            <tr th:each="venda : ${vendas}">
+	              <td><span th:text="${venda.codigovenda}"></span></td>
+	              <td><span th:text="${#temporals.format(venda.data,'dd/MM/yyyy HH:mm')}"></span></td>
+	              <td><span th:text="${venda.formpagdebito.debito}"></span></td>
+	              <td><span th:text="${venda.formpagdinheiro.dinheiro}"></span></td>
+	              <td><span th:text="${venda.formpagdinheiro.valorrecebido}"></span></td>
+	              <td><span th:text="${venda.formpagdinheiro.valortroco}"></span></td>
+	              <td><span th:text="${venda.formpagcredito.credito}"></span></td> 
+	              <td><span th:text="${venda.formpagcredito.parcelas}"></span></td>	
+	              <td><span th:text="${venda.formpagcredito.valorparcelado}"></span></td> 
+				  <td><span th:text="${venda.desconto}"></span></td>	
+	              <td><span th:text="${venda.valorvenda}"></span></td>
+	              <td><a class="" href=""><i class="material-icons black-text" title="Itens vendido">list</i></a></td>
+	              <td><a class="" href=""><i class="material-icons black-text" title="Deletar">delete</i></a></td>
+	          
+	            </tr>
+	          </tbody>
+	          
+	        </table>
+     
+      </div>
+    </div>
+    
+		  <!-- Detalhe Forma de Pagamento -->
+		  <div id="modalDFPagamento" class="modal">
+		    <div class="modal-content">
+		      <h4>Forma de Pagamento </h4>
+		      <p>Detalhes</p>
+		    
+		       <div class="dinheiro" style="display:none">
+                   
+                    <div class="row"> 	                            
+                      <div class="input-field col s10">
+                               
+                          <input id="valordinheiro" type="hidden" name="dinheiro">
+                                  
+                             Valor Recebido:
+                             <input class="monetaria-masc" name="valorrecebido" style="font-family: Tahoma; 
+                                  font-size: 26px; color: green;" id="valReb" type="text">
+                      </div>
+                      </div>
+                          
+                      <div class="row">
+                         <div class="input-field col s10">
+                             Troco:
+                            <input class="monetaria-masc" name="troco" style="font-family: Tahoma; 
+                                font-size: 26px; color: red;" id="valTro" type="text">
+                         </div>
+                     </div>                                                                                               	           
+               </div>
+               
+                <div class="debito" style="display:none">
+                         	 
+                      <h5>Pagamento no Débito:</h5>
+                         	                          	  
+               </div>
+               
+               <div class="credito" style="display:none">
+                   
+                    <div class="row"> 	                            
+                      <div class="input-field col s10">
+                               
+                          <input id="valordinheiro" type="hidden" name="dinheiro">
+                                  
+                             Parcelas:
+                             <input class="monetaria-masc" name="valorrecebido" style="font-family: Tahoma; 
+                                  font-size: 26px; color: green;" id="valReb" type="text">
+                      </div>
+                      </div>
+                          
+                      <div class="row">
+                         <div class="input-field col s10">
+                             Valor parcelado:
+                            <input class="monetaria-masc"  name="troco" style="font-family: Tahoma; 
+                                font-size: 26px; color: green;" id="valTro" type="text">
+                         </div>
+                     </div>                                                                                               	           
+               </div>
+               
+               
+               
+               
+               
+		    
+		    </div>
+		  </div>
+          
+    
+    
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="js/modal.js"></script>
+    <script type="text/javascript" src="js/jquery.mask.min.js"></script> 
+    <script type="text/javascript" src="js/inputmascara.js"></script>
+    <script type="text/javascript" src="js/vendas.js"></script>
+    
+                   
+ </body>
+</html>

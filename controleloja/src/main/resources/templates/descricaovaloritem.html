@@ -1,0 +1,26 @@
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+   <div class="row">
+      <h6 class="white-text">DESCRIÇÃO DO ITEM</h6>
+         <div id="descricao" class="card-panel col s10 div-resize" th:each="caixa: ${itemdocaixa}">
+                    
+                <textarea th:text="${caixa.descricao}" readonly="readonly">  </textarea>
+                
+        </div>
+   </div>  
+  		
+   <div class="row">
+   
+  	  <h6 class="white-text">PREÇO DO ITEM R$:</h6>
+         <div id="valor" class="card-panel col s2 div-resize" th:each="caixa: ${itemdocaixa}">
+                      
+           
+           <textarea class="monetaria-masc" th:text="${caixa.precovenda}" readonly="readonly">  </textarea>
+        
+        </div> 
+  </div> 
+   
+       <script type="text/javascript" src="js/inputmascara.js"></script>
+   
+   
+</html>   

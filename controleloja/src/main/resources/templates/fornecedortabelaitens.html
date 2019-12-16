@@ -1,0 +1,35 @@
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+ <table class="responsive-table tabelaItem">
+ 
+ 	  <thead>
+		  <tr>
+		  
+			 <th>Cod.Item</th>
+			 <th>Desc.Item</th>
+			 <th>Qt.Atual</th> 
+			 <th>Prec.Venda</th>
+			 <th>Valor.Item</th>
+			                 
+		  </tr>
+	 </thead>
+			       
+	 <tbody>
+		 <tr th:each="itens : ${item}">
+			           
+			<td><span th:text="${itens.codigoitem}"></span></td>
+	        <td><span th:text="${itens.descricao}"></span></td>
+			<td><span th:text="${itens.quantidade}"></span></td>   
+			<td><b>R$:</b><span class="monetaria-masc" th:text="${itens.precovenda}"></span></td>
+		    <td><b>R$:</b><span class="monetaria-masc" th:text="${itens.valoritem}"></span></td>
+		     
+		</tr> 
+	</tbody>
+		      
+  </table>
+  
+    
+    <script type="text/javascript" src="js/inputmascara.js"></script>
+  
+  
+</html>

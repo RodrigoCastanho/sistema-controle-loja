@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+ <head>
+
+   <!-- Link com os icones Framework Materialize-->
+   <link type="text/css" rel="stylesheet" href="css/material-icons.css">
+   
+   <!--Arquivos CSS do Framework Materialize-->
+   <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+   <link type="text/css" rel="stylesheet" href="css/alteracoes.css" media="screen,projection" />
+   <link type="text/css" rel="stylesheet" href="css/jquery-confirm.min.css" />
+   
+   
+   <meta charset="UTF-8"> 
+   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+   
+   <title>Sistema Loja</title>
+ </head>
+ 
+ <body>
+ 
+    <div class="navbar-fixed">
+     <nav class="grey darken-4">
+	       <div class="nav-wrapper">
+	        
+	        <a href="" class="brand-logo">   
+	          <img class="responsive-img" src="image/logofran.png" width="368em">    
+	        </a>
+	       
+	         <ul class="right">
+	          <li><a class="text-colorlink" href="/"><i class="material-icons left" >add_shopping_cart</i>Meu Caixa</a></li>
+	          <li><a class="text-colorlink" href="cadastraritem">Cadastrar itens</a></li>
+	          <li><a class="text-colorlink" href="estoque">Estoque</a></li>
+	          <li><a class="text-colorlink" href="fornecedor">Fornecedor</a></li>
+	          <li><a class="text-colorlink" href="vendas">Minhas Vendas</a></li>
+	          <li><a class="text-colorlink" href="#">Sair</a></li> 
+	         </ul>
+	        </div>
+      </nav>
+    </div>
+           
+    <div class="row">
+      <div class="col s12">
+      	 <h5 class="center-align">Estoque</h5>
+           	 
+           	 <div class="container">
+           	   <form action="buscaritem" method="get">
+           	     
+           	        <div class="nav-wrapper">
+	           	       <div class="input-field col s10 deep-orange darken-3">
+	           	        
+	           	       	<input id="search" type="search" name="buscar">
+                        BUSCAR: cod.Item ou Descrição <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                         <i class="material-icons">close</i>
+	                     
+	                   </div>
+           	       </div>
+           	   </form>  
+              </div>
+              
+            <div class=row>
+                  <br/>
+           		<div class="col s2">
+           		
+           		 <form th:action="@{/buscartodos}">
+           		   <button class="waves-effect waves-light btn deep-orange accent-2" type="submit">ESTOQUE TOTAL</button> 
+           		 </form> 
+           		  <div class="div-resize" th:if="${itenscadastrado != null}" th:text="${' Itens: ' + itenscadastrado}" 
+           		        title="Quantidade de itens cadastrados"></div>
+           	   </div>   	 
+           	</div>
+           	  
+            <div class="row" >
+              <div class="col s12 l12 div-resize">
+           	   <table class="responsive-table tabelaItem">
+			        <thead>
+			          <tr>
+			              <th>Cod.Item</th>
+			              <th>Desc.Item</th>
+			              <th>Prec.Venda</th>
+			              <th>Valor.Item</th>
+			              <th>Categoria</th>
+			              <th>Qt.Atual</th>
+			              <th>Qt.Minima</th>
+			              <th>Editar</th>
+			              <th>Deletar</th>
+			          </tr>
+			        </thead>
+			       
+			        <tbody>
+			          <tr th:each="itens : ${item}">
+			          
+			            <td><span th:text="${itens.codigoitem}"></span></td>
+			            
+			            <td><span th:text="${itens.descricao}"></span></td>
+			            <td><b>R$:</b><span class="monetaria-masc" th:text="${itens.precovenda}"></span></td>
+			            <td><b>R$:</b><span class="monetaria-masc" th:text="${itens.valoritem}"></span></td>
+			            <td><span th:text="${itens.categoria}"></span></td>
+			            <td><span th:text="${itens.quantidade}"></span></td>
+			            <td><span th:text="${itens.quantminima}"></span></td>
+			            <td><a class="editar modal-trigger" href="#modalIt">
+			            						  <i class="material-icons black-text" title="editar">edit</i></a></td>
+			            <td><a class="deletar" th:href="@{deletar{codigoitem} (codigoitem = ${itens.codigoitem})}"> 
+			                                       <i class="material-icons black-text" title="deletar">delete</i></a></td>
+			               
+			          </tr> 
+			        </tbody>
+			      </table>
+			     </div> 
+           	  </div> 
+           	  
+           	  <!--Modal Editar-->           	  
+				  <div id="modalIt" class="modal">
+				    <div class="modal-content">
+				      <h4 class="center-align">Item selecionado</h4>  
+		
+				       <div class="row">
+				      	
+				        <form class="col s12" th:action="@{/editar}" th:object="${item}" method="post">
+				      	 
+					      	  <div class="col s4">
+			                     <input id="codItem" type="text" readonly="readonly" th:name="@{codigoitem}">
+			                     <label for="codItem">CÓDIGO DO ITEM*</label>
+			                 </div>
+		                   
+		                     <div class="col s8">
+					            <textarea id="descItem" class="materialize-textarea validate" required th:name="@{descricao}"></textarea>
+					            <label for="descItem">DESCRIÇÃO DO ITEM*</label>
+					        </div>
+					        
+					         <div class="row">
+						       <div class="col s4">
+			                     <input id="preVenda" type="text" class="validate monetaria-masc" required title="Preço final do item para o cliente" th:name="@{precovenda}">
+			                     <label for="preVenda">PREÇO DE VENDA R$:</label>
+			                 </div>
+			                   
+			                 <div class="col s4">
+			                     <input id="valItem" type="text" class="validate monetaria-masc" required title="Valor de compra do item" th:name="@{valoritem}">
+			                     <label for="valItem">VALOR DO ITEM R$:</label>
+			                   </div>     
+						     </div>
+				     
+						     <div class="row"> 
+							       <div class="col s4">
+				                     <input id="quaItem" type="number" class="validate" required th:name="@{quantidade}">
+				                     <label for="quaItem">QUANTIDADE*</label>
+				                 </div>
+				                  
+				                  <div class="col s6">
+				                     <input id="quaEstoque" type="number" class="validate" required th:name="@{quantminima}">
+				                     <label for="quaEstoque">QUANTIDADE MÍNIMA ESTOQUE*</label>
+				                  </div>
+				                  
+				                     <div class="input-field col s6 card-panel">
+									    <select required th:name="@{categoria}">
+									      <option value="#" disabled selected>SELECIONE CATEGORIA DO ITEM:</option>
+									      <option value="Roupa">Roupa</option>
+									      <option value="Calçado">Calçado</option>
+									      <option value="Bolsa">Bolsa</option>
+									      <option value="Bijuteria">Bijuteria</option>
+									      <option value="Óculos">Óculos</option>
+									      <option value="Outros">Outros</option>  
+									    </select>	
+									        				    
+									 </div>
+	                          </div> 
+	                           
+							       <button class="waves-effect waves-light btn deep-orange accent-2" type="submit">SALVAR</button>        
+						               
+					     </form>	          
+				      </div>    
+				  </div>
+				</div>
+	
+          </div> 
+                 
+     </div>	
+           
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="js/modal.js"></script>
+    <script type="text/javascript" src="js/estoque.js"></script>  
+    <script type="text/javascript" src="js/jquery.mask.min.js"></script> 
+    <script type="text/javascript" src="js/inputmascara.js"></script>
+    <script type="text/javascript" src="js/jquery-confirm.min.js"></script>
+    
+                 
+ </body>
+</html>

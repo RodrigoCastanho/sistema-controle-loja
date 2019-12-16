@@ -1,0 +1,23 @@
+@charset "UTF-8";
+/*Arquivo com algumas alteraçoes CSS  em conjunto Framework
+Materialize*/
+
+ /*Muda a cor dos link do navbar*/
+.text-colorlink:hover{color:#f4511e !important}
+
+/*Campo da nota fiscal*/
+/*textarea {
+	
+   overflow-y: scroll;
+   height:45em;
+   resize: none;
+}*/
+
+/*Muda a color do texto dentro do input*/
+.input-textcolor{color:white}
+
+
+.div-resize{
+	overflow-y: auto;
+}
+

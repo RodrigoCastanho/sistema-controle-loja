@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+ <head>
+
+   <!-- Link com os icones Framework Materialize-->
+   <link type="text/css" rel="stylesheet" href="css/material-icons.css">
+   
+   <!--Arquivos CSS do Framework Materialize-->
+   <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+   <link type="text/css" rel="stylesheet" href="css/alteracoes.css" media="screen,projection" />
+   <link type="text/css" rel="stylesheet" href="css/jquery-confirm.min.css" />
+   
+   
+   <meta charset="UTF-8"> 
+   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+   
+   <title>Sistema Loja</title>
+ </head>
+ 
+ <body>
+ 
+    <div class="navbar-fixed">
+     <nav class="grey darken-4">
+	       <div class="nav-wrapper">
+	        
+	        <a href="" class="brand-logo">   
+	          <img class="responsive-img" src="image/logofran.png" width="368em">    
+	        </a>
+	       
+	         <ul class="right">
+	          <li><a class="text-colorlink" href="/"><i class="material-icons left">add_shopping_cart</i>Meu Caixa</a></li>
+	          <li><a class="text-colorlink" href="cadastraritem">Cadastrar itens</a></li>
+	          <li><a class="text-colorlink" href="estoque">Estoque</a></li>
+	          <li><a class="text-colorlink" href="fornecedor">Fornecedor</a></li>
+	          <li><a class="text-colorlink" href="vendas">Minhas Vendas</a></li>
+	          <li><a class="text-colorlink" href="#">Sair</a></li> 
+	         </ul>
+	        </div>
+      </nav>
+    </div>
+           
+    <div class="row">
+      <div class="col s12">
+      	 <h5 class="center-align">Fornecedor</h5>
+           	 
+           	 <div class="container">
+           	   <form action="buscarfornecedor" method="get">
+           	     
+           	        <div class="nav-wrapper">
+	           	       <div class="input-field col s10 deep-orange darken-3">
+	           	        
+	           	       	<input id="search" type="search" name="cnpjnome">
+                        BUSCAR: CNPJ ou Nome Fornecedor: <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                         <i class="material-icons">close</i>
+	                     
+	                   </div>
+           	       </div>
+           	   </form>  	   
+             </div>
+             
+              <div class=row>
+                  <br/>
+           		<div class="col s2">
+           		
+           		 <form th:action="@{/buscartodosfornecedores}">
+           		   <button class="waves-effect waves-light btn deep-orange accent-2" title="Busca todos os Fornecedores cadastrados" 
+           		   	type="submit">FORNECEDORES</button> 
+           		 </form>
+           	   </div>   	 
+           	</div>
+             
+     
+            <div class="row" >
+              <div class="col s12 l12 div-resize">
+           	   <table class="responsive-table tabelaFornecedor">
+			        <thead>
+			          <tr>
+			              <th>CNPJ</th>
+			              <th>Nome</th>
+			              <th>Data</th>
+			              <th>E-mail</th>
+			              <th>Telefone</th>
+			              <th>Site</th>
+			              <th>Endereço</th>
+			              <th>Estado</th>
+			              <th>Itens</th>
+			              <th>Editar</th>
+			              <th>Deletar</th>
+			              
+			          </tr>
+			        </thead>
+			       
+			        <tbody>
+			          <tr th:each="fornecedor : ${fornecedores}">
+			          
+			            <td><span th:text="${fornecedor.cnpj}"></span></td>
+			            <td><span th:text="${fornecedor.nome}"></span></td>
+			            <td><span th:text="${#dates.format(fornecedor.data,'dd/MM/yyyy')}"></span></td>
+			            <td><span th:text="${fornecedor.email}"></span></td>
+			            <td><span th:text="${fornecedor.telefone}"></span></td>
+			            <td><span th:text="${fornecedor.site}"></span></td>
+			            <td><span th:text="${fornecedor.endereco}"></span></td>
+			            <td><span th:text="${fornecedor.uf}"></span></td>
+			            <td><a class="listaitens modal-trigger" href="#modalIt">
+			            	<i class="material-icons black-text" title="lista de itens">list</i></a></td>   
+			            <td><a class="editar modal-trigger" href="#modalEditFor">
+			            	<i class="material-icons black-text" title="editar">edit</i></a></td>
+			            <td><a class="deletar" th:href="@{deleta{cnpjcodigo} (cnpjcodigo = ${fornecedor.cnpj})}">
+			            	<i class="material-icons black-text" title="deletar">delete</i></a></td>
+			            
+			            
+			          </tr> 
+			        </tbody>
+			      </table>
+			     </div> 
+           	  </div> 
+           	  
+           	  <!--Modal Exibir os Itens-->
+			  <div id="modalIt" class="modal">
+			    <div class="modal-content">
+			      <h4 class="center-align">Itens</h4>  
+			      <div class="row">
+			      
+			      <form action="exibiritens" method="get">
+			      
+			         <div>
+			           <input id="codcnpj" type="hidden" name="cnpj">
+			         </div>
+			         
+			      
+			        <button id="exibiritem" class="waves-effect waves-light btn deep-orange accent-2 col s4" 
+			                type="submit" title="Click para exbir os itens desse fornecedor">CLICK PARA EXIBIR ITENS</button>  
+			        <br/>
+			      
+			      </form> 
+			     
+			     <form action="additem" method="post">
+			     
+			         <div>
+			           <input id="codcnpjadd" type="hidden" name="cnpj">
+			         </div>
+			       
+			        <div class="input-field col s4">
+			           <input id="codItem" type="text" title="Insira o código do item" name="codigoitem">
+			           <label for="codItem">CÓDIGO DO ITEM</label>			           
+			        </div>
+			      
+			        <br/>
+			        <button id="adicionaitem" class="waves-effect waves-light btn deep-orange accent-2" 
+			                type="submit" title="Insira o código do item">ADICIONAR ITEM</button>        
+			        
+			      </form>  
+			      
+			       <div id="listaItens"> <!-- Div responsavel por exibir a tabela de itens do fornecedor, 
+			                                  Ajax arquivo "fornecedortabelait.html" 
+                                  --> 
+                   </div>
+			                                 
+				  </div>        		          
+			    </div>   
+			  </div>
+			  
+			   <!--Modal Editar Fornecedor-->
+			  <div id="modalEditFor" class="modal">
+			    <div class="modal-content">
+			      <h4 class="center-align">Fornecedor selecionado</h4>  
+			      <div class="row">
+			      	 
+			      	 <form class="col s12" th:action="@{/editarfornecedor}" th:object="${fornecedor}" method="post">
+			      	  	
+			      	  	<div class="col s10">
+		                     <input id="codCnpj" type="text" readonly="readonly" th:name="@{cnpj}">
+		                     <label for="codCnpj">CNPJ*</label>
+		                   </div> 
+		                    
+		                   
+		                    <div class="col s10">
+		                     <input id="nomFor" type="text" class="validate" required th:name="@{nome}">
+		                     <label for="nomFor">NOME FORNECEDOR*</label>		                     
+		                    </div> 
+		                    
+		                    <div class="input-field col s10">
+		                       DATA DE COMPRA*
+		                       <input id="datFor" type="date" class="validate" required th:name="@{data}">   
+		                    </div> 
+		                    
+		                   
+		                     <div class="col s8">
+		                       <input id="emailFor" type="email" class="validate" th:name="@{email}">
+		                       <label for="emailFor">E-MAIL</label>
+		                       <span class="helper-text" data-error="E-mail incorreto" data-success="ok"></span>
+		                     </div>
+		                     
+		                      <div class="col s8">
+		                       <input id="telFor" type="text" class="validate" required th:name="@{telefone}">
+		                       <label for="telFor">TELEFONE*</label>
+		                     </div>
+		                     
+		                     <div class="col s8">
+		                       <input id="sitFor" type="text" class="validate" th:name="@{site}">
+		                       <label for="sitFor">SITE</label>
+		                     </div>
+		                     
+		                      <div class="col s10">
+		                       <input id="endFor" type="text" class="validate" required th:name="@{endereco}">
+		                       <label for="endFor">ENDEREÇO*</label>
+		                     </div>
+		                       <br/><br/>
+		                      <div class="col s4">
+		                      
+							    <select th:name="@{uf}">
+							    
+							        <option value="#" disabled selected>Escolha um estado</option>
+							        <option value="SP">São Paulo</option>
+							    	<option value="AC">Acre</option>
+									<option value="AL">Alagoas</option>
+									<option value="AP">Amapá</option>
+									<option value="AM">Amazonas</option>
+									<option value="BA">Bahia</option>
+									<option value="CE">Ceará</option>
+									<option value="DF">Distrito Federal</option>
+									<option value="ES">Espírito Santo</option>
+									<option value="GO">Goiás</option>
+									<option value="MA">Maranhão</option>
+									<option value="MT">Mato Grosso</option>
+									<option value="MS">Mato Grosso do Sul</option>
+									<option value="MG">Minas Gerais</option>
+									<option value="PA">Pará</option>
+									<option value="PB">Paraíba</option>
+									<option value="PR">Paraná</option>
+									<option value="PE">Pernambuco</option>
+									<option value="PI">Piauí</option>
+									<option value="RJ">Rio de Janeiro</option>
+									<option value="RN">Rio Grande do Norte</option>
+									<option value="RS">Rio Grande do Sul</option>
+									<option value="RO">Rondônia</option>
+									<option value="RR">Roraima</option>
+									<option value="SC">Santa Catarina</option>
+									<option value="SE">Sergipe</option>
+									<option value="TO">Tocantins</option>
+							    </select>
+							      <label>ESTADO*</label>
+							      
+							      <br/>
+							      <button class="waves-effect waves-light btn deep-orange accent-2" type="submit">SALVAR</button>        
+							      	    				    
+							  </div>
+							  	  						   	
+                    </form>
+                                                                    
+				  </div>        		          
+			    </div>   
+			  </div>
+			    
+			</div>
+              
+    	</div>	
+    
+          
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="js/fornecedor.js"></script>
+    <script type="text/javascript" src="js/modal.js"></script>
+    <script type="text/javascript" src="js/jquery.mask.min.js"></script> 
+    <script type="text/javascript" src="js/inputmascara.js"></script>
+    <script type="text/javascript" src="js/jquery-confirm.min.js"></script>
+      
+              
+ </body>
+</html>
