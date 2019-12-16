@@ -8,13 +8,13 @@ BackEnd ->
  Java 8
  
  Framework Spring Boot versão 2.2.0.RC1
-  -auxilio Hibernate e JPA integrado.
+  -auxilio Servidor Tomcat, Hibernate e JPA integrado.
 
  Banco de dados: MySQL 5.7.28
  
  FrontEnd
    
-   Framework Materialize(HTML5 CSS).
+   Framework Materialize(HTML5 CSS)
    JavaScript(Jquery 3.4.1) 
       
    
