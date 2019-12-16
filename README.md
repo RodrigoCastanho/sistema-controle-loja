@@ -3,7 +3,7 @@ Sistema de controle vendas, estoque e fluxo de caixa da loja
 
 Tecnologias envolvida no sistema:
 
-BackEnd ->
+# BackEnd ->
 
  Java 8
  
@@ -14,7 +14,7 @@ BackEnd ->
 
  Banco de dados: MySQL 5.7.28
  
- FrontEnd
+# FrontEnd
    
    Framework Materialize(HTML5 CSS)
    <p>JavaScript(Jquery 3.4.1)</p> 
