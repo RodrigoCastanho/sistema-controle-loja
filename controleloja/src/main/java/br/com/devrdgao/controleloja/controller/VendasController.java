@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ public class VendasController {
 	@Autowired
 	private VendaRepository vendarepo;
 	
+	private Iterable<Venda> vendas = new ArrayList<Venda>();
+	
 	@GetMapping("vendas")
 	public ModelAndView vendas() {
 		
@@ -41,15 +44,35 @@ public class VendasController {
 	public ModelAndView buscarVendas(@RequestParam(value="datainicial") Date datainicial,
 			                         @RequestParam(value="datafinal")   Date datafinal, 
 			                         @RequestParam(value="codigovenda") Long codigovenda) {
+		
 	  ModelAndView mvvd = new ModelAndView("vendas");
-	  Iterable<Venda> vendas = vendarepo.buscarVendas(datainicial, datafinal);	  
+	  vendas = vendarepo.buscarVendas(datainicial, datafinal);	  
 	  mvvd.addObject("vendas", vendas);
 
 	  return mvvd;	
 		
 	}
 	
+	@GetMapping("/itensvenda") 
+	public ModelAndView itensVenda(@RequestParam(value="codigovenda") Long codigovenda) {
+		
+	  ModelAndView mvvd = new ModelAndView("vendas");
+	  
+      vendas.forEach(itensvenda ->{
+    	  
+    	  if(itensvenda.getCodigovenda().equals(codigovenda)) {
+    	        
+    		  mvvd.addObject("itensvenda", itensvenda.getItens());
+    
+    	  }
+  
+      });
 	
+	  return mvvd;
+			  
+	}
+	
+
 	@InitBinder
 	public void iniBinder(WebDataBinder binder) {
 		

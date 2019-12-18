@@ -77,9 +77,9 @@
 	              <th title="Data da venda">Data</th>
 	              <th title="Pagamento no Débito">Pag.Débito</th>
 	              <th title="Pagamento no Dinheiro">Pag.Dinheiro</th>
-	              <th title="Valor receido em dinheiro">V.Recebido</th>
-	              <th title="Valor do troco">V.Troco</th>
 	              <th title="Pagamento no Crédito">Pag.Crédito</th>
+	              <th title="Valor recebido em dinheiro">V.Recebido</th>
+	              <th title="Valor do troco">V.Troco</th>
 	              <th title="Números de parcelas">Parcelas</th>
 	              <th title="Valor parcelado">V.Parcelado</th>
 	              <th title="Total de desconto por item">T.Descontos</th> 
@@ -97,14 +97,14 @@
 	              <td><span th:text="${#temporals.format(venda.data,'dd/MM/yyyy HH:mm')}"></span></td>
 	              <td><span th:text="${venda.formpagdebito.debito}"></span></td>
 	              <td><span th:text="${venda.formpagdinheiro.dinheiro}"></span></td>
+	              <td><span th:text="${venda.formpagcredito.credito}"></span></td> 
 	              <td><span th:text="${venda.formpagdinheiro.valorrecebido}"></span></td>
 	              <td><span th:text="${venda.formpagdinheiro.valortroco}"></span></td>
-	              <td><span th:text="${venda.formpagcredito.credito}"></span></td> 
 	              <td><span th:text="${venda.formpagcredito.parcelas}"></span></td>	
 	              <td><span th:text="${venda.formpagcredito.valorparcelado}"></span></td> 
 				  <td><span th:text="${venda.desconto}"></span></td>	
 	              <td><span th:text="${venda.valorvenda}"></span></td>
-	              <td><a class="" href=""><i class="material-icons black-text" title="Itens vendido">list</i></a></td>
+	              <td><a class="modal-trigger listaitens" href="#modalVenda"><i class="material-icons black-text" title="Itens vendido">list</i></a></td>
 	              <td><a class="" href=""><i class="material-icons black-text" title="Deletar">delete</i></a></td>
 	          
 	            </tr>
@@ -115,67 +115,50 @@
       </div>
     </div>
     
-		  <!-- Detalhe Forma de Pagamento -->
-		  <div id="modalDFPagamento" class="modal">
+		  <!-- Itens da venda -->
+		  <div id="modalVenda" class="modal">
 		    <div class="modal-content">
-		      <h4>Forma de Pagamento </h4>
-		      <p>Detalhes</p>
+		      <h4 class="center-align"> Itens </h4>
 		    
-		       <div class="dinheiro" style="display:none">
-                   
-                    <div class="row"> 	                            
-                      <div class="input-field col s10">
-                               
-                          <input id="valordinheiro" type="hidden" name="dinheiro">
-                                  
-                             Valor Recebido:
-                             <input class="monetaria-masc" name="valorrecebido" style="font-family: Tahoma; 
-                                  font-size: 26px; color: green;" id="valReb" type="text">
-                      </div>
-                      </div>
-                          
-                      <div class="row">
-                         <div class="input-field col s10">
-                             Troco:
-                            <input class="monetaria-masc" name="troco" style="font-family: Tahoma; 
-                                font-size: 26px; color: red;" id="valTro" type="text">
-                         </div>
-                     </div>                                                                                               	           
-               </div>
+		     <form class="col s8" th:action="@{/itensvenda}" method="get">
+		      
+		       <div class="col s6">
+		        <input id="codvenda" type="text" readonly="readonly" name="codigovenda">
+		          <label for="codvenda">COD.VENDA:</label>
+		       </div>
+		       
+		        <button class="waves-effect waves-light btn deep-orange accent-2" type="submit">EXIBIR ITENS</button>        
+		       
+		         <br/>
+		         <table class="responsive-table">
+			        <thead>
+			          <tr>
+			              <th>Cod.Item</th>
+			              <th>Descrição</th>
+			              <th>Qt.Item</th>
+			              <th>Val.Item</th>
+			              <th>Valor</th>        
+			         </tr>
+			        </thead>
+
+			        <tbody>
+			          <tr th:each="item : ${itensvenda}">
+			          
+			            <td th:text="item.codigoitem"></td>
+			            <td th:text="item.descricao"></td>
+			            <td th:text="item.quantidade"></td>
+			            <td th:text="item.valoritem"></td>
+			            <td th:text="item.precovenda"></td>
+			            
+			          </tr> 
+			        </tbody>
+			      </table>
+		       
+		       
+		        
+		     </form>
                
-                <div class="debito" style="display:none">
-                         	 
-                      <h5>Pagamento no Débito:</h5>
-                         	                          	  
-               </div>
-               
-               <div class="credito" style="display:none">
-                   
-                    <div class="row"> 	                            
-                      <div class="input-field col s10">
-                               
-                          <input id="valordinheiro" type="hidden" name="dinheiro">
-                                  
-                             Parcelas:
-                             <input class="monetaria-masc" name="valorrecebido" style="font-family: Tahoma; 
-                                  font-size: 26px; color: green;" id="valReb" type="text">
-                      </div>
-                      </div>
-                          
-                      <div class="row">
-                         <div class="input-field col s10">
-                             Valor parcelado:
-                            <input class="monetaria-masc"  name="troco" style="font-family: Tahoma; 
-                                font-size: 26px; color: green;" id="valTro" type="text">
-                         </div>
-                     </div>                                                                                               	           
-               </div>
-               
-               
-               
-               
-               
-		    
+        
 		    </div>
 		  </div>
           
