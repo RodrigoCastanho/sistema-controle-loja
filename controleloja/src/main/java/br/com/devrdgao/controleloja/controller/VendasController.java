@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.devrdgao.controleloja.models.Item;
 import br.com.devrdgao.controleloja.models.Venda;
 import br.com.devrdgao.controleloja.models.formapagamento.Debito;
 import br.com.devrdgao.controleloja.repository.VendaRepository;
 import br.com.devrdgao.controleloja.service.BigDecimalConverter;
 import br.com.devrdgao.controleloja.service.DataConverter;
+import br.com.devrdgao.controleloja.service.VendaService;
 
 @Controller
 public class VendasController {
@@ -29,8 +31,9 @@ public class VendasController {
 	@Autowired
 	private VendaRepository vendarepo;
 	
-	private Iterable<Venda> vendas = new ArrayList<Venda>();
-	
+	@Autowired
+	private VendaService vendaservice;
+		
 	@GetMapping("vendas")
 	public ModelAndView vendas() {
 		
@@ -46,29 +49,24 @@ public class VendasController {
 			                         @RequestParam(value="codigovenda") Long codigovenda) {
 		
 	  ModelAndView mvvd = new ModelAndView("vendas");
-	  vendas = vendarepo.buscarVendas(datainicial, datafinal);	  
-	  mvvd.addObject("vendas", vendas);
+	  Iterable<Venda> venda = vendarepo.buscarVendas(datainicial, datafinal);	
+	  mvvd.addObject("vendas", venda);
 
 	  return mvvd;	
 		
 	}
 	
-	@GetMapping("/itensvenda") 
+	@GetMapping("itensvenda") 
 	public ModelAndView itensVenda(@RequestParam(value="codigovenda") Long codigovenda) {
 		
-	  ModelAndView mvvd = new ModelAndView("vendas");
-	  
-      vendas.forEach(itensvenda ->{
-    	  
-    	  if(itensvenda.getCodigovenda().equals(codigovenda)) {
-    	        
-    		  mvvd.addObject("itensvenda", itensvenda.getItens());
-    
-    	  }
-  
-      });
+		
+	    ModelAndView mvvd = new ModelAndView("vendatabelaitens");
+	    
+		mvvd.addObject("itensvenda", vendaservice.exibirItensVenda(codigovenda));
+        
+	    return mvvd;
+
 	
-	  return mvvd;
 			  
 	}
 	

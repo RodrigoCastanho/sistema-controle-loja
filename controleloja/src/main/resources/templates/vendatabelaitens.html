@@ -1,0 +1,30 @@
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+            <table class="responsive-table">
+				<thead>
+					<tr>
+						<th>Cod.Item</th>
+						<th>Descrição</th>
+						<th>Qt.Item</th>
+						<th>Val.Item</th>
+						<th>Valor</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr th:each="item : ${itensvenda}">
+
+						<td th:text="${item.codigoitem}"></td>
+						<td th:text="${item.descricao}"></td>
+						<td th:text="${item.quantidade}"></td>
+						<td th:text="${item.valoritem}"></td>
+						<td th:text="${item.precovenda}"></td>
+
+					</tr>
+				</tbody>
+			 </table> 
+    
+    <script type="text/javascript" src="js/inputmascara.js"></script>
+  
+  
+</html>

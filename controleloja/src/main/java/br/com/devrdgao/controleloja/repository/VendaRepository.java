@@ -15,8 +15,9 @@ public interface VendaRepository extends JpaRepository<Venda, String> {
 	List<Venda> buscarVendas(@Param("datainicial") Date datainicial, 
 							 @Param("datafinal") Date datafinal);
 	
-	/*@Query(value="SELECT * FROM venda WHERE codigovenda =:codigovenda", nativeQuery = true)
-	List<Venda> buscarVendas(@Param("codigovenda") Long codigovenda);*/
-
+	@Query(value="SELECT * FROM venda WHERE codigovenda =:codigovenda", nativeQuery = true)
+	List<Venda> buscarVendas(@Param("codigovenda") Long codigovenda);
+	
+	
 		
 }

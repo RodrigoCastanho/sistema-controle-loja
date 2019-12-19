@@ -12,9 +12,20 @@ $('.tabelaVenda tbody').on('click','.listaitens',function(){
     $("#codvenda").val(codvenda); 
 
 
-
-
-
 });
 
+
+$("#exibiritem").click(function(event){
+
+  event.preventDefault();
+
+  var codigovenda = $("#codvenda").val();
+  
+ $.get("itensvenda",{"codigovenda": codigovenda},
+
+ 	 function(result){ 
+        $("#itemvenda").html(result);
+    
+  })
+ });
   
