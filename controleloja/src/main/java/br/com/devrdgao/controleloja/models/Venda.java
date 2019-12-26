@@ -53,6 +53,7 @@ public class Venda {
 		this.desconto = desconto;
 		this.valorvenda = valorvenda;
 		this.itens = itens;
+		
 	}
 
 	public Long getCodigovenda() {

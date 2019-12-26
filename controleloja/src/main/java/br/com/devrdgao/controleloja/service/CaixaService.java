@@ -135,14 +135,14 @@ public class CaixaService {
 		
 	    List<Pedido> pedidos = new ArrayList<Pedido>();
 	    
-	    itenspedido.forEach(i ->{ 
-		     
+	    itenspedido.forEach(i ->{  
+	    	
 		  Pedido pedido = new Pedido(i.getCodigoitem(), i.getDescricao(), i.getQuantidade(), i.getValoritem(), i.getPrecovenda(), valortotal);   
-		  pedidos.add(pedido);
-								
+		  pedidos.add(pedido);	
+		  
 	    });	
 			
-		 Venda venda = new Venda(datahora.withSecond(0).withNano(0),dinheiro,debito,credito,descontos,valortotal,itenspedido);
+		Venda venda = new Venda(datahora.withSecond(0).withNano(0),dinheiro,debito,credito,descontos,valortotal,itenspedido);
 
 		//venda.setData(datahora.withSecond(0).withNano(0));
 		//venda.setFormpagdinheiro(dinheiro);
