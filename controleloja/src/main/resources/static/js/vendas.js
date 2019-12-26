@@ -27,5 +27,5 @@ $("#exibiritem").click(function(event){
         $("#itemvenda").html(result);
     
   })
- });
+});
    
