@@ -26,7 +26,7 @@ public class VendaService {
       
        venda.forEach(itenvenda -> itenvenda.getItens().forEach(item -> itensvenda.add(item)));
                
-	   return itensvenda;	
+	   return itensvenda; 	
 	  
 	}
 

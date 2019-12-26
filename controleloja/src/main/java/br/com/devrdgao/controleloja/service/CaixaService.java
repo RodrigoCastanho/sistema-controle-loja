@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.devrdgao.controleloja.models.Item;
+import br.com.devrdgao.controleloja.models.Pedido;
 import br.com.devrdgao.controleloja.models.Venda;
 import br.com.devrdgao.controleloja.models.formapagamento.ColetaFormasPagamento;
 import br.com.devrdgao.controleloja.models.formapagamento.Credito;
@@ -51,22 +52,23 @@ public class CaixaService {
 		   descontoreal = desconto;
 		   
 		   descontos = descontos.add(descporcent).add(descontoreal);
-
-		   	   
+           	   
 		   valortotalitem = totalitem.subtract(descporcent).subtract(desconto);
 		   
 		   item.iterator().next().setValoritem(precoitem);
 		   item.iterator().next().setPrecovenda(valortotalitem);
 		   item.iterator().next().setQuantidade(Integer.valueOf(quantidade));
 		   
+              
            valortotal = valortotal.add(valortotalitem);
-		   		   
+           		   
 		   itenspedido.addAll(item);
 		   
-		    mv.addObject("listapedido", itenspedido);
-		    mv.addObject("total",valortotal);
-		    
-		    		    
+		   
+		   mv.addObject("listapedido", itenspedido);
+		   mv.addObject("total",valortotal);
+		   
+		  		    		    
 		}catch (NoSuchElementException e) {
 			
 	    	  System.out.println(" Erro " + e);
@@ -123,7 +125,6 @@ public class CaixaService {
       	
 	public void concluirCompra(ColetaFormasPagamento fpagamento) {
 		
-		Venda venda = new Venda();
 		LocalDateTime datahora = LocalDateTime.now();
 		
 	  if(!itenspedido.isEmpty()) {
@@ -132,15 +133,27 @@ public class CaixaService {
 		Debito debito = new Debito(fpagamento.getDebito(), descontos, valortotal); 
 		Credito credito = new Credito(fpagamento.getCredito(),fpagamento.getParcela(), fpagamento.getValorparcela(), descontos, valortotal);
 		
-		venda.setData(datahora.withSecond(0).withNano(0));
-		venda.setFormpagdinheiro(dinheiro);
-		venda.setFormpagdebito(debito);
-		venda.setFormpagcredito(credito);
-		venda.setItens(itenspedido);
-		venda.setDesconto(descontos);
-		venda.setValorvenda(valortotal);
-		
-		vendarepo.save(venda);
+	    List<Pedido> pedidos = new ArrayList<Pedido>();
+	    
+	    itenspedido.forEach(i ->{ 
+		     
+		  Pedido pedido = new Pedido(i.getCodigoitem(), i.getDescricao(), i.getQuantidade(), i.getValoritem(), i.getPrecovenda(), valortotal);   
+		  pedidos.add(pedido);
+								
+	    });	
+			
+		 Venda venda = new Venda(datahora.withSecond(0).withNano(0),dinheiro,debito,credito,descontos,valortotal,itenspedido);
+
+		//venda.setData(datahora.withSecond(0).withNano(0));
+		//venda.setFormpagdinheiro(dinheiro);
+		//venda.setFormpagdebito(debito);
+		//venda.setFormpagcredito(credito);
+		//venda.setItens(itenspedido);
+		//venda.setValorvenda(valortotal);
+				
+		 pedidos.forEach(pe ->System.out.println(" preco " +pe.getPrecoitem() + " Descrição " +pe.getDescricao()));
+
+		//vendarepo.save(venda);
 								
         itenspedido.clear();
         valortotal = new BigDecimal("0.00");

@@ -41,6 +41,19 @@ public class Venda {
 			   inverseJoinColumns = @JoinColumn(name = "item_cod"))
     
 	private List<Item> itens;
+	
+	public Venda(LocalDateTime data, Dinheiro formpagdinheiro, Debito formpagdebito, Credito formpagcredito,
+			BigDecimal desconto, BigDecimal valorvenda, List<Item> itens) {
+		super();
+		
+		this.data = data;
+		this.formpagdinheiro = formpagdinheiro;
+		this.formpagdebito = formpagdebito;
+		this.formpagcredito = formpagcredito;
+		this.desconto = desconto;
+		this.valorvenda = valorvenda;
+		this.itens = itens;
+	}
 
 	public Long getCodigovenda() {
 		return codigovenda;

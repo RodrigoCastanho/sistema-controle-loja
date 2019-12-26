@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import br.com.devrdgao.controleloja.models.Item;
 import br.com.devrdgao.controleloja.models.Venda;
 
 public interface VendaRepository extends JpaRepository<Venda, String> {
@@ -18,6 +19,5 @@ public interface VendaRepository extends JpaRepository<Venda, String> {
 	@Query(value="SELECT * FROM venda WHERE codigovenda =:codigovenda", nativeQuery = true)
 	List<Venda> buscarVendas(@Param("codigovenda") Long codigovenda);
 	
-	
-		
+			
 }
