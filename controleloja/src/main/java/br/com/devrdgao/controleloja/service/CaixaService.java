@@ -19,6 +19,7 @@ import br.com.devrdgao.controleloja.models.formapagamento.ColetaFormasPagamento;
 import br.com.devrdgao.controleloja.models.formapagamento.Credito;
 import br.com.devrdgao.controleloja.models.formapagamento.Debito;
 import br.com.devrdgao.controleloja.models.formapagamento.Dinheiro;
+import br.com.devrdgao.controleloja.repository.PedidoRepository;
 import br.com.devrdgao.controleloja.repository.VendaRepository;
 
    
@@ -35,6 +36,9 @@ public class CaixaService {
 	@Autowired
 	private VendaRepository vendarepo;
 	
+	@Autowired
+	private PedidoRepository pedidorepo;
+	
 	public void calculoValoresItem(List<Item> item, ModelAndView mv, String quantidade, BigDecimal desconto, String descontop) {
 			
 		try { 
@@ -43,7 +47,6 @@ public class CaixaService {
 		   BigDecimal quantitem = new BigDecimal(quantidade);
            BigDecimal totalitem = new BigDecimal("0.00");
 		   BigDecimal valortotalitem = new BigDecimal("0.00");
-
 		   BigDecimal porcentagem = new BigDecimal("0.00");
 
 		   totalitem = precoitem.multiply(quantitem);
@@ -58,13 +61,11 @@ public class CaixaService {
 		   item.iterator().next().setValoritem(precoitem);
 		   item.iterator().next().setPrecovenda(valortotalitem);
 		   item.iterator().next().setQuantidade(Integer.valueOf(quantidade));
-		   
-              
+		                
            valortotal = valortotal.add(valortotalitem);
            		   
 		   itenspedido.addAll(item);
-		   
-		   
+		   		   
 		   mv.addObject("listapedido", itenspedido);
 		   mv.addObject("total",valortotal);
 		   
@@ -129,31 +130,27 @@ public class CaixaService {
 		
 	  if(!itenspedido.isEmpty()) {
 
-		Dinheiro dinheiro = new Dinheiro(fpagamento.getDinheiro(),fpagamento.getValorrecebido(), fpagamento.getTroco(), descontos, valortotal);
+		Dinheiro dinheiro = new Dinheiro(fpagamento.getDinheiro(), fpagamento.getValorrecebido(), fpagamento.getTroco(), descontos, valortotal);
 		Debito debito = new Debito(fpagamento.getDebito(), descontos, valortotal); 
-		Credito credito = new Credito(fpagamento.getCredito(),fpagamento.getParcela(), fpagamento.getValorparcela(), descontos, valortotal);
+		Credito credito = new Credito(fpagamento.getCredito(), fpagamento.getParcela(), fpagamento.getValorparcela(), descontos, valortotal);
 		
 	    List<Pedido> pedidos = new ArrayList<Pedido>();
 	    
-	    itenspedido.forEach(i ->{  
+	    itenspedido.forEach(i ->{ 
 	    	
-		  Pedido pedido = new Pedido(i.getCodigoitem(), i.getDescricao(), i.getQuantidade(), i.getValoritem(), i.getPrecovenda(), valortotal);   
-		  pedidos.add(pedido);	
+	      Pedido pedido = new Pedido(i.getCodigoitem(), i.getDescricao(), i.getQuantidade(), i.getValoritem(), i.getPrecovenda(), valortotal);   
+		  pedidos.add(pedido);
+		  
+		  pedidorepo.saveAll(pedidos);
+		  
 		  
 	    });	
 			
-		Venda venda = new Venda(datahora.withSecond(0).withNano(0),dinheiro,debito,credito,descontos,valortotal,itenspedido);
+		Venda venda = new Venda(datahora.withSecond(0).withNano(0), dinheiro, debito, credito, descontos, valortotal, pedidos);
+			
+		pedidos.forEach(pe ->System.out.println(" preco " +pe.getPrecoitem() + " Descrição " +pe.getDescricao()));
 
-		//venda.setData(datahora.withSecond(0).withNano(0));
-		//venda.setFormpagdinheiro(dinheiro);
-		//venda.setFormpagdebito(debito);
-		//venda.setFormpagcredito(credito);
-		//venda.setItens(itenspedido);
-		//venda.setValorvenda(valortotal);
-				
-		 pedidos.forEach(pe ->System.out.println(" preco " +pe.getPrecoitem() + " Descrição " +pe.getDescricao()));
-
-		//vendarepo.save(venda);
+		vendarepo.save(venda);
 								
         itenspedido.clear();
         valortotal = new BigDecimal("0.00");
@@ -162,12 +159,9 @@ public class CaixaService {
 	  }else {
 		  
 		System.out.println("Não tem pedidos...");
-		
-		  
+				  
 	  }  
-         
-     			
+             			
 	}
-		
-	
+			
 }

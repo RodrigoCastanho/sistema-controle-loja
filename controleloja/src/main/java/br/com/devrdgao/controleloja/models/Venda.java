@@ -36,15 +36,18 @@ public class Venda {
     private BigDecimal valorvenda;
     
 	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-	@JoinTable(name="venda_itens", 
+	@JoinTable(name="venda_pedido", 
 			   joinColumns = @JoinColumn(name = "cod_venda"),
-			   inverseJoinColumns = @JoinColumn(name = "item_cod"))
+			   inverseJoinColumns = @JoinColumn(name = "cod_pedido"))
     
-	private List<Item> itens;
+	private List<Pedido> pedidos;
 	
-	public Venda(LocalDateTime data, Dinheiro formpagdinheiro, Debito formpagdebito, Credito formpagcredito,
-			BigDecimal desconto, BigDecimal valorvenda, List<Item> itens) {
+	public Venda() { 
 		super();
+	}
+
+	public Venda(LocalDateTime data, Dinheiro formpagdinheiro, Debito formpagdebito, Credito formpagcredito,
+			BigDecimal desconto, BigDecimal valorvenda, List<Pedido> pedidos) {
 		
 		this.data = data;
 		this.formpagdinheiro = formpagdinheiro;
@@ -52,7 +55,7 @@ public class Venda {
 		this.formpagcredito = formpagcredito;
 		this.desconto = desconto;
 		this.valorvenda = valorvenda;
-		this.itens = itens;
+		this.pedidos = pedidos;
 		
 	}
 
@@ -80,12 +83,12 @@ public class Venda {
 		this.valorvenda = valorvenda;
 	}
 
-	public List<Item> getItens() {
-		return itens;
+	public List<Pedido> getPedidos() {
+		return pedidos;
 	}
 
-	public void setItens(List<Item> itens) {
-		this.itens = itens;
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
 	}
 	
 	public Dinheiro getFormpagdinheiro() {

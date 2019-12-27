@@ -80,10 +80,8 @@
 				<thead>
 					<tr>
 						<th title="Código da venda">Cod.Venda</th>
-						<th title="Data da venda">Data</th>
-						<th title="Pagamento no Débito">Pag.Débito</th>
-						<th title="Pagamento no Dinheiro">Pag.Dinheiro</th>
-						<th title="Pagamento no Crédito">Pag.Crédito</th>
+						<th class="center-align" title="Data da venda">Data</th>
+						<th title="Forma de Pagamento">F.Pagamento</th>
 						<th title="Valor recebido em dinheiro">V.Recebido</th>
 						<th title="Valor do troco">V.Troco</th>
 						<th title="Números de parcelas">Parcelas</th>
@@ -102,9 +100,10 @@
 						<td><span th:text="${venda.codigovenda}"></span></td>
 						<td><span
 							th:text="${#temporals.format(venda.data,'dd/MM/yyyy HH:mm')}"></span></td>
-						<td><span th:text="${venda.formpagdebito.debito}"></span></td>
-						<td><span th:text="${venda.formpagdinheiro.dinheiro}"></span></td>
-						<td><span th:text="${venda.formpagcredito.credito}"></span></td>
+						<td><span th:text="${venda.formpagdebito.debito + 
+						 					 venda.formpagdinheiro.dinheiro + 
+						 					 venda.formpagcredito.credito}" ></span></td>
+						 					 
 						<td><span th:text="${venda.formpagdinheiro.valorrecebido}"></span></td>
 						<td><span th:text="${venda.formpagdinheiro.valortroco}"></span></td>
 						<td><span th:text="${venda.formpagcredito.parcelas}"></span></td>
