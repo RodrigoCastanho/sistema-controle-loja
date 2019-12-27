@@ -18,16 +18,16 @@ public class VendaService {
 	private VendaRepository vendarepo;
 	
 	
-	public List<Item> exibirItensVenda(Long codigovenda) {
+	/*public List<Item> exibirItensVenda(Long codigovenda) {
 		    
 	   List<Item> itensvenda = new ArrayList<Item>();		
            
        Iterable<Venda> venda = vendarepo.buscarVendas(codigovenda);              
       
-       venda.forEach(itenvenda -> itenvenda.getItens().forEach(item -> itensvenda.add(item)));
+       venda.forEach(itenvenda -> itenvenda.getPedidos().forEach(item -> itensvenda.add(item)));
                
 	   return itensvenda; 	
 	  
-	}
+	}*/
 
 }
