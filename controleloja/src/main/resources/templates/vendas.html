@@ -74,7 +74,14 @@
 						type="submit">BUSCAR VENDAS</button>
 				</div>
 			</form>
-
+             
+             <div class="card-panel grey lighten-1 col s5">
+                  <h6 class="right-align">Total Venda</h6>
+                       <h4 class="right-align div-resize">
+                          R$:<span class="monetaria-masc" th:text="${#aggregates.sum(vendas.?[valorvenda != null].![valorvenda])}">
+                             </span>
+                       </h4>
+             </div>  
 
 			<table class="striped grey lighten-1 tabelaVenda">
 				<thead>
@@ -90,8 +97,6 @@
 						<th title="Valor da venda">Valor Venda</th>
 						<th title="Itens vendido">Itens</th>
 						<th title="Deletar">Deletar</th>
-
-
 					</tr>
 				</thead>
 
@@ -104,16 +109,16 @@
 						 					 venda.formpagdinheiro.dinheiro + 
 						 					 venda.formpagcredito.credito}" ></span></td>
 						 					 
-						<td><span th:text="${venda.formpagdinheiro.valorrecebido}"></span></td>
-						<td><span th:text="${venda.formpagdinheiro.valortroco}"></span></td>
+						<td><span class="monetaria-masc" th:text="${venda.formpagdinheiro.valorrecebido}"></span></td>
+						<td><span class="monetaria-masc" th:text="${venda.formpagdinheiro.valortroco}"></span></td>
 						<td><span th:text="${venda.formpagcredito.parcelas}"></span></td>
-						<td><span th:text="${venda.formpagcredito.valorparcelado}"></span></td>
-						<td><span th:text="${venda.desconto}"></span></td>
-						<td><span th:text="${venda.valorvenda}"></span></td>
-						<td><a class="modal-trigger listaitens" href="#modalVenda"><i
-								class="material-icons black-text" title="Itens vendido">list</i></a></td>
-						<td><a class="" href=""><i
-								class="material-icons black-text" title="Deletar">delete</i></a></td>
+						<td><span class="monetaria-masc" th:text="${venda.formpagcredito.valorparcelado}"></span></td>
+						<td><span class="monetaria-masc" th:text="${venda.desconto}"></span></td>
+						<td><span class="monetaria-masc" th:text="${venda.valorvenda}"></span></td>
+						<td><a class="modal-trigger listaitens" href="#modalVenda">
+						    <i class="material-icons black-text" title="Itens vendido">list</i></a></td>
+						<td><a class="deletar" th:href="@{delet{codigovenda} (codigovenda = ${venda.codigovenda})}">
+						    <i class="material-icons black-text" title="Deletar">delete</i></a></td>
 
 					</tr>
 				</tbody>
@@ -157,7 +162,7 @@
 	<script type="text/javascript" src="js/jquery.mask.min.js"></script>
 	<script type="text/javascript" src="js/inputmascara.js"></script>
 	<script type="text/javascript" src="js/vendas.js"></script>
-
-
+	<script type="text/javascript" src="js/jquery-confirm.min.js"></script>
+	
 </body>
 </html>

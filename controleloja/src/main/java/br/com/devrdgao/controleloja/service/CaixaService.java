@@ -51,9 +51,9 @@ public class CaixaService {
 
 		   totalitem = precoitem.multiply(quantitem);
 		   porcentagem = (new BigDecimal(descontop)).divide(new BigDecimal(100));
-		   descporcent = totalitem.multiply(porcentagem).setScale(2, RoundingMode.DOWN);   
+		   descporcent = totalitem.multiply(porcentagem).setScale(2, RoundingMode.DOWN); 
 		   descontoreal = desconto;
-		   
+
 		   descontos = descontos.add(descporcent).add(descontoreal);
            	   
 		   valortotalitem = totalitem.subtract(descporcent).subtract(desconto);
@@ -103,8 +103,7 @@ public class CaixaService {
 	}
 	
 	public void deletarItemLista(String codigoitem, ModelAndView mv) {
-		
-		
+			
 		for (int p = 0; p < itenspedido.size(); p++) {
 			
 			if(codigoitem.equals(itenspedido.get(p).getCodigoitem())) {
@@ -129,7 +128,8 @@ public class CaixaService {
 		LocalDateTime datahora = LocalDateTime.now();
 		
 	  if(!itenspedido.isEmpty()) {
-
+		  
+        //variavel gera codigo venda e para impressao
 		Dinheiro dinheiro = new Dinheiro(fpagamento.getDinheiro(), fpagamento.getValorrecebido(), fpagamento.getTroco(), descontos, valortotal);
 		Debito debito = new Debito(fpagamento.getDebito(), descontos, valortotal); 
 		Credito credito = new Credito(fpagamento.getCredito(), fpagamento.getParcela(), fpagamento.getValorparcela(), descontos, valortotal);
@@ -138,18 +138,14 @@ public class CaixaService {
 	    
 	    itenspedido.forEach(i ->{ 
 	    	
-	      Pedido pedido = new Pedido(i.getCodigoitem(), i.getDescricao(), i.getQuantidade(), i.getValoritem(), i.getPrecovenda(), valortotal);   
+	      Pedido pedido = new Pedido(i.getCodigoitem(), i.getDescricao(), i.getQuantidade(), i.getValoritem(), i.getPrecovenda());  
 		  pedidos.add(pedido);
-		  
-		  pedidorepo.saveAll(pedidos);
-		  
-		  
+	  		  		  	  
 	    });	
-			
+		pedidorepo.saveAll(pedidos);
+		 
 		Venda venda = new Venda(datahora.withSecond(0).withNano(0), dinheiro, debito, credito, descontos, valortotal, pedidos);
 			
-		pedidos.forEach(pe ->System.out.println(" preco " +pe.getPrecoitem() + " Descrição " +pe.getDescricao()));
-
 		vendarepo.save(venda);
 								
         itenspedido.clear();

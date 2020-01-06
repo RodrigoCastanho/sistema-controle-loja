@@ -12,9 +12,10 @@ import br.com.devrdgao.controleloja.models.Venda;
 
 public interface VendaRepository extends JpaRepository<Venda, String> {
 	
-	@Query(value="SELECT * FROM venda WHERE DATE(data) BETWEEN :datainicial AND :datafinal ", nativeQuery = true)
+	@Query(value="SELECT * FROM venda WHERE DATE(data) BETWEEN :datainicial AND :datafinal OR codigovenda =:codvenda", nativeQuery = true)
 	List<Venda> buscarVendas(@Param("datainicial") Date datainicial, 
-							 @Param("datafinal") Date datafinal);
+							 @Param("datafinal") Date datafinal,
+							 @Param("codvenda") Long codigovenda );
 	
 	@Query(value="SELECT * FROM venda WHERE codigovenda =:codigovenda", nativeQuery = true)
 	List<Venda> buscarVendas(@Param("codigovenda") Long codigovenda);

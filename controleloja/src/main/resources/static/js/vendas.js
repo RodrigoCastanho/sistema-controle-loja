@@ -28,4 +28,34 @@ $("#exibiritem").click(function(event){
     
   })
 });
+
+ $('.deletar').click(function(event){
+     
+     event.preventDefault();
+     var valorUrl = $(this).attr('href');
+
+     $.confirm({
+     	
+		    title: '<h4>Deletar Venda<h4>',
+		    content: 'Deseja deletar essa venda: ' +valorUrl+'?',
+		    type: 'red',
+            typeAnimated: true,
+            boxWidth: '30%',
+            useBootstrap: false,
+
+		    buttons: {        
+        
+		       SIM: function () {
+
+		       	     window.location = valorUrl;
+
+               },
+               NÃO: function () {},
+         
+            }
+
+  });
+
+}); 
+
    

@@ -20,23 +20,21 @@ public class Pedido {
   	private Integer quantidade;
   	private BigDecimal valoritem;
 	private BigDecimal precoitem;
-	private BigDecimal total;
 	
-	public Pedido(){
+	public Pedido() {
 		super();
 	}
 	
-	public Pedido(String codigoitem, String descricao, Integer quantidade, BigDecimal valoritem,
-			BigDecimal precoitem, BigDecimal total) {
+	public Pedido(String codigoitem, String descricao, Integer quantidade, BigDecimal valoritem, BigDecimal precoitem) {
 		
 		this.codigoitem = codigoitem;
 		this.descricao = descricao;
 		this.quantidade = quantidade;
 		this.valoritem = valoritem;
 		this.precoitem = precoitem;
-		this.total = total;
+		
 	}
-	
+		
 	public Long getCodigopedido() {
 		return codigopedido;
 	}
@@ -73,14 +71,5 @@ public class Pedido {
 	public void setPrecoitem(BigDecimal precoitem) {
 		this.precoitem = precoitem;
 	}
-	public BigDecimal getTotal() {
-		return total;
-	}
-	public void setTotal(BigDecimal total) {
-		this.total = total;
-	}
 	
-	
-	
-
 }

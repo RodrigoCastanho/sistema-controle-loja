@@ -101,11 +101,11 @@
 
    $('.nparcelas').change(function(){
 
-        var valorvenda = $("#valVenda").html();
+        var valorvenda = $("#valVenda").html().replace(".","").replace(",",".");
 
         var parcelas = ($(this).val());
 
-        var valorparcelado = (parseFloat(valorvenda || 0) / parcelas);
+        var valorparcelado = (parseFloat(valorvenda) / parcelas);
 
         $("#valorparcela").val(valorparcelado.toFixed(2).replace(".",","));
 

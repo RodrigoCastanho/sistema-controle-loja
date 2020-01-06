@@ -36,7 +36,7 @@ $('.tabelaItem tbody').on('click','.editar',function(){
 
      $.confirm({
      	
-		    title: '<h4>Deletar Item!<h4>',
+		    title: '<h4>Deletar Item<h4>',
 		    content: 'Deseja deletar esse item: ' +valorUrl+'?',
 		    type: 'red',
             typeAnimated: true,

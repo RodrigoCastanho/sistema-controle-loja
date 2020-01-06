@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -49,7 +50,7 @@ public class VendasController {
 			                         @RequestParam(value="codigovenda") Long codigovenda) {
 		
 	  ModelAndView mvvd = new ModelAndView("vendas");
-	  Iterable<Venda> venda = vendarepo.buscarVendas(datainicial, datafinal);	
+	  Iterable<Venda> venda = vendarepo.buscarVendas(datainicial, datafinal, codigovenda);	
 	  mvvd.addObject("vendas", venda);
 
 	  return mvvd;	
@@ -58,19 +59,24 @@ public class VendasController {
 	
 	@GetMapping("itensvenda") 
 	public ModelAndView itensVenda(@RequestParam(value="codigovenda") Long codigovenda) {
-		
-		
+			
 	    ModelAndView mvvd = new ModelAndView("vendatabelaitens");
-	    
-		mvvd.addObject("itensvenda", vendaservice.exibirItensVenda(codigovenda));
+    
+		mvvd.addObject("vendaspedido", vendaservice.exibirPedidoVenda(codigovenda));
         
 	    return mvvd;
-
-	
 			  
 	}
 	
-
+	@GetMapping("delet{codigovenda}")
+	public ModelAndView deletarVenda(@PathVariable(value="codigovenda") String codigovenda) {
+		
+		 vendarepo.deleteById(codigovenda);
+		
+	     return new ModelAndView("vendas");
+	     
+     }
+	
 	@InitBinder
 	public void iniBinder(WebDataBinder binder) {
 		

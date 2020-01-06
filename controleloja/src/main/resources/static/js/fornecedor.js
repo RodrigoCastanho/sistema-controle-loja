@@ -106,7 +106,7 @@ $("#adicionaitem").click(function(event){
 
      $.confirm({
      	
-		    title: '<h4>Deletar Fornecedor!<h4>',
+		    title: '<h4>Deletar Fornecedor<h4>',
 		    content: 'Deseja deletar esse fornecedor: ' +valorFornUrl+'?',
 		    type: 'red',
             typeAnimated: true,
