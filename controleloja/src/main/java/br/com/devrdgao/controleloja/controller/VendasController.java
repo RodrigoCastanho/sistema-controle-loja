@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,15 +45,16 @@ public class VendasController {
 		
 	}
    
-
 	@GetMapping("/buscarvendas")
 	public ModelAndView buscarVendas(@RequestParam(value="datainicial") Date datainicial,
 			                         @RequestParam(value="datafinal")   Date datafinal, 
 			                         @RequestParam(value="codigovenda") Long codigovenda) {
 		
 	  ModelAndView mvvd = new ModelAndView("vendas");
-	  Iterable<Venda> venda = vendarepo.buscarVendas(datainicial, datafinal, codigovenda);	
+	  Iterable<Venda> venda = vendarepo.buscarVendas(datainicial, datafinal, codigovenda);
+	  BigDecimal totalvenda = vendarepo.totalVenda(datainicial, datafinal, codigovenda);
 	  mvvd.addObject("vendas", venda);
+	  mvvd.addObject("totalvenda", totalvenda);
 
 	  return mvvd;	
 		
@@ -68,12 +71,13 @@ public class VendasController {
 			  
 	}
 	
-	@GetMapping("delet{codigovenda}")
-	public ModelAndView deletarVenda(@PathVariable(value="codigovenda") String codigovenda) {
+	@GetMapping("venda{codigovenda}")
+	public ModelAndView deletarVenda(@PathVariable(value="codigovenda") Long codigovenda) {
 		
-		 vendarepo.deleteById(codigovenda);
+		List<Venda> venda = vendarepo.buscarVendas(codigovenda);
+		vendarepo.deleteAll(venda);
 		
-	     return new ModelAndView("vendas");
+	    return new ModelAndView("vendas");
 	     
      }
 	

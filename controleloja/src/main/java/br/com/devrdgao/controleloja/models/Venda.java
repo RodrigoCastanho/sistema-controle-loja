@@ -35,7 +35,7 @@ public class Venda {
 	private BigDecimal desconto;
     private BigDecimal valorvenda;
     
-	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
 	@JoinTable(name="venda_pedido", 
 			   joinColumns = @JoinColumn(name = "cod_venda"),
 			   inverseJoinColumns = @JoinColumn(name = "cod_pedido"))

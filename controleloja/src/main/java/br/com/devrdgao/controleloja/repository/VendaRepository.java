@@ -1,9 +1,14 @@
 package br.com.devrdgao.controleloja.repository;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -17,8 +22,12 @@ public interface VendaRepository extends JpaRepository<Venda, String> {
 							 @Param("datafinal") Date datafinal,
 							 @Param("codvenda") Long codigovenda );
 	
+	@Query(value="SELECT SUM(valorvenda) FROM venda WHERE DATE(data) BETWEEN :datainicial AND :datafinal OR codigovenda =:codvenda", nativeQuery = true)
+	BigDecimal totalVenda (@Param("datainicial") Date datainicial, 
+							    @Param("datafinal") Date datafinal,
+							    @Param("codvenda") Long codigovenda );
+	
 	@Query(value="SELECT * FROM venda WHERE codigovenda =:codigovenda", nativeQuery = true)
 	List<Venda> buscarVendas(@Param("codigovenda") Long codigovenda);
-	
-			
+					
 }

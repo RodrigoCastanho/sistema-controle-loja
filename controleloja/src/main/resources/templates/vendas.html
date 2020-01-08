@@ -78,7 +78,7 @@
              <div class="card-panel grey lighten-1 col s5">
                   <h6 class="right-align">Total Venda</h6>
                        <h4 class="right-align div-resize">
-                          R$:<span class="monetaria-masc" th:text="${#aggregates.sum(vendas.?[valorvenda != null].![valorvenda])}">
+                          R$:<span class="monetaria-masc" th:if="${totalvenda != null}" th:text="${totalvenda}">
                              </span>
                        </h4>
              </div>  
@@ -102,22 +102,28 @@
 
 				<tbody>
 					<tr th:each="venda : ${vendas}">
-						<td><span th:text="${venda.codigovenda}"></span></td>
-						<td><span
+						<td title="Código da venda"><span th:text="${venda.codigovenda}"></span></td>
+						<td title="Data da venda"><span
 							th:text="${#temporals.format(venda.data,'dd/MM/yyyy HH:mm')}"></span></td>
-						<td><span th:text="${venda.formpagdebito.debito + 
+						<td title="Forma de Pagamento"><span th:text="${venda.formpagdebito.debito + 
 						 					 venda.formpagdinheiro.dinheiro + 
 						 					 venda.formpagcredito.credito}" ></span></td>
 						 					 
-						<td><span class="monetaria-masc" th:text="${venda.formpagdinheiro.valorrecebido}"></span></td>
-						<td><span class="monetaria-masc" th:text="${venda.formpagdinheiro.valortroco}"></span></td>
-						<td><span th:text="${venda.formpagcredito.parcelas}"></span></td>
-						<td><span class="monetaria-masc" th:text="${venda.formpagcredito.valorparcelado}"></span></td>
-						<td><span class="monetaria-masc" th:text="${venda.desconto}"></span></td>
-						<td><span class="monetaria-masc" th:text="${venda.valorvenda}"></span></td>
+						<td title="Valor recebido em dinheiro">
+						   <span class="monetaria-masc" th:text="${venda.formpagdinheiro.valorrecebido}"></span></td>
+						<td title="Valor do troco">
+						  <span class="monetaria-masc" th:text="${venda.formpagdinheiro.valortroco}"></span></td>
+						<td title="Números de parcelas">
+						  <span th:text="${venda.formpagcredito.parcelas}"></span></td>
+						<td title="Valor parcelado">
+						  <span class="monetaria-masc" th:text="${venda.formpagcredito.valorparcelado}"></span></td>
+						<td title="Total de desconto por item">
+						  <span class="monetaria-masc" th:text="${venda.desconto}"></span></td>
+						<td title="Valor da venda">
+						  <span class="monetaria-masc" th:text="${venda.valorvenda}"></span></td>
 						<td><a class="modal-trigger listaitens" href="#modalVenda">
 						    <i class="material-icons black-text" title="Itens vendido">list</i></a></td>
-						<td><a class="deletar" th:href="@{delet{codigovenda} (codigovenda = ${venda.codigovenda})}">
+						<td><a class="deletar" th:href="@{venda{codigovenda} (codigovenda = ${venda.codigovenda})}">
 						    <i class="material-icons black-text" title="Deletar">delete</i></a></td>
 
 					</tr>

@@ -32,12 +32,12 @@ $("#exibiritem").click(function(event){
  $('.deletar').click(function(event){
      
      event.preventDefault();
-     var valorUrl = $(this).attr('href');
+     var valorVendaUrl = $(this).attr('href');
 
      $.confirm({
      	
 		    title: '<h4>Deletar Venda<h4>',
-		    content: 'Deseja deletar essa venda: ' +valorUrl+'?',
+		    content: 'Deseja deletar essa venda: ' +valorVendaUrl+'?',
 		    type: 'red',
             typeAnimated: true,
             boxWidth: '30%',
@@ -47,7 +47,7 @@ $("#exibiritem").click(function(event){
         
 		       SIM: function () {
 
-		       	     window.location = valorUrl;
+		       	     window.location = valorVendaUrl;
 
                },
                NÃO: function () {},
