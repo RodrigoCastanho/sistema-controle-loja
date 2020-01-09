@@ -122,14 +122,14 @@ public class CaixaService {
 		} 
 		 		
 	}
-      	
+	
 	public void concluirCompra(ColetaFormasPagamento fpagamento) {
 		
 		LocalDateTime datahora = LocalDateTime.now();
 		
 	  if(!itenspedido.isEmpty()) {
 		  
-        //variavel gera codigo venda e para impressao
+        //variavel gera codigo no pedido e para impressao
 		Dinheiro dinheiro = new Dinheiro(fpagamento.getDinheiro(), fpagamento.getValorrecebido(), fpagamento.getTroco(), descontos, valortotal);
 		Debito debito = new Debito(fpagamento.getDebito(), descontos, valortotal); 
 		Credito credito = new Credito(fpagamento.getCredito(), fpagamento.getParcela(), fpagamento.getValorparcela(), descontos, valortotal);
@@ -152,7 +152,7 @@ public class CaixaService {
         valortotal = new BigDecimal("0.00");
         descontos = new BigDecimal("0.00");
         
-	  }else {
+	  }else { 
 		  
 		System.out.println("Não tem pedidos...");
 				  

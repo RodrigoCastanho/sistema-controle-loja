@@ -76,6 +76,7 @@ public class VendasController {
 		
 		List<Venda> venda = vendarepo.buscarVendas(codigovenda);
 		vendarepo.deleteAll(venda);
+		venda.clear();
 		
 	    return new ModelAndView("vendas");
 	     
