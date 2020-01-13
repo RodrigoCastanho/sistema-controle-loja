@@ -39,6 +39,9 @@ public class CaixaService {
 	@Autowired
 	private PedidoRepository pedidorepo;
 	
+	@Autowired
+	private EstoqueService estoqueservice;
+	
 	public void calculoValoresItem(List<Item> item, ModelAndView mv, String quantidade, BigDecimal desconto, String descontop) {
 			
 		try { 
@@ -136,17 +139,19 @@ public class CaixaService {
 		
 	    List<Pedido> pedidos = new ArrayList<Pedido>();
 	    
+	    estoqueservice.controleQuantEstoque(itenspedido);
+	    
 	    itenspedido.forEach(i ->{ 
 	    	
 	      Pedido pedido = new Pedido(i.getCodigoitem(), i.getDescricao(), i.getQuantidade(), i.getValoritem(), i.getPrecovenda());  
 		  pedidos.add(pedido);
 	  		  		  	  
 	    });	
-		pedidorepo.saveAll(pedidos);
+		//pedidorepo.saveAll(pedidos);
 		 
 		Venda venda = new Venda(datahora.withSecond(0).withNano(0), dinheiro, debito, credito, descontos, valortotal, pedidos);
 			
-		vendarepo.save(venda);
+		//vendarepo.save(venda);
 								
         itenspedido.clear();
         valortotal = new BigDecimal("0.00");
