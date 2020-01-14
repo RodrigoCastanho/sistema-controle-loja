@@ -22,6 +22,7 @@ import br.com.devrdgao.controleloja.models.formapagamento.ColetaFormasPagamento;
 import br.com.devrdgao.controleloja.repository.ItemRepository;
 import br.com.devrdgao.controleloja.service.BigDecimalConverter;
 import br.com.devrdgao.controleloja.service.DataConverter;
+import br.com.devrdgao.controleloja.service.EstoqueService;
 import br.com.devrdgao.controleloja.service.CaixaService;
 
 @Controller
@@ -32,6 +33,9 @@ public class CaixaController {
 	
 	@Autowired
 	private CaixaService caixaservice;
+	
+	@Autowired
+	private EstoqueService estoqueservice;
 	
 	private List<Item> itens = new ArrayList<Item>();
 	
@@ -96,11 +100,11 @@ public class CaixaController {
 	@PostMapping("/concluircompra")
 	public ModelAndView concluirCompra(@ModelAttribute("ColetaFormasPagamento") ColetaFormasPagamento formaspagamento) {
 		
-		caixaservice.concluirCompra(formaspagamento);
+		ModelAndView mvcx = new ModelAndView("index"); 
 		
-		ModelAndView mvvd = new ModelAndView("index"); 
-	
-		return mvvd; 
+		caixaservice.concluirCompra(formaspagamento, mvcx);
+
+		return mvcx; 
 	}
 	
 	

@@ -126,7 +126,7 @@ public class CaixaService {
 		 		
 	}
 	
-	public void concluirCompra(ColetaFormasPagamento fpagamento) {
+	public void concluirCompra(ColetaFormasPagamento fpagamento, ModelAndView mvcx) {
 		
 		LocalDateTime datahora = LocalDateTime.now();
 		
@@ -139,7 +139,7 @@ public class CaixaService {
 		
 	    List<Pedido> pedidos = new ArrayList<Pedido>();
 	    
-	    estoqueservice.controleQuantEstoque(itenspedido);
+	    estoqueservice.controleQuantEstoque(itenspedido, mvcx);
 	    
 	    itenspedido.forEach(i ->{ 
 	    	

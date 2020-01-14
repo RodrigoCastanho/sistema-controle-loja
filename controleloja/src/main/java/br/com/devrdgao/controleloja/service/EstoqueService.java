@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import br.com.devrdgao.controleloja.models.Fornecedor;
 import br.com.devrdgao.controleloja.models.Item;
@@ -23,7 +24,7 @@ public class EstoqueService {
 	
 	private List<Item> itens = new ArrayList<Item>();
 	
-	public void controleQuantEstoque(List<Item> itenspedido) {
+	public void controleQuantEstoque(List<Item> itenspedido, ModelAndView mvcx) {
 		
 	    List<String> iditens = new ArrayList<String>();
 					
@@ -38,6 +39,7 @@ public class EstoqueService {
 	    	if(it.getCodigoitem().equals(itp.getCodigoitem())) {
 	    	   //iditens.add(it.getCodigoitem());	
 	    	   it.setQuantidade(it.getQuantidade()-itp.getQuantidade());
+	    	   quantMinimaItem(mvcx);
 	    	   System.out.println(" item "+it.getCodigoitem()+ " Qt "+it.getQuantidade()+" Qt iten p "+itp.getQuantidade());
 	    	   //Salvar it item no banco
 	    	   
@@ -47,33 +49,20 @@ public class EstoqueService {
 	       
 	}
 	
-	public List<Item> quantMinimaItem(){
+	private void quantMinimaItem(ModelAndView mvcx){
 		
 	   //itens = itemrepo.findAllById(iditens);
 	   for(Item it: itens) { 	
 		  if(it.getQuantidade() <= it.getQuantminima()){
-		    	    	
+		    	
+			  mvcx.addObject("notificacao", "Itens em falta no estoque");
 		      System.out.println(" Quantidade atual " +it.getQuantidade()+ " Quantidade minina " +it.getQuantminima());
-		      
-		    		
+		      	
 		  }		    	    	
 	    }	
-	   
-	   return itens;
-	   
-	} 
-	//itens.clear();
-	
-	public boolean notificaoQuantItem() {
-		
-		 
-		
-		
-		return true;			
-	}
-	
-	
-	
+	      
+	} 	
+
 	public void deletarItemEstoque(String codigoitem) {
 				
 		Iterable<Fornecedor> fornecedor = fornecedorrepo.findAll(); 
