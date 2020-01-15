@@ -37,32 +37,25 @@ public class EstoqueService {
 	    for(Item it: itens) {
 	      for(Item itp: itenspedido) {		 
 	    	if(it.getCodigoitem().equals(itp.getCodigoitem())) {
-	    	   //iditens.add(it.getCodigoitem());	
 	    	   it.setQuantidade(it.getQuantidade()-itp.getQuantidade());
-	    	   quantMinimaItem(mvcx);
+	    	   //quantMinimaItem(mvcx);
 	    	   System.out.println(" item "+it.getCodigoitem()+ " Qt "+it.getQuantidade()+" Qt iten p "+itp.getQuantidade());
-	    	   //Salvar it item no banco
+	    	   //Salvar it item no banco de dados
 	    	   
 	    	}
 	      }	
-	    }
+	      
+	        if(it.getQuantidade() <= it.getQuantminima()) {
+		    	
+			  mvcx.addObject("notificacao", "Itens em falta no estoque!");
+			  mvcx.addObject("itensfalta", itens);
+		      System.out.println(" Quantidade atual " +it.getQuantidade()+ " Quantidade minina " +it.getQuantminima());
+		      	
+		    }	  
+	     }
 	       
 	}
 	
-	private void quantMinimaItem(ModelAndView mvcx){
-		
-	   //itens = itemrepo.findAllById(iditens);
-	   for(Item it: itens) { 	
-		  if(it.getQuantidade() <= it.getQuantminima()){
-		    	
-			  mvcx.addObject("notificacao", "Itens em falta no estoque");
-		      System.out.println(" Quantidade atual " +it.getQuantidade()+ " Quantidade minina " +it.getQuantminima());
-		      	
-		  }		    	    	
-	    }	
-	      
-	} 	
-
 	public void deletarItemEstoque(String codigoitem) {
 				
 		Iterable<Fornecedor> fornecedor = fornecedorrepo.findAll(); 

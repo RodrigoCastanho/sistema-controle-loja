@@ -76,7 +76,8 @@
                                                               
              </div>
              <br/>
-             <div class="red-text" th:text="${notificacao}"></div>
+              <h6><a class="red-text alerta-item modal-trigger" title="Click para exibir os itens em falta no estoque" 
+              		 							  th:text="${notificacao}" href="#modNt"></a></h6>
              
             <form class="col s12" action="itemcaixa" method="get">
                    
@@ -131,6 +132,43 @@
                            
   			    </div> 
             </form>
+            
+            <!-- Modal das Notificações Item -->
+			  <div id="modNt" class="modal">
+			    <div class="modal-content">
+			      <h4>Itens em Falta</h4>
+			       <div class="row">
+			         <div class="container">    
+			            
+			          <table class="responsive-table">
+				        <thead>
+				          <tr>
+				              <th>Cod.Item</th>
+				              <th>Desc.Item</th>
+				              <th>Qt.Atual</th>
+				              <th>Qt.Minima</th>    
+				          </tr>
+				        </thead>
+			       
+			           <tbody>
+				          <tr th:each="item : ${itensfalta}">
+				           
+				            <td><span th:text="${item.codigoitem}"></span></td>
+				            <td><span th:text="${item.descricao}"></span></td>
+				            <td><span th:text="${item.quantidade}"></span></td> 
+				            <td><span th:text="${item.quantminima}"></span></td> 
+                            
+				          </tr> 
+			           </tbody>      
+			          </table>
+			           
+			          
+			         
+			      
+			         </div> 
+			       </div>
+			    </div>   
+			  </div>
             
 			  <!-- Modal das Opções-->
 			  <div id="modOp" class="modal">
