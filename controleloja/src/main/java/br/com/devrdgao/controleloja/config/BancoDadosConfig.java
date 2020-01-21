@@ -1,4 +1,4 @@
-package br.com.devrdgao.controleloja.repository;
+package br.com.devrdgao.controleloja.config;
 
 import javax.sql.DataSource;
 

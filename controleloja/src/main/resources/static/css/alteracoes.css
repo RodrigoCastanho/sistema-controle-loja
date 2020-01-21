@@ -14,16 +14,18 @@ Materialize*/
 }*/
 
 /*Muda a color do texto dentro do input*/
-.input-textcolor{color:white}
+.input-textcolor {color:white}
 
 
-.div-resize{
+.div-resize {
 	overflow-y: auto;
 }
 
-.alerta-item{
+.alerta-item {
   position: absolute;
   left: 77%;
   top: 96px;
 }
-  
+
+
+

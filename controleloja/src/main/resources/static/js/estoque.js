@@ -27,8 +27,9 @@ $('.tabelaItem tbody').on('click','.editar',function(){
       
        
 });
-  
 
+
+ 
  $('.deletar').click(function(event){
      
      event.preventDefault();

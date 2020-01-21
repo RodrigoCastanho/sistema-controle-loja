@@ -23,7 +23,7 @@ public class EstoqueService {
 	private ItemRepository itemrepo;
 	
 	private List<Item> itens = new ArrayList<Item>();
-	
+
 	public void controleQuantEstoque(List<Item> itenspedido, ModelAndView mvcx) {
 		
 	    List<String> iditens = new ArrayList<String>();
@@ -38,19 +38,15 @@ public class EstoqueService {
 	      for(Item itp: itenspedido) {		 
 	    	if(it.getCodigoitem().equals(itp.getCodigoitem())) {
 	    	   it.setQuantidade(it.getQuantidade()-itp.getQuantidade());
-	    	   //quantMinimaItem(mvcx);
-	    	   System.out.println(" item "+it.getCodigoitem()+ " Qt "+it.getQuantidade()+" Qt iten p "+itp.getQuantidade());
-	    	   //Salvar it item no banco de dados
-	    	   
+	    	   itemrepo.saveAll(itens);
+	    	      
 	    	}
 	      }	
 	      
-	        if(it.getQuantidade() <= it.getQuantminima()) {
-		    	
+	        if(it.getQuantidade() <= it.getQuantminima()) {	
 			  mvcx.addObject("notificacao", "Itens em falta no estoque!");
 			  mvcx.addObject("itensfalta", itens);
-		      System.out.println(" Quantidade atual " +it.getQuantidade()+ " Quantidade minina " +it.getQuantminima());
-		      	
+			  
 		    }	  
 	     }
 	       

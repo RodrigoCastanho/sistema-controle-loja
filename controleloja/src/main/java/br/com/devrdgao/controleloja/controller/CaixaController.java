@@ -38,10 +38,10 @@ public class CaixaController {
 	private EstoqueService estoqueservice;
 	
 	private List<Item> itens = new ArrayList<Item>();
-	
+		
 	@GetMapping("/")
 	public ModelAndView caixa() {
-		
+			
 		 ModelAndView mvcx = new ModelAndView("index");
 		 return mvcx; 
 	  	 
