@@ -34,7 +34,12 @@
 	          <li><a class="text-colorlink" href="estoque">Estoque</a></li>
 	          <li><a class="text-colorlink" href="fornecedor">Fornecedor</a></li>
 	          <li><a class="text-colorlink" href="vendas">Minhas Vendas</a></li>
-	          <li><a class="text-colorlink" href="#">Sair</a></li> 
+	           <li>
+	              <form action="/logout" method="post">    
+	                 <input class="text-colorlink" style="height:62px" type="submit" value="Sair"/>   
+	                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>		
+	              </form>
+               </li>   
 	         </ul>
 	        </div>
       </nav>

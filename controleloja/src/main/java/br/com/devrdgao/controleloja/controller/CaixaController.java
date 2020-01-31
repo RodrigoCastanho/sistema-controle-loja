@@ -59,7 +59,7 @@ public class CaixaController {
 				
 	} 
 	
-	@PostMapping("adicionar")
+	@GetMapping("adicionar")
 	public ModelAndView adicionarItem(@RequestParam(value="quantidade") String quantidade,
 			                          @RequestParam(value="desc") BigDecimal desconto,
 			                          @RequestParam(value="descp") String descontop) {
