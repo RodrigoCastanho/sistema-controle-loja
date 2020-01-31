@@ -37,15 +37,7 @@ public class Dinheiro extends Pagamento {
 		}
 		
 	}
-	
-	/*public BigDecimal fluxoValorInicialCaixa() {
 		
-		  valor inicial do caixa menos valor do troco
-		
-		return total;
-	}*/
-	
-	
 	public BigDecimal getValorrecebido() {
 		return valorrecebido;
 	}

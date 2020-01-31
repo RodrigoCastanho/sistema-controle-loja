@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.devrdgao.controleloja.models.CaixaAbertura;
 import br.com.devrdgao.controleloja.models.Item;
 import br.com.devrdgao.controleloja.models.Venda;
 import br.com.devrdgao.controleloja.models.formapagamento.Debito;
+import br.com.devrdgao.controleloja.repository.CaixaAberturaRepository;
 import br.com.devrdgao.controleloja.repository.VendaRepository;
 import br.com.devrdgao.controleloja.service.BigDecimalConverter;
 import br.com.devrdgao.controleloja.service.DataConverter;
@@ -36,7 +38,7 @@ public class VendasController {
 	
 	@Autowired
 	private VendaService vendaservice;
-		
+			
 	@GetMapping("vendas")
 	public ModelAndView vendas() {
 		
@@ -71,6 +73,30 @@ public class VendasController {
 			  
 	}
 	
+	@GetMapping("/buscar")
+	public ModelAndView buscarAberturaCaixa() {
+		
+		
+	    ModelAndView mvvd = new ModelAndView("vendas");
+		mvvd.addObject("valoremcaixa", vendaservice.buscaAberturaValorCaixa());
+    
+	  
+	  return mvvd;	
+		
+	}
+	
+	@GetMapping("/buscartudo")
+	public ModelAndView buscarTodaAberturaCaixa() {
+		
+	    ModelAndView mvvd = new ModelAndView("vendas");
+	    mvvd.addObject("valoremcaixa", vendaservice.buscaTodasAberturaCaixa()); 
+	    	
+		return mvvd;
+		
+	}
+	
+	
+	
 	@GetMapping("venda{codigovenda}")
 	public ModelAndView deletarVenda(@PathVariable(value="codigovenda") Long codigovenda) {
 		
@@ -81,7 +107,8 @@ public class VendasController {
 	    return new ModelAndView("vendas");
 	     
      }
-	
+	  
+     	
 	@InitBinder
 	public void iniBinder(WebDataBinder binder) {
 		

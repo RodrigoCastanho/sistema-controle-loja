@@ -38,7 +38,12 @@
 					<li><a class="text-colorlink" href="estoque">Estoque</a></li>
 					<li><a class="text-colorlink" href="fornecedor">Fornecedor</a></li>
 					<li><a class="text-colorlink" href="vendas">Minhas Vendas</a></li>
-					<li><a class="text-colorlink" href="#">Sair</a></li>
+					 <li>
+		              <form action="/logout" method="post">    
+		                 <input class="text-colorlink" style="height:62px" type="submit" value="Sair"/>   
+		                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>		
+		              </form>
+		           </li> 		
 				</ul>
 			</div>
 		</nav>
@@ -80,13 +85,18 @@
                        <h4 class="right-align div-resize">
                           R$:<span class="monetaria-masc" th:if="${totalvenda != null}" th:text="${totalvenda}">
                              </span>
-                       </h4>
-             </div>  
-
+                       </h4>               
+             </div>
+             
+             <div class="row col s4">
+              <a href="#modalCaixa" class="waves-effect waves-light btn deep-orange accent-2 modal-trigger">CAIXA</a>     
+             </div>
+               
 			<table class="striped grey lighten-1 tabelaVenda">
 				<thead>
 					<tr>
 						<th title="Código da venda">Cod.Venda</th>
+						<th class="center-align" title="Vendedor(a)">Vendedor(a)</th>
 						<th class="center-align" title="Data da venda">Data</th>
 						<th title="Forma de Pagamento">F.Pagamento</th>
 						<th title="Valor recebido em dinheiro">V.Recebido</th>
@@ -103,6 +113,7 @@
 				<tbody>
 					<tr th:each="venda : ${vendas}">
 						<td title="Código da venda"><span th:text="${venda.codigovenda}"></span></td>
+						<td title="Vendedor(a)"><span th:text="${venda.usuario.nome}"></span></td>
 						<td title="Data da venda"><span
 							th:text="${#temporals.format(venda.data,'dd/MM/yyyy HH:mm')}"></span></td>
 						<td title="Forma de Pagamento"><span th:text="${venda.formpagdebito.debito + 
@@ -146,7 +157,7 @@
 						name="codigovenda"> <label for="codvenda">COD.VENDA:</label>
 				</div>
 
-				<button id="exibiritem" class="waves-effect waves-light btn deep-orange accent-2"
+				<button class="waves-effect waves-light btn deep-orange accent-2"
 					type="submit">EXIBIR ITENS</button>
 			</form>
 
@@ -159,7 +170,49 @@
 
 		</div>
 	</div>
+	
+	<!-- Modal do Caixa -->
+	<div id="modalCaixa" class="modal">
+		<div class="modal-content">
+			<h4 class="center-align">Caixa</h4>
+			
+			<table class="striped tabelaCaixa">
+				<thead>
+					<tr>
+						<th title="">Data Abertura</th>
+						<th class="" title="Data da venda">Vendedor(a)</th>
+						<th class="" title="Vendedor(a)">Valor Abertura</th>
+						<th class="" title="Vendedor(a)">Valor Fechamento</th>
+						
+					</tr>
+				</thead>
 
+				<tbody>
+					<tr th:each="valorcaixa: ${valoremcaixa}">
+						<td title=""><span th:text="${#temporals.format(valorcaixa.dataabertura,'dd/MM/yyyy')}"></span></td>
+						<td title=""><span th:text="${valorcaixa.usuario.nome}"></span></td>
+						<td title="" class="monetaria-masc"><span th:text="${valorcaixa.valorabertura}"></span></td>
+						<td title="" class="monetaria-masc"><span th:text="${valorcaixa.valorfechamento}"></span></td>
+						
+					</tr>
+				</tbody>
+
+			</table>
+			    <div class="row"> 
+				  <div class="col s10">
+				  
+		 			<form class="col s5" th:action="@{/buscar}" method="get">		
+					  <button class="waves-effect waves-light btn deep-orange accent-2" type="submit">BUSCAR</button>
+				   </form> 
+				   
+				   <form class="col s5" th:action="@{/buscartudo}" method="get">
+				      <button class="waves-effect waves-light btn deep-orange accent-2" type="submit">BUSCAR TUDO</button>			      
+				   </form>    
+				 </div>
+			   </div>	           
+	   </div>
+  </div>
+    
 
 
 	<script type="text/javascript" src="js/materialize.min.js"></script>

@@ -84,6 +84,7 @@
 
       
       $('input').on('keyup',function(){
+           
 
            var valorrecebido = $("#valReb").val().replace(".","").replace(",",".");
             
@@ -112,3 +113,45 @@
     });
   }
 
+  var usuario = $('.usuario').html();
+  $('.sessao').val(usuario); 
+
+  exibirValorAberturaCaixa();
+   
+  function exibirValorAberturaCaixa(){
+          
+
+      $('.btiniciar').click(function(){
+
+          event.preventDefault();
+
+
+          var usuario = $('.usuario').html();
+          $('.sessao').val(usuario); 
+
+
+          var valorCaixa = $("#iniCaixa").val();
+          var sessaoUsuario =  $(".sessao").val();
+         
+           localStorage.setItem('iniciarcaixa',valorCaixa);  
+
+           $.get("valorcaixa",{"valorinicial": valorCaixa, "sessaousuario": sessaoUsuario})
+                .done(function() {
+
+                     $('.valordocaixa').html(localStorage.getItem('iniciarcaixa')); 
+                     $("#iniCaixa").val('');
+
+                  }) .fail(function() {
+                        console.log("Erro ajax");
+                      });
+
+      });
+
+      $('.opcoes').click(function(){
+          $('.valordocaixa').html(localStorage.getItem('iniciarcaixa'));
+
+      });
+      
+   
+  
+  }

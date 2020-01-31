@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
 import br.com.devrdgao.controleloja.models.formapagamento.Credito;
 import br.com.devrdgao.controleloja.models.formapagamento.Debito;
 import br.com.devrdgao.controleloja.models.formapagamento.Dinheiro;
@@ -35,6 +37,10 @@ public class Venda {
 	private BigDecimal desconto;
     private BigDecimal valorvenda;
     
+    @ManyToOne
+	@JoinColumn(name = "usuario_login")
+	private Usuario usuario;
+    
 	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
 	@JoinTable(name="venda_pedido", 
 			   joinColumns = @JoinColumn(name = "cod_venda"),
@@ -47,7 +53,7 @@ public class Venda {
 	}
 
 	public Venda(LocalDateTime data, Dinheiro formpagdinheiro, Debito formpagdebito, Credito formpagcredito,
-			BigDecimal desconto, BigDecimal valorvenda, List<Pedido> pedidos) {
+			BigDecimal desconto, BigDecimal valorvenda, List<Pedido> pedidos, Usuario usuario) {
 		
 		this.data = data;
 		this.formpagdinheiro = formpagdinheiro;
@@ -56,6 +62,7 @@ public class Venda {
 		this.desconto = desconto;
 		this.valorvenda = valorvenda;
 		this.pedidos = pedidos;
+		this.usuario = usuario;
 		
 	}
 
@@ -121,5 +128,15 @@ public class Venda {
 	public void setDesconto(BigDecimal desconto) {
 		this.desconto = desconto;
 	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+	
+	
 	
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org"
+                   xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
  <head>
 
@@ -27,11 +28,16 @@
        
          <ul class="right">
           <li><a class="text-colorlink" href="/"><i class="material-icons left">add_shopping_cart</i>Meu Caixa</a></li>
-          <li><a class="text-colorlink" href="cadastraritem">Cadastrar itens</a></li>
-          <li><a class="text-colorlink" href="estoque">Estoque</a></li>
-          <li><a class="text-colorlink" href="fornecedor">Fornecedor</a></li>
-          <li><a class="text-colorlink" href="vendas">Minhas Vendas</a></li>
-          <li><a class="text-colorlink" href="#">Sair</a></li> 
+          <li sec:authorize="hasRole('GERENTE')"><a class="text-colorlink" href="cadastraritem">Cadastrar itens</a></li>
+          <li sec:authorize="hasRole('GERENTE')"><a class="text-colorlink" href="estoque">Estoque</a></li>
+          <li sec:authorize="hasRole('GERENTE')"><a class="text-colorlink" href="fornecedor">Fornecedor</a></li>
+          <li sec:authorize="hasRole('GERENTE')"><a class="text-colorlink" href="vendas">Minhas Vendas</a></li>                   
+          <li>
+              <form action="/logout" method="post">    
+                 <input class="text-colorlink" style="height:62px" type="submit" value="Sair"/>   
+                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>		
+              </form>
+           </li> 
          </ul>
         </div>
      </nav>
@@ -71,7 +77,7 @@
                        
              <div class="col s4 offset-s5 pull-s1">
                         <h5 class="white-text">CAIXA 
-                          <a href="#modOp" class="waves-effect waves-light btn deep-orange accent-2 pull-s2 modal-trigger">OPÇÕES</a>                            
+                          <a href="#modOp" class="waves-effect waves-light btn deep-orange accent-2 pull-s2 modal-trigger opcoes">OPÇÕES</a>                            
                         </h5>
                                                               
              </div>
@@ -99,7 +105,7 @@
   			    
   			</form> 
   			
-  			<form class="col s12" action="adicionar" method="post">
+  			<form class="col s12" action="adicionar" method="get">
   			
   			    <div class="row">
                    <div class="input-field col s2">
@@ -176,13 +182,16 @@
 			      <h4>Opções do Caixa</h4>
 			      <div class="row">
 			         <div class="container">    
-			          	<form class="col s10" action="#" method="get">   
+			          	<form class="col s10" th:action="valorcaixa" method="get">   
+			          	
+			          		   <div class="usuario" sec:authentication="name" style="display: none"></div>
+	                           <input id="idSessaoUsuario" class="sessao" type="hidden" name="sessaousuario">
 			              
 					            <div class="input-field col s10">
-		                           <input  id="iniCaixa" type="number" value="">
+		                           <input  id="iniCaixa" class="monetaria-masc" type="text" name="valorinicial">
 		                            <label for="iniCaixa">VALOR INICIAL DO CAIXA</label>
-		                            <button class="waves-effect waves-light btn deep-orange accent-2" type="submit">INICIAR</button>        
-		                             <output>R$: </output>	                                   
+		                            <button class="waves-effect waves-light btn deep-orange accent-2 btiniciar" type="submit">INICIAR</button>        
+		                             R$: <output class="valordocaixa"></output>	                                   
 		                        </div>
 		                 </form>
 		                  
@@ -198,20 +207,23 @@
 	                               <label for="addValorItem">ADICIONAR PREÇO DO ITEM R$:</label>
 	                               <button class="waves-effect waves-light btn deep-orange accent-2" type="submit">ADICIONAR ITEM</button>        
 	                               
-	                            </div> 
+	                           </div> 
 		                   </form>
 		                  </div>
 		                           
 	                      <br/>
-	                     <form class="col s10 card-panel" action="#" method="get">   
+	                     <form class="col s10 card-panel" th:action="retiradacaixa" method="post">   
 	                            
-	                            <div class="row">
+	                            <div class="usuario" sec:authentication="name" style="display: none"></div>
+	                            <input id="idSessaoUsuario" class="sessao" type="hidden" name="sessaousuario">
+	                               
+	                            <div class="row" sec:authorize="hasRole('GERENTE')" >
 	                              <div class="input-field col s8">
-	                                 <input id="retCaixa" type="number" value="">
+	                                 <input id="retCaixa" class="monetaria-masc" type="text" name="retiradacaixa">
 	                                 <label for="retCaixa">RETIRADA DE CAIXA R$:</label>
 	                              </div>
 	                              <div class="input-field col s8">
-	                                 <input  id="justCaixa" type="text" value="">
+	                                 <input  id="justCaixa" type="text" name="justificativa">
 	                                 <label for="justCaixa">JUSTIFICATIVA</label>
 	                                 <button class="waves-effect waves-light btn deep-orange accent-2" type="submit">RETIRADA</button>        
 	                                 
@@ -232,6 +244,9 @@
                   <h4>Forma de Pagamento</h4>
                     <div class="row">
 	                   <form class="col" th:action="@{/concluircompra}" th:object="${ColetaFormasPagamento}" method="post"> 
+	                   
+	                   		  <div class="usuario" sec:authentication="name" style="display: none"></div>
+	                          <input id="idSessaoUsuario" class="sessao" type="hidden" name="sessaousuario">	
 	                     
                               <input id="pagdinheiro" type="button" value="Dinheiro"/>
                               <input id="pagdebito" type="button" value="Débito"/>

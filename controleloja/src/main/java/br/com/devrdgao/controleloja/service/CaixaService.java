@@ -2,6 +2,7 @@ package br.com.devrdgao.controleloja.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -12,14 +13,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.devrdgao.controleloja.models.CaixaAbertura;
 import br.com.devrdgao.controleloja.models.Item;
 import br.com.devrdgao.controleloja.models.Pedido;
+import br.com.devrdgao.controleloja.models.SaqueCaixa;
+import br.com.devrdgao.controleloja.models.Usuario;
 import br.com.devrdgao.controleloja.models.Venda;
 import br.com.devrdgao.controleloja.models.formapagamento.ColetaFormasPagamento;
 import br.com.devrdgao.controleloja.models.formapagamento.Credito;
 import br.com.devrdgao.controleloja.models.formapagamento.Debito;
 import br.com.devrdgao.controleloja.models.formapagamento.Dinheiro;
+import br.com.devrdgao.controleloja.repository.CaixaAberturaRepository;
 import br.com.devrdgao.controleloja.repository.PedidoRepository;
+import br.com.devrdgao.controleloja.repository.SaqueCaixaRepository;
+import br.com.devrdgao.controleloja.repository.UsuarioRepository;
 import br.com.devrdgao.controleloja.repository.VendaRepository;
 
    
@@ -41,6 +48,17 @@ public class CaixaService {
 	
 	@Autowired
 	private EstoqueService estoqueservice;
+	
+	@Autowired
+	private UsuarioRepository usuariorepo;
+	
+	@Autowired
+	private SaqueCaixaRepository caixarepo;
+	
+	@Autowired
+	private CaixaAberturaRepository caixaberturarepo;
+	
+	private Usuario usuario = new Usuario();
 	
 	public void calculoValoresItem(List<Item> item, ModelAndView mv, String quantidade, BigDecimal desconto, String descontop) {
 			
@@ -85,7 +103,7 @@ public class CaixaService {
 
 	}
 	
-	public void adicionarItemNãoCadastrado(String descricao, BigDecimal preco, ModelAndView mv) {
+	public void adicionarItemNaoCadastrado(String descricao, BigDecimal preco, ModelAndView mv) {
 		
 		 Item item = new Item(); 
 	   
@@ -126,7 +144,40 @@ public class CaixaService {
 		 		
 	}
 	
-	public void concluirCompra(ColetaFormasPagamento fpagamento, ModelAndView mvcx) {
+	public void aberturaCaixa(BigDecimal valorinicial, String sessaousuario) {
+		 
+		CaixaAbertura cxabertura = new CaixaAbertura();
+		
+		LocalDate dataabertura = LocalDate.now();
+		usuario = usuariorepo.findByLogin(sessaousuario);
+        
+		cxabertura.setDataabertura(dataabertura);
+		cxabertura.setValorabertura(valorinicial);
+		cxabertura.setUsuario(usuario);
+		
+		caixaberturarepo.save(cxabertura);
+		
+		
+	}
+	
+			
+	public void retirarValorCaixa(BigDecimal valorretirado, String justificativa, String sessaousuario) {
+		
+		SaqueCaixa sqcaixa = new SaqueCaixa();
+		
+		LocalDate datasaque = LocalDate.now();
+		usuario = usuariorepo.findByLogin(sessaousuario);
+	  	  
+		sqcaixa.setDatasaque(datasaque);
+		sqcaixa.setValorretirado(valorretirado);
+		sqcaixa.setJustificativa(justificativa);
+		sqcaixa.setUsuario(usuario);
+			
+		caixarepo.save(sqcaixa);  
+		 		 	 	
+	} 
+		
+	public void concluirCompra(ColetaFormasPagamento fpagamento, ModelAndView mvcx, String sessaousuario) {
 		
 		LocalDateTime datahora = LocalDateTime.now();
 		
@@ -146,12 +197,13 @@ public class CaixaService {
 	      Pedido pedido = new Pedido(i.getCodigoitem(), i.getDescricao(), i.getQuantidade(), i.getValoritem(), i.getPrecovenda());  
 		  pedidos.add(pedido);
 	  		  		  	  
-	    });	
-		//pedidorepo.saveAll(pedidos);
-		 
-		Venda venda = new Venda(datahora.withSecond(0).withNano(0), dinheiro, debito, credito, descontos, valortotal, pedidos);
-			
-		//vendarepo.save(venda);
+	    });
+	    
+	    usuario = usuariorepo.findByLogin(sessaousuario);
+		pedidorepo.saveAll(pedidos);
+		Venda venda = new Venda(datahora.withSecond(0).withNano(0), dinheiro, debito, credito, descontos, valortotal, pedidos, usuario);
+		
+		vendarepo.save(venda);
 								
         itenspedido.clear();
         valortotal = new BigDecimal("0.00");
