@@ -1,17 +1,11 @@
-package br.com.devrdgao.controleloja.models;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +17,7 @@ public class Usuario implements UserDetails {
 	private String login;
 	private String nome;
 	private String senha;
-		
+	
 	@ManyToMany
 	@JoinTable(name="usuario_acesso", 
 	   joinColumns = @JoinColumn(name = "id_usuario", referencedColumnName = "login"),
@@ -61,7 +55,7 @@ public class Usuario implements UserDetails {
 	public void setRegrasAcesso(Collection<RegrasAcesso> regrasAcesso) {
 		this.regrasAcesso = regrasAcesso;
 	}
-	
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub

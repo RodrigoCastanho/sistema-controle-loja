@@ -57,6 +57,56 @@ public class CaixaController {
 		ModelAndView mvcx = new ModelAndView("descricaovaloritem");
 		mvcx.addObject("itemdocaixa", item);
 
+		
+		return mvcx;  
+				
+	} 
+	
+	@GetMapping("adicionar")
+	public ModelAndView adicionarItem(@RequestParam(value="quantidade") String quantidade,
+			                          @RequestParam(value="desc") BigDecimal desconto,
+			                          @RequestParam(value="descp") String descontop) {
+		        	   
+		       ModelAndView mvcx = new ModelAndView("index");
+       
+		       caixaservice.calculoValoresItem(itens, mvcx, quantidade, desconto, descontop);
+		       
+		return mvcx;	
+	
+	}
+	
+	@PostMapping("adicionaritem")
+	public ModelAndView adicionarItemNaoCadastrado(@RequestParam(value="descricaoitem") String descricao, 
+												   @RequestParam(value="precoitem") BigDecimal preco) {
+	  
+        		
+	       
+		    ModelAndView mvcx = new ModelAndView("index");
+		    
+		    caixaservice.adicionarItemNãoCadastrado(descricao, preco, mvcx);
+            
+	   return mvcx;
+		
+	}
+	
+	@GetMapping("{codigoitem}")
+	public ModelAndView deletarItem(@PathVariable(value="codigoitem") String codigoitem) {
+				   
+		   ModelAndView mvcx = new ModelAndView("index");
+		    
+		   caixaservice.deletarItemLista(codigoitem, mvcx);
+		   
+		return mvcx;
+		
+	}
+	
+	@PostMapping("/concluircompra")
+	public ModelAndView concluirCompra(@ModelAttribute("ColetaFormasPagamento") ColetaFormasPagamento formaspagamento) {
+		
+		ModelAndView mvcx = new ModelAndView("index"); 
+		
+		caixaservice.concluirCompra(formaspagamento, mvcx);
+
 		return mvcx;
 
 	}

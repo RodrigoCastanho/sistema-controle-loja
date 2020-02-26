@@ -22,16 +22,28 @@ public class AutenticacaoConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception  {
 		 http.authorizeRequests()
+<<<<<<< HEAD
 		 		.anyRequest()
 		 		.authenticated()
 		    .and()
 		       .exceptionHandling().accessDeniedPage("/index")
 		    .and() 
 		        .formLogin()
+=======
+		 		.antMatchers(HttpMethod.GET, "/cadastraritem").hasRole("GERENTE")
+		 		.anyRequest()
+		 		.authenticated()
+		    .and()	
+		    .formLogin()
+>>>>>>> refs/remotes/origin/master
 		    	.loginPage("/acessar")
 		    	.permitAll()
 		    .and()
+<<<<<<< HEAD
 		        .logout()
+=======
+		    .logout()
+>>>>>>> refs/remotes/origin/master
 		        .logoutSuccessUrl("/acessar?logout")
 		        .permitAll();			 
 		 
