@@ -23,6 +23,13 @@ public class CaixaAbertura {
 	@ManyToOne
 	@JoinColumn(name = "usuario_login")
 	private Usuario usuario;
+	
+	
+	public void calculoValorFechamento(BigDecimal valor) {
+		
+		this.valorfechamento = valorfechamento.subtract(valor);
+			
+	}
 		
 	public Integer getCodigocaixa() {
 		return codigocaixa;

@@ -157,7 +157,7 @@
 						name="codigovenda"> <label for="codvenda">COD.VENDA:</label>
 				</div>
 
-				<button class="waves-effect waves-light btn deep-orange accent-2"
+				<button id="exibiritem" class="waves-effect waves-light btn deep-orange accent-2"
 					type="submit">EXIBIR ITENS</button>
 			</form>
 
@@ -176,37 +176,41 @@
 		<div class="modal-content">
 			<h4 class="center-align">Caixa</h4>
 			
-			<table class="striped tabelaCaixa">
+		<div id="tabelavendacaixa">
+			 
+			 <table class="striped tabelaCaixa">
 				<thead>
 					<tr>
 						<th title="">Data Abertura</th>
-						<th class="" title="Data da venda">Vendedor(a)</th>
-						<th class="" title="Vendedor(a)">Valor Abertura</th>
-						<th class="" title="Vendedor(a)">Valor Fechamento</th>
+						<th title="Data da venda">Vendedor(a)</th>
+						<th class="center-align" title="Vendedor(a)">Valor Abertura</th>
+						<th class="center-align" title="Vendedor(a)">Valor Fechamento</th>
 						
 					</tr>
 				</thead>
 
 				<tbody>
 					<tr th:each="valorcaixa: ${valoremcaixa}">
-						<td title=""><span th:text="${#temporals.format(valorcaixa.dataabertura,'dd/MM/yyyy')}"></span></td>
-						<td title=""><span th:text="${valorcaixa.usuario.nome}"></span></td>
-						<td title="" class="monetaria-masc"><span th:text="${valorcaixa.valorabertura}"></span></td>
-						<td title="" class="monetaria-masc"><span th:text="${valorcaixa.valorfechamento}"></span></td>
+						<td><span th:text="${#temporals.format(valorcaixa.dataabertura,'dd/MM/yyyy')}"></span></td>
+						<td><span th:text="${valorcaixa.usuario.nome}"></span></td>
+						<td class="center-align monetaria-masc"><span th:text="${valorcaixa.valorabertura}"></span></td>
+						<td class="center-align monetaria-masc"><span th:text="${valorcaixa.valorfechamento}"></span></td>
 						
 					</tr>
 				</tbody>
-
 			</table>
+			
+		  </div>	
+			
 			    <div class="row"> 
 				  <div class="col s10">
 				  
 		 			<form class="col s5" th:action="@{/buscar}" method="get">		
-					  <button class="waves-effect waves-light btn deep-orange accent-2" type="submit">BUSCAR</button>
+					  <button class="waves-effect waves-light btn deep-orange accent-2 buscar" type="submit">BUSCAR</button>
 				   </form> 
 				   
 				   <form class="col s5" th:action="@{/buscartudo}" method="get">
-				      <button class="waves-effect waves-light btn deep-orange accent-2" type="submit">BUSCAR TUDO</button>			      
+				      <button class="waves-effect waves-light btn deep-orange accent-2 buscarTudo" type="submit">BUSCAR TUDO</button>			      
 				   </form>    
 				 </div>
 			   </div>	           

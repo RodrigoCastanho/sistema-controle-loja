@@ -1,0 +1,29 @@
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+    
+    <table class="striped tabelaCaixa">
+				<thead>
+					<tr>
+						<th title="">Data Abertura</th>
+						<th title="Data da venda">Vendedor(a)</th>
+						<th class="center-align" title="Vendedor(a)">Valor Abertura</th>
+						<th class="center-align" title="Vendedor(a)">Valor Fechamento</th>
+						
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr th:each="valorcaixa: ${valoremcaixa}">
+						<td><span th:text="${#temporals.format(valorcaixa.dataabertura,'dd/MM/yyyy')}"></span></td>
+						<td><span th:text="${valorcaixa.usuario.nome}"></span></td>
+						<td class="center-align monetaria-masc"><span th:text="${valorcaixa.valorabertura}"></span></td>
+						<td class="center-align monetaria-masc"><span th:text="${valorcaixa.valorfechamento}"></span></td>
+						
+					</tr>
+				</tbody>
+
+	</table>           
+				         
+    <script type="text/javascript" src="js/inputmascara.js"></script>
+   
+</html>

@@ -77,7 +77,7 @@ public class VendasController {
 	public ModelAndView buscarAberturaCaixa() {
 		
 		
-	    ModelAndView mvvd = new ModelAndView("vendas");
+	    ModelAndView mvvd = new ModelAndView("vendatabelacaixa");
 		mvvd.addObject("valoremcaixa", vendaservice.buscaAberturaValorCaixa());
     
 	  
@@ -88,7 +88,7 @@ public class VendasController {
 	@GetMapping("/buscartudo")
 	public ModelAndView buscarTodaAberturaCaixa() {
 		
-	    ModelAndView mvvd = new ModelAndView("vendas");
+	    ModelAndView mvvd = new ModelAndView("vendatabelacaixa");
 	    mvvd.addObject("valoremcaixa", vendaservice.buscaTodasAberturaCaixa()); 
 	    	
 		return mvvd;

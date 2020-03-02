@@ -50,6 +50,9 @@ public class CaixaService {
 	private EstoqueService estoqueservice;
 	
 	@Autowired
+	private VendaService vendaservice;
+	
+	@Autowired
 	private UsuarioRepository usuariorepo;
 	
 	@Autowired
@@ -58,7 +61,10 @@ public class CaixaService {
 	@Autowired
 	private CaixaAberturaRepository caixaberturarepo;
 	
+	
 	private Usuario usuario = new Usuario();
+	private CaixaAbertura cxabertura = new CaixaAbertura();
+
 	
 	public void calculoValoresItem(List<Item> item, ModelAndView mv, String quantidade, BigDecimal desconto, String descontop) {
 			
@@ -145,23 +151,22 @@ public class CaixaService {
 	}
 	
 	public void aberturaCaixa(BigDecimal valorinicial, String sessaousuario) {
-		 
-		CaixaAbertura cxabertura = new CaixaAbertura();
-		
+		 		
 		LocalDate dataabertura = LocalDate.now();
 		usuario = usuariorepo.findByLogin(sessaousuario);
         
 		cxabertura.setDataabertura(dataabertura);
 		cxabertura.setValorabertura(valorinicial);
+		cxabertura.setValorfechamento(valorinicial);
 		cxabertura.setUsuario(usuario);
-		
+         		
 		caixaberturarepo.save(cxabertura);
+				
 		
-		
-	}
+	} 
 	
 			
-	public void retirarValorCaixa(BigDecimal valorretirado, String justificativa, String sessaousuario) {
+	public void saqueValorCaixa(BigDecimal valorretirado, String justificativa, String sessaousuario) {
 		
 		SaqueCaixa sqcaixa = new SaqueCaixa();
 		
@@ -172,14 +177,40 @@ public class CaixaService {
 		sqcaixa.setValorretirado(valorretirado);
 		sqcaixa.setJustificativa(justificativa);
 		sqcaixa.setUsuario(usuario);
-			
-		caixarepo.save(sqcaixa);  
+		
+		cxabertura = vendaservice.buscaAberturaValorCaixa();
+		cxabertura.calculoValorFechamento(valorretirado); 
+					
+		caixarepo.save(sqcaixa);
+		caixaberturarepo.save(cxabertura);
 		 		 	 	
 	} 
+	
+	protected void fluxoValorCaixa(BigDecimal troco) {
 		
+		System.out.println(" ValorFluxo " +troco);
+		
+		if(!troco.equals(new BigDecimal("0.00"))) {
+			
+			System.out.println(" ValorFluxoDentroIF " +troco);
+	
+			cxabertura = vendaservice.buscaAberturaValorCaixa();
+			
+			cxabertura.calculoValorFechamento(troco); 
+			
+			caixaberturarepo.save(cxabertura);
+			
+				
+		}
+		
+		
+	}  
+	
+			
 	public void concluirCompra(ColetaFormasPagamento fpagamento, ModelAndView mvcx, String sessaousuario) {
 		
 		LocalDateTime datahora = LocalDateTime.now();
+		
 		
 	  if(!itenspedido.isEmpty()) {
 		  
@@ -189,8 +220,10 @@ public class CaixaService {
 		Credito credito = new Credito(fpagamento.getCredito(), fpagamento.getParcela(), fpagamento.getValorparcela(), descontos, valortotal);
 		
 	    List<Pedido> pedidos = new ArrayList<Pedido>();
-	    
+	 
 	    estoqueservice.controleQuantEstoque(itenspedido, mvcx);
+	    
+	    fluxoValorCaixa(dinheiro.getValortroco());
 	    
 	    itenspedido.forEach(i ->{ 
 	    	
@@ -198,8 +231,9 @@ public class CaixaService {
 		  pedidos.add(pedido);
 	  		  		  	  
 	    });
-	    
+	    	    
 	    usuario = usuariorepo.findByLogin(sessaousuario);
+	   	    
 		pedidorepo.saveAll(pedidos);
 		Venda venda = new Venda(datahora.withSecond(0).withNano(0), dinheiro, debito, credito, descontos, valortotal, pedidos, usuario);
 		

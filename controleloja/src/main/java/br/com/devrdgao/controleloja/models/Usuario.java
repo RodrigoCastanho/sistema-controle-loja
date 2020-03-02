@@ -1,3 +1,4 @@
+package br.com.devrdgao.controleloja.models;
 
 import java.util.Collection;
 

@@ -58,4 +58,42 @@ $("#exibiritem").click(function(event){
 
 }); 
 
+$('.buscar').click(function(event){
+   
+     event.preventDefault();
+
+    $.get("buscar")
+        .done(function(result) {
+
+           $("#tabelavendacaixa").html(result);
+
+
+        }) .fail(function() {
+                    console.log("Erro ajax");
+        });
+   
+}); 
+
+$('.buscarTudo').click(function(event){
+   
+     event.preventDefault();
+
+    $.get("buscartudo")
+        .done(function(result) {
+
+           $("#tabelavendacaixa").html(result);
+
+
+        }) .fail(function() {
+                    console.log("Erro ajax");
+        });
+   
+}); 
+
+
+
+
+
+
+
    

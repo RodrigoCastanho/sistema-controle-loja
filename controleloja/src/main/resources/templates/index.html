@@ -28,17 +28,10 @@
        
          <ul class="right">
           <li><a class="text-colorlink" href="/"><i class="material-icons left">add_shopping_cart</i>Meu Caixa</a></li>
-<<<<<<< HEAD
           <li sec:authorize="hasRole('GERENTE')"><a class="text-colorlink" href="cadastraritem">Cadastrar itens</a></li>
           <li sec:authorize="hasRole('GERENTE')"><a class="text-colorlink" href="estoque">Estoque</a></li>
           <li sec:authorize="hasRole('GERENTE')"><a class="text-colorlink" href="fornecedor">Fornecedor</a></li>
-          <li sec:authorize="hasRole('GERENTE')"><a class="text-colorlink" href="vendas">Minhas Vendas</a></li>                   
-=======
-          <li><a class="text-colorlink" href="cadastraritem">Cadastrar itens</a></li>
-          <li><a class="text-colorlink" href="estoque">Estoque</a></li>
-          <li><a class="text-colorlink" href="fornecedor">Fornecedor</a></li>
-          <li><a class="text-colorlink" href="vendas">Minhas Vendas</a></li>                   
->>>>>>> refs/remotes/origin/master
+          <li sec:authorize="hasRole('GERENTE')"><a class="text-colorlink" href="vendas">Minhas Vendas</a></li>                                    
           <li>
               <form action="/logout" method="post">    
                  <input class="text-colorlink" style="height:62px" type="submit" value="Sair"/>   

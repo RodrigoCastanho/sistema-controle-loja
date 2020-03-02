@@ -36,7 +36,7 @@ public class VendaService {
 	}
 	
 	public CaixaAbertura buscaAberturaValorCaixa() {
-			
+		
 	    List<CaixaAbertura> cxAbertura = caixaberturarepo.findAll();
         
 		if(!cxAbertura.isEmpty()) {
