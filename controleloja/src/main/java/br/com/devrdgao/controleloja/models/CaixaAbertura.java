@@ -25,12 +25,10 @@ public class CaixaAbertura {
 	private Usuario usuario;
 	
 	
-	public void calculoValorFechamento(BigDecimal valor) {
-		
-		this.valorfechamento = valorfechamento.subtract(valor);
-			
+	public void calculoValorFechamento(BigDecimal valor) {	
+		this.valorfechamento = valorfechamento.subtract(valor);			
 	}
-		
+	
 	public Integer getCodigocaixa() {
 		return codigocaixa;
 	}

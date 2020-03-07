@@ -1,0 +1,28 @@
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+    
+    <table class="striped tabelaCaixa">
+				<thead>
+					<tr>
+						<th title="Data do saque">Data Saque</th>
+						<th title="Justificativa">Justificativa</th>
+						<th class="center-align" title="Valor retirado">Valor Retirado</th>
+						<th class="center-align" title="Responsável">Responsável</th>
+						
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr th:each="valorbaixas: ${baixascaixa}">
+						<td title="Data do saque"><span th:text="${#temporals.format(valorbaixas.datasaque,'dd/MM/yyyy')}"></span></td>
+						<td title="Justificativa"><span th:text="${valorbaixas.justificativa}"></span></td>
+						<td class="center-align monetaria-masc" title="Valor retirado"><span th:text="${valorbaixas.valorretirado}"></span></td>
+						<td class="center-align" title="Responsável"><span th:text="${valorbaixas.usuario.nome}"></span></td>
+						
+					</tr>
+				</tbody>
+	 </table>        
+				         
+    <script type="text/javascript" src="js/inputmascara.js"></script>
+   
+</html>

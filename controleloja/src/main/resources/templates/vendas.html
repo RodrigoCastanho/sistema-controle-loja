@@ -89,9 +89,16 @@
              </div>
              
              <div class="row col s4">
-              <a href="#modalCaixa" class="waves-effect waves-light btn deep-orange accent-2 modal-trigger">CAIXA</a>     
-             </div>
+              <a href="#modalCaixa" class="waves-effect waves-light btn deep-orange accent-2 modal-trigger" title="Fechamento do caixa">
+                 FECHAMENTO CAIXA</a>    
+              <a href="#modalBaixaCaixa" class="waves-effect waves-light btn deep-orange accent-2 modal-trigger" title="Baixas no caixa">
+                 BAIXAS CAIXA</a>
+              <a href="#modalOpcao" class="waves-effect waves-light btn deep-orange accent-2 modal-trigger" title="Opções">
+                 OPÇÕES</a>         
                
+             </div>
+             
+            
 			<table class="striped grey lighten-1 tabelaVenda">
 				<thead>
 					<tr>
@@ -212,10 +219,91 @@
 				   <form class="col s5" th:action="@{/buscartudo}" method="get">
 				      <button class="waves-effect waves-light btn deep-orange accent-2 buscarTudo" type="submit">BUSCAR TUDO</button>			      
 				   </form>    
-				 </div>
-			   </div>	           
+				   
+				 </div> 
+			   </div>	
 	   </div>
   </div>
+  
+  <!-- Modal Baixas do Caixa -->
+	<div id="modalBaixaCaixa" class="modal">
+		<div class="modal-content">
+			<h4 class="center-align">Baixas do Caixa</h4>
+			
+		<div id="tabelavendabxcaixa">
+			 
+			 <table class="striped tabelaCaixa">
+				<thead>
+					<tr>
+						<th title="Data do saque">Data Saque</th>
+						<th title="Justificativa">Justificativa</th>
+						<th class="center-align" title="Valor retirado">Valor Retirado</th>
+						<th class="center-align" title="Responsável">Responsável</th>
+						
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr th:each="valorbaixas: ${baixascaixa}">
+						<td><span th:text="${#temporals.format(valorbaixas.datasaque,'dd/MM/yyyy')}"></span></td>
+						<td><span th:text="${valorbaixas.justificativa}"></span></td>
+						<td class="center-align monetaria-masc"><span th:text="${valorbaixas.valorretirado}"></span></td>
+						<td class="center-align monetaria-masc"><span th:text="${valorbaixas.usuario.nome}"></span></td>
+						
+					</tr>
+				</tbody>
+			</table>
+			
+		  </div>				
+				  <div class="col s10">
+				  
+		 			<form class="col s5" th:action="@{/buscarbaixascaixa}" method="get">		
+					  <button class="waves-effect waves-light btn deep-orange accent-2 buscarbaixas" type="submit">BUSCAR</button>
+				    </form> 
+				     
+				 </div>
+								 
+	   </div>
+	  	   
+  </div>
+  
+	  
+	  <!-- Modal Opções -->
+	  <div id="modalOpcao" class="modal">
+	    <div class="modal-content">
+	      <h4 class="center-align">Opções</h4>
+	        
+	      <form th:action="@{/deletarOpCaixa}" method="post">
+	         
+	         Deletar todos os dados         
+         	 <p>
+		      <label>
+		        <input name="group1" type="radio" value="fcaixa"/>
+		        <span>Fechamento Caixa</span>
+		      </label>
+		    </p>
+		    
+		    <p>
+		      <label>
+		        <input name="group1" type="radio" value="bcaixa"/>
+		        <span>Baixas Caixa</span>
+		      </label>
+		    </p>
+		    
+		    <p>
+		      <label>
+		        <input name="group1" type="radio"/>
+		        <span>Nenhum</span>
+		      </label>
+		    </p>	          
+	      
+		      <button class="waves-effect waves-light btn deep-orange accent-2" type="submit">CONCLUIR</button>    
+	          
+	      </form>
+	     	      
+	    </div>
+	  </div>
+  
     
 
 

@@ -151,7 +151,7 @@ public class CaixaService {
 	}
 	
 	public void aberturaCaixa(BigDecimal valorinicial, String sessaousuario) {
-		 		
+		
 		LocalDate dataabertura = LocalDate.now();
 		usuario = usuariorepo.findByLogin(sessaousuario);
         
@@ -161,10 +161,8 @@ public class CaixaService {
 		cxabertura.setUsuario(usuario);
          		
 		caixaberturarepo.save(cxabertura);
-				
-		
+						
 	} 
-	
 			
 	public void saqueValorCaixa(BigDecimal valorretirado, String justificativa, String sessaousuario) {
 		
@@ -194,19 +192,17 @@ public class CaixaService {
 			
 			System.out.println(" ValorFluxoDentroIF " +troco);
 	
-			cxabertura = vendaservice.buscaAberturaValorCaixa();
+			 new Thread(() ->{	
+				     cxabertura = vendaservice.buscaAberturaValorCaixa();   
+				 	 cxabertura.calculoValorFechamento(troco); 
+					 caixaberturarepo.save(cxabertura);
+			   }).start();	
 			
-			cxabertura.calculoValorFechamento(troco); 
-			
-			caixaberturarepo.save(cxabertura);
-			
-				
+							
 		}
-		
-		
+				
 	}  
-	
-			
+				
 	public void concluirCompra(ColetaFormasPagamento fpagamento, ModelAndView mvcx, String sessaousuario) {
 		
 		LocalDateTime datahora = LocalDateTime.now();

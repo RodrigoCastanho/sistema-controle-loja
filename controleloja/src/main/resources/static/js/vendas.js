@@ -90,6 +90,22 @@ $('.buscarTudo').click(function(event){
    
 }); 
 
+$('.buscarbaixas').click(function(event){
+   
+     event.preventDefault();
+
+    $.get("buscarbaixascaixa")
+        .done(function(result) {
+
+           $("#tabelavendabxcaixa").html(result);
+
+
+        }) .fail(function() {
+                    console.log("Erro ajax");
+        });
+   
+}); 
+
 
 
 

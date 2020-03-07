@@ -79,8 +79,7 @@ public class CaixaController {
 	public ModelAndView adicionarItemNaoCadastrado(@RequestParam(value="descricaoitem") String descricao, 
 												   @RequestParam(value="precoitem") BigDecimal preco) {
 	  
-        		
-	       
+        			       
 		    ModelAndView mvcx = new ModelAndView("index");
 		    
 		    caixaservice.adicionarItemNaoCadastrado(descricao, preco, mvcx);

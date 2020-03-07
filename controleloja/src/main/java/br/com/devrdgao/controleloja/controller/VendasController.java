@@ -95,8 +95,28 @@ public class VendasController {
 		
 	}
 	
+	@GetMapping("/buscarbaixascaixa")
+	public ModelAndView buscarBaixasCaixa() {
+		
+		
+	    ModelAndView mvvd = new ModelAndView("tabelavendabxcaixa");
+		mvvd.addObject("baixascaixa", vendaservice.buscaTodosSaqueCaixa());
+    
+	  
+	  return mvvd;	
+		
+	}
 	
+	@PostMapping("/deletarOpCaixa")
+	public ModelAndView deletarDadosCaixa(@RequestParam(value="group1") String selecao) {
+		
+	    ModelAndView mvvd = new ModelAndView("vendas");	    
+	    vendaservice.deletarOpCaixa(selecao);	
+        return mvvd;	
+		
+	}
 	
+			
 	@GetMapping("venda{codigovenda}")
 	public ModelAndView deletarVenda(@PathVariable(value="codigovenda") Long codigovenda) {
 		

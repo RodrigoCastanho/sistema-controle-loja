@@ -10,8 +10,10 @@ import org.springframework.web.servlet.ModelAndView;
 import br.com.devrdgao.controleloja.models.CaixaAbertura;
 import br.com.devrdgao.controleloja.models.Item;
 import br.com.devrdgao.controleloja.models.Pedido;
+import br.com.devrdgao.controleloja.models.SaqueCaixa;
 import br.com.devrdgao.controleloja.models.Venda;
 import br.com.devrdgao.controleloja.repository.CaixaAberturaRepository;
+import br.com.devrdgao.controleloja.repository.SaqueCaixaRepository;
 import br.com.devrdgao.controleloja.repository.VendaRepository;
 
 @Service
@@ -22,6 +24,9 @@ public class VendaService {
 	
 	@Autowired
 	private CaixaAberturaRepository caixaberturarepo;
+	
+	@Autowired
+	private SaqueCaixaRepository sqcaixarepo;
 		
 	public List<Pedido> exibirPedidoVenda(Long codigovenda) {
 		
@@ -37,24 +42,44 @@ public class VendaService {
 	
 	public CaixaAbertura buscaAberturaValorCaixa() {
 		
-	    List<CaixaAbertura> cxAbertura = caixaberturarepo.findAll();
-        
-		if(!cxAbertura.isEmpty()) {
-					    
-		   return cxAbertura.get(cxAbertura.size()-1); 	
-			
-		}
-			
-	   return null;
+		    List<CaixaAbertura> cxAbertura = caixaberturarepo.findAll();
+	        	   
+				if(!cxAbertura.isEmpty()) {	      
+			    	  
+			    	  return cxAbertura.get(cxAbertura.size()-1); 		    	  
+			    
+		        } 
+			   		  	   
+		        return null;
+
 	}
-	
-	public List<CaixaAbertura> buscaTodasAberturaCaixa(){
+				
+	public List<CaixaAbertura> buscaTodasAberturaCaixa() {
 		
 	    List<CaixaAbertura> cxAbertura = caixaberturarepo.findAll();
 		
 	    return cxAbertura;
 		
 	}
-			
 	
+    public List<SaqueCaixa> buscaTodosSaqueCaixa() {
+    	
+	    List<SaqueCaixa> sqcaixa = sqcaixarepo.findAll();
+	    
+	    return sqcaixa;
+		
+	}
+    
+    public void deletarOpCaixa(String selecao) {
+    	
+    	  if(selecao.equals("fcaixa")) {
+    		  caixaberturarepo.deleteAllInBatch();    		  		  
+    	  } else if(selecao.equals("bcaixa")) {
+    		  sqcaixarepo.deleteAllInBatch();   	  
+    	  } else {}
+    	 	
+    	
+    }
+    
+				
 }
