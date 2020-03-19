@@ -61,10 +61,11 @@ public class CaixaService {
 	@Autowired
 	private CaixaAberturaRepository caixaberturarepo;
 	
-	
+	@Autowired
+	private ImpressaoService impressaoservice;
+		
 	private Usuario usuario = new Usuario();
 	private CaixaAbertura cxabertura = new CaixaAbertura();
-
 	
 	public void calculoValoresItem(List<Item> item, ModelAndView mv, String quantidade, BigDecimal desconto, String descontop) {
 			
@@ -185,20 +186,15 @@ public class CaixaService {
 	} 
 	
 	protected void fluxoValorCaixa(BigDecimal troco) {
-		
-		System.out.println(" ValorFluxo " +troco);
-		
+				
 		if(!troco.equals(new BigDecimal("0.00"))) {
-			
-			System.out.println(" ValorFluxoDentroIF " +troco);
-	
+				
 			 new Thread(() ->{	
 				     cxabertura = vendaservice.buscaAberturaValorCaixa();   
 				 	 cxabertura.calculoValorFechamento(troco); 
 					 caixaberturarepo.save(cxabertura);
 			   }).start();	
-			
-							
+									
 		}
 				
 	}  
@@ -206,7 +202,7 @@ public class CaixaService {
 	public void concluirCompra(ColetaFormasPagamento fpagamento, ModelAndView mvcx, String sessaousuario) {
 		
 		LocalDateTime datahora = LocalDateTime.now();
-		
+      
 		
 	  if(!itenspedido.isEmpty()) {
 		  
@@ -221,11 +217,13 @@ public class CaixaService {
 	    
 	    fluxoValorCaixa(dinheiro.getValortroco());
 	    
-	    itenspedido.forEach(i ->{ 
+	    itenspedido.forEach(i -> { 
 	    	
-	      Pedido pedido = new Pedido(i.getCodigoitem(), i.getDescricao(), i.getQuantidade(), i.getValoritem(), i.getPrecovenda());  
-		  pedidos.add(pedido);
-	  		  		  	  
+	      Pedido pedido = new Pedido(i.getCodigoitem(), i.getDescricao(), i.getQuantidade(), i.getValoritem(), i.getPrecovenda(), 
+	    		  					datahora, valortotal);  
+		  pedidos.add(pedido); 
+		  
+		 	  		  		  	  
 	    });
 	    	    
 	    usuario = usuariorepo.findByLogin(sessaousuario);
@@ -233,7 +231,9 @@ public class CaixaService {
 		pedidorepo.saveAll(pedidos);
 		Venda venda = new Venda(datahora.withSecond(0).withNano(0), dinheiro, debito, credito, descontos, valortotal, pedidos, usuario);
 		
-		vendarepo.save(venda);
+		//vendarepo.save(venda);
+				
+		impressaoservice.impremirPedidos(pedidos);
 								
         itenspedido.clear();
         valortotal = new BigDecimal("0.00");

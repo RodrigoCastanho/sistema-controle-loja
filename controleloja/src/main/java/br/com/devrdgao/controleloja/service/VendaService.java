@@ -32,8 +32,8 @@ public class VendaService {
 		
 	   List<Pedido> vendaspedido = new ArrayList<Pedido>();			
 		               
-       Iterable<Venda> venda = vendarepo.buscarVendas(codigovenda);              
-      
+       Iterable<Venda> venda = vendarepo.buscarVendas(codigovenda); 
+             
        venda.forEach(itenvenda -> itenvenda.getPedidos().forEach(pedido -> vendaspedido.add(pedido)));
                
 	   return vendaspedido; 	

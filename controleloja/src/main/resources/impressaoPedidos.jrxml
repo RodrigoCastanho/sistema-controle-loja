@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.0.final using JasperReports Library version 6.12.1-ac0eebdb29e4c0985457bab279a6db744d661530  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="impressaoPedidos" columnCount="4" pageWidth="167" pageHeight="340" columnWidth="31" leftMargin="20" rightMargin="20" topMargin="15" bottomMargin="24" uuid="7dab2298-248f-498e-9243-0dd37f6d04f8">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<field name="codigoitem" class="java.lang.String"/>
+	<field name="descricao" class="java.lang.String"/>
+	<field name="quantidade" class="java.lang.Integer"/>
+	<field name="valoritemcv" class="java.lang.String"/>
+	<field name="precoitemcv" class="java.lang.String"/>
+	<field name="total" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement x="20" y="-10" width="92" height="15" uuid="aafa9bab-43ed-4bfa-a514-c92ab898f970"/>
+				<text><![CDATA[FRAN BELÍSSIMA]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="19" splitType="Stretch">
+			<staticText>
+				<reportElement x="-17" y="-1" width="166" height="20" uuid="64778f96-deb0-4886-b796-3085dd09dadb"/>
+				<text><![CDATA[====  Cupom não fiscal ====]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement x="-15" y="5" width="20" height="20" uuid="cf7d67f4-a11b-4d79-b8fd-759949946c73"/>
+				<text><![CDATA[Cod]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="4" width="26" height="21" uuid="9098cb02-5e50-4f84-bbef-571fdb1a2d1d"/>
+				<text><![CDATA[Desc]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="4" width="20" height="18" uuid="050f3212-6140-4f8f-b365-ee383bc9ca20"/>
+				<text><![CDATA[Qt]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="75" y="4" width="35" height="20" uuid="e554e79f-66a9-4236-82d0-80817c99baa1"/>
+				<text><![CDATA[Val.U]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="112" y="4" width="35" height="13" uuid="0da41963-860e-49b4-a606-d1f58230781d"/>
+				<text><![CDATA[Val.T]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="29" splitType="Stretch">
+			<textField>
+				<reportElement x="-15" y="0" width="55" height="19" uuid="041d8c60-6200-4eb4-84a1-dc98e3516a66"/>
+				<textFieldExpression><![CDATA[$F{codigoitem}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="0" width="106" height="19" uuid="dadca00a-54a9-42b5-bf24-8709abdea88a"/>
+				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="45" y="8" width="37" height="17" uuid="8b1286ea-266c-4284-b0f0-485eb923fdee"/>
+				<textFieldExpression><![CDATA[$F{quantidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="8" width="40" height="18" uuid="6e075d0a-c3a9-41d6-8294-8cd5ecf4a8d3"/>
+				<textFieldExpression><![CDATA[$F{valoritemcv}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="8" width="45" height="15" uuid="11df9aba-4074-43d8-b425-1e5f30d6a878"/>
+				<textFieldExpression><![CDATA[$F{precoitemcv}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="31" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="56" splitType="Stretch">
+			<staticText>
+				<reportElement x="-17" y="0" width="161" height="30" uuid="5530340a-7672-43f9-965e-98f540975a2e"/>
+				<text><![CDATA[Total R$: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="35" y="0" width="104" height="20" uuid="e516d087-4418-4fd5-a42e-00eb83361b54"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="60" splitType="Stretch"/>
+	</summary>
+</jasperReport>
