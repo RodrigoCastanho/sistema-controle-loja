@@ -39,7 +39,7 @@ public class ImpressaoService {
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (JRException e) {
+		} catch (JRException e) { 
 			e.printStackTrace();
 		}  
 				

@@ -14,9 +14,11 @@
 	<field name="codigoitem" class="java.lang.String"/>
 	<field name="descricao" class="java.lang.String"/>
 	<field name="quantidade" class="java.lang.Integer"/>
-	<field name="valoritemcv" class="java.lang.String"/>
-	<field name="precoitemcv" class="java.lang.String"/>
-	<field name="total" class="java.lang.String"/>
+	<field name="valoritemcnf" class="java.lang.String"/>
+	<field name="precoitemcnf" class="java.lang.String"/>
+	<field name="totalcnf" class="java.lang.String"/>
+	<field name="tipopagamentocnf" class="java.lang.String"/>
+	<field name="trococnf" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -76,11 +78,11 @@
 			</textField>
 			<textField>
 				<reportElement x="70" y="8" width="40" height="18" uuid="6e075d0a-c3a9-41d6-8294-8cd5ecf4a8d3"/>
-				<textFieldExpression><![CDATA[$F{valoritemcv}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{valoritemcnf}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="100" y="8" width="45" height="15" uuid="11df9aba-4074-43d8-b425-1e5f30d6a878"/>
-				<textFieldExpression><![CDATA[$F{precoitemcv}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{precoitemcnf}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -88,15 +90,27 @@
 		<band height="31" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="56" splitType="Stretch">
+		<band height="72" splitType="Stretch">
 			<staticText>
-				<reportElement x="-17" y="0" width="161" height="30" uuid="5530340a-7672-43f9-965e-98f540975a2e"/>
-				<text><![CDATA[Total R$: ]]></text>
+				<reportElement x="-17" y="0" width="161" height="50" uuid="5530340a-7672-43f9-965e-98f540975a2e"/>
+				<text><![CDATA[TOTAL R$: ]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="35" y="0" width="104" height="20" uuid="e516d087-4418-4fd5-a42e-00eb83361b54"/>
-				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{totalcnf}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="-17" y="13" width="47" height="13" uuid="ca458196-4c51-4f5a-bbe4-9485446368d1"/>
+				<textFieldExpression><![CDATA[$F{tipopagamentocnf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="71" y="13" width="49" height="16" uuid="8c42b0e9-e882-4b31-9b1c-bdd646d5b871"/>
+				<textFieldExpression><![CDATA[$F{trococnf}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="29" y="13" width="49" height="13" uuid="23a79a0d-c466-44e7-b75d-6078bb6c2b56"/>
+				<text><![CDATA[troco R$:]]></text>
+			</staticText>
 		</band>
 	</pageFooter>
 	<summary>

@@ -10,7 +10,7 @@ public class Dinheiro extends Pagamento {
 	private String dinheiro;
 	private BigDecimal valorrecebido;
 	private BigDecimal valortroco;
-	
+
 	public Dinheiro() { 
 		super(); 
 	}

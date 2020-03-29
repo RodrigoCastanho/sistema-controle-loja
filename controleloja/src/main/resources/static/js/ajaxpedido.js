@@ -47,7 +47,7 @@
 
       $('#pagdinheiro').click(function() {
         $('.dinheiro').toggle(100);
-        $("#valordinheiro").val("dinheiro");
+        $("#valordinheiro").val("Dinheiro");
         $("#valordebito").val("");
         $("#valorcredito").val("");
         $('.debito').hide();
@@ -59,7 +59,7 @@
        $('#pagdebito').click(function() {
 
          $('.debito').toggle(100);
-         $("#valordebito").val("debito");
+         $("#valordebito").val("Débito");
          $("#valorcredito").val("");
          $("#valordinheiro").val("");
          $('.credito').hide();
@@ -71,7 +71,7 @@
 
        $('#pagcredito').click(function() {
         $('.credito').toggle(100);
-        $("#valorcredito").val("credito");
+        $("#valorcredito").val("Crédito");
         $("#valordebito").val("");
         $("#valordinheiro").val("");
         $('.dinheiro').hide();
