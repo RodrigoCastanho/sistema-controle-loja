@@ -15,7 +15,7 @@ public class Debito extends Pagamento{
 
 	public Debito(String debito, BigDecimal desconto, BigDecimal totalpago) {
 				
-		if(debito.equals("debito")) {	
+		if(debito.equals("Débito")) {	
 		
 		  this.desconto = desconto;
 	      this.totalpago = totalpago;

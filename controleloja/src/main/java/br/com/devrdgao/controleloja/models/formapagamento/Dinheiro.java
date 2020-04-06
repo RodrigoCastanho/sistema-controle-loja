@@ -18,7 +18,7 @@ public class Dinheiro extends Pagamento {
 	public Dinheiro(String dinheiro, BigDecimal valorrecebido, BigDecimal valortroco, 
 					BigDecimal desconto, BigDecimal totalpago) {
 		
-		if(dinheiro.equals("dinheiro")) {
+		if(dinheiro.equals("Dinheiro")) {
 			
 			this.dinheiro = dinheiro;
 			this.valorrecebido = valorrecebido;

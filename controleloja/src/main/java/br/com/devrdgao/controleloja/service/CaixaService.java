@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -202,11 +201,9 @@ public class CaixaService {
 	public void concluirCompra(ColetaFormasPagamento fpagamento, ModelAndView mvcx, String sessaousuario) {
 		
 		LocalDateTime datahora = LocalDateTime.now();
-      
-		
+      		
 	  if(!itenspedido.isEmpty()) {
 		  
-        //variavel gera codigo no pedido e para impressao
 		Dinheiro dinheiro = new Dinheiro(fpagamento.getDinheiro(), fpagamento.getValorrecebido(), fpagamento.getTroco(), descontos, valortotal);
 		Debito debito = new Debito(fpagamento.getDebito(), descontos, valortotal); 
 		Credito credito = new Credito(fpagamento.getCredito(), fpagamento.getParcela(), fpagamento.getValorparcela(), descontos, valortotal);
@@ -221,18 +218,19 @@ public class CaixaService {
 	    	   
 	      Pedido pedido = new Pedido(i.getCodigoitem(), i.getDescricao(), i.getQuantidade(), i.getValoritem(), i.getPrecovenda(), 
 	    		  					datahora, valortotal, fpagamento);  
-		  pedidos.add(pedido); 
-		  
-		 	  		  		  	  
+		  pedidos.add(pedido); 	  
+		 			  		  	  
 	    });
 	    	    
 	    usuario = usuariorepo.findByLogin(sessaousuario);
 	   	    
-		//pedidorepo.saveAll(pedidos);
+		pedidorepo.saveAll(pedidos);
 		Venda venda = new Venda(datahora.withSecond(0).withNano(0), dinheiro, debito, credito, descontos, valortotal, pedidos, usuario);
-		
-		//vendarepo.save(venda);
 				
+		vendarepo.save(venda);
+		
+		pedidos.iterator().next().setCodigovendacnf(venda.getCodigovenda());
+						
 		impressaoservice.impremirPedidos(pedidos);
 								
         itenspedido.clear();

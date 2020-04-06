@@ -17,7 +17,7 @@ public class Credito extends Pagamento {
 	
 	public Credito(String credito, Integer parcelas, BigDecimal valorparcelado, BigDecimal desconto, BigDecimal totalpago) {
 				
-	  if(credito.equals("credito")) {
+	  if(credito.equals("Crédito")) {
 		    
 		  this.credito = credito; 
 		  this.valorparcelado = valorparcelado;	

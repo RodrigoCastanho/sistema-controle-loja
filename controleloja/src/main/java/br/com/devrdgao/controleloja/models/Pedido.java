@@ -4,20 +4,12 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
-
 import br.com.devrdgao.controleloja.models.formapagamento.ColetaFormasPagamento;
-import br.com.devrdgao.controleloja.models.formapagamento.Credito;
-import br.com.devrdgao.controleloja.models.formapagamento.Debito;
-import br.com.devrdgao.controleloja.models.formapagamento.Dinheiro;
+
 
 @Entity
 public class Pedido extends CupomNF {
@@ -44,8 +36,8 @@ public class Pedido extends CupomNF {
 		this.quantidade = quantidade;
 		this.valoritem = valoritem;
 		this.precoitem = precoitem;
-		super.data = data;
-		super.valortotal = valortotal;
+		super.datacnf = data;
+		super.totalcnf = valortotal;
 		super.tipopagamentocnf = pagamento.getDinheiro()
 							    .concat(pagamento.getDebito())
 							    .concat(pagamento.getCredito()); 
@@ -92,8 +84,8 @@ public class Pedido extends CupomNF {
 	
 	@Override
 	public String getDatacnf() {
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-		return super.datacnf = this.data.format(format);
+		DateTimeFormatter dataformat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+		return dataformat.format(super.datacnf);
 	}
 	
 	@Override
@@ -111,7 +103,7 @@ public class Pedido extends CupomNF {
 	@Override
 	public String getTotalcnf() {
 		DecimalFormat df = new DecimalFormat("#,##0.00"); 
-		return super.totalcnf = df.format(super.valortotal);
+		return df.format(super.totalcnf);
 	}	
 	
 	@Override
@@ -124,5 +116,6 @@ public class Pedido extends CupomNF {
 		DecimalFormat df = new DecimalFormat("#,##0.00"); 
 		return df.format(super.trococnf);
 	}
+	
 		
 }

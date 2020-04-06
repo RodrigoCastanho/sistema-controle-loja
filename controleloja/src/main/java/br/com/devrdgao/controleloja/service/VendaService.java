@@ -5,10 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
-
 import br.com.devrdgao.controleloja.models.CaixaAbertura;
-import br.com.devrdgao.controleloja.models.Item;
 import br.com.devrdgao.controleloja.models.Pedido;
 import br.com.devrdgao.controleloja.models.SaqueCaixa;
 import br.com.devrdgao.controleloja.models.Venda;
@@ -27,14 +24,36 @@ public class VendaService {
 	
 	@Autowired
 	private SaqueCaixaRepository sqcaixarepo;
+	
+	@Autowired
+	private ImpressaoService impressaoservice;
 		
-	public List<Pedido> exibirPedidoVenda(Long codigovenda) {
-		
+	public List<Pedido> exibirPedidoVenda(Long codigovenda, boolean imprimir) {
+	   
 	   List<Pedido> vendaspedido = new ArrayList<Pedido>();			
 		               
        Iterable<Venda> venda = vendarepo.buscarVendas(codigovenda); 
              
        venda.forEach(itenvenda -> itenvenda.getPedidos().forEach(pedido -> vendaspedido.add(pedido)));
+       
+       if(imprimir) {
+    	   
+    	  venda.forEach(v -> {         		          
+    		  vendaspedido.forEach(vp -> {vp.setDatacnf(v.getData()); 
+    		  							  vp.setCodigovendacnf(v.getCodigovenda());		
+    			  	                      vp.setTipopagamentocnf(v.getFormpagdinheiro().getDinheiro()
+    			  	                    		  				  .concat(v.getFormpagdebito().getDebito())
+    			  	                    		  				  .concat(v.getFormpagcredito().getCredito()));     		  				  
+    			  	                      vp.setTrococnf(v.getFormpagdinheiro().getValortroco());
+    			  	                      vp.setTotalcnf(v.getValorvenda());
+    			  
+    		  });
+    		     		  
+    	  }); 
+    	  
+    	  impressaoservice.impremirPedidos(vendaspedido);
+    	   
+       }
                
 	   return vendaspedido; 	
 	  
