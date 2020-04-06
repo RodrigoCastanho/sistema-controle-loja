@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -28,6 +27,7 @@ import br.com.devrdgao.controleloja.repository.PedidoRepository;
 import br.com.devrdgao.controleloja.repository.SaqueCaixaRepository;
 import br.com.devrdgao.controleloja.repository.UsuarioRepository;
 import br.com.devrdgao.controleloja.repository.VendaRepository;
+import net.bytebuddy.implementation.bytecode.Throw;
 
    
 @Service
@@ -202,14 +202,14 @@ public class CaixaService {
 	public void concluirCompra(ColetaFormasPagamento fpagamento, ModelAndView mvcx, String sessaousuario) {
 		
 		LocalDateTime datahora = LocalDateTime.now();
-      
-		
+      		
 	  if(!itenspedido.isEmpty()) {
 		  
-        //variavel gera codigo no pedido e para impressao
-		Dinheiro dinheiro = new Dinheiro(fpagamento.getDinheiro(), fpagamento.getValorrecebido(), fpagamento.getTroco(), descontos, valortotal);
-		Debito debito = new Debito(fpagamento.getDebito(), descontos, valortotal); 
-		Credito credito = new Credito(fpagamento.getCredito(), fpagamento.getParcela(), fpagamento.getValorparcela(), descontos, valortotal);
+		Dinheiro dinheiro = new Dinheiro(fpagamento.getDinheiro(), fpagamento.getValorrecebido(), fpagamento.getTroco(), 
+										 fpagamento.getDesconto(), valortotal);
+		Debito debito = new Debito(fpagamento.getDebito(), fpagamento.getDesconto(), valortotal); 
+		Credito credito = new Credito(fpagamento.getCredito(), fpagamento.getParcela(), fpagamento.getValorparcela(), 
+									  fpagamento.getDesconto(), valortotal);
 		
 	    List<Pedido> pedidos = new ArrayList<Pedido>();
 	    
@@ -220,28 +220,30 @@ public class CaixaService {
 	    itenspedido.forEach(i -> { 
 	    	   
 	      Pedido pedido = new Pedido(i.getCodigoitem(), i.getDescricao(), i.getQuantidade(), i.getValoritem(), i.getPrecovenda(), 
-	    		  					datahora, valortotal, fpagamento);  
-		  pedidos.add(pedido); 
-		  
-		 	  		  		  	  
+	    		  					datahora, valortotal, dinheiro, debito, credito);  
+		  pedidos.add(pedido); 	  
+		 			  		  	  
 	    });
 	    	    
 	    usuario = usuariorepo.findByLogin(sessaousuario);
 	   	    
-		//pedidorepo.saveAll(pedidos);
+		pedidorepo.saveAll(pedidos); 
 		Venda venda = new Venda(datahora.withSecond(0).withNano(0), dinheiro, debito, credito, descontos, valortotal, pedidos, usuario);
-		
-		//vendarepo.save(venda);
 				
+		vendarepo.save(venda);
+		
+		pedidos.iterator().next().setCodigovendacnf(venda.getCodigovenda());
+						
 		impressaoservice.impremirPedidos(pedidos);
 								
         itenspedido.clear();
         valortotal = new BigDecimal("0.00");
         descontos = new BigDecimal("0.00");
         
-	  }else { 
+	  } else { 
 		  
 		System.out.println("Não tem pedidos...");
+		
 				  
 	  }  
              			

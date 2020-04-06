@@ -19,6 +19,7 @@ public abstract class Pagamento {
 	public void setTotalpago(BigDecimal totalpago) {
 		this.totalpago = totalpago;
 	}
-    	 
+	
+	protected abstract BigDecimal desconto(String desconto, BigDecimal totalpago);
 	
 }

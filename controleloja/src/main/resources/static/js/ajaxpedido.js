@@ -83,16 +83,23 @@
   function pagamentoDinheiro(){
 
       
-      $('input').on('keyup',function(){
+      $('input#valReb').on('keyup',function(){
            
 
            var valorrecebido = $("#valReb").val().replace(".","").replace(",",".");
             
            var valorvenda = $("#valVenda").html().replace(".","").replace(",",".");
-
-           var valortroco = (parseFloat(valorvenda || 0) - parseFloat(valorrecebido || 0));
-
-           $("#valTro").val(valortroco.toFixed(2).replace(".",",").replace("-",""));
+           
+           if(valorrecebido != "") {
+        	   
+        	   var valortroco = (parseFloat(valorvenda || 0) - parseFloat(valorrecebido || 0));  
+        	   
+        	   $("#valTro").val(valortroco.toFixed(2).replace(".",",").replace("-",""));
+        	   
+           } else { 
+        	   
+        	   $("#valTro").val("");
+           }     
 
       });
 

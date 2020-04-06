@@ -6,48 +6,63 @@ import java.time.LocalDateTime;
 public abstract class CupomNF {
 	
 	
-	protected LocalDateTime data;
-	protected String datacnf; 
+	//protected LocalDateTime data;
+	protected LocalDateTime datacnf; 
 	protected String valoritemcnf; 
 	protected String precoitemcnf;
-	protected String totalcnf;
-	protected BigDecimal valortotal;
+	protected BigDecimal totalcnf;
 	protected String tipopagamentocnf;
 	protected BigDecimal trococnf; 
+	protected Long codigovendacnf;
 	
 	
 	public String getDatacnf() {
-		return datacnf;
-	}
-	public void setDatacnf(String datacnf) {
-		this.datacnf = datacnf;
-	}
-	public String getValoritemcnf() {
-		return valoritemcnf;
-	}
-	public void setValoritemcnf(String valoritemcnf) {
-		this.valoritemcnf = valoritemcnf;
-	}
-	public String getPrecoitemcnf() {
-		return precoitemcnf;
-	}
-	public void setPrecoitemcnf(String precoitemcnf) {
-		this.precoitemcnf = precoitemcnf;
-	}
-	public String getTotalcnf() {
-		return totalcnf;
-	}
-	public void setTotalcnf(String totalcnf) {
-		this.totalcnf = totalcnf;
-	}
-	public String getTipopagamentocnf() {
-		return tipopagamentocnf;
-	}
-	public void setTipopagamento(String tipopagamentocnf) {
-		this.tipopagamentocnf = tipopagamentocnf;
-	}
-	public String getTrococnf() {
 		return "";
 	}
 	
+	public void setDatacnf(LocalDateTime datacnf) {
+		this.datacnf = datacnf;
+	}
+
+
+	public String getValoritemcnf() {
+		return valoritemcnf;
+	}
+
+	public String getPrecoitemcnf() {
+		return precoitemcnf;
+	}
+
+	public String getTotalcnf() {
+		return "";
+	}
+	
+	public void setTotalcnf(BigDecimal totalcnf) {
+		this.totalcnf = totalcnf;
+	}
+
+	public String getTipopagamentocnf() {
+		return tipopagamentocnf;
+	}
+	
+	public void setTipopagamentocnf(String tipopagamentocnf) {
+		this.tipopagamentocnf = tipopagamentocnf;
+	}
+
+	public String getTrococnf() {
+		return "";
+	}
+
+	public void setTrococnf(BigDecimal trococnf) {
+		this.trococnf = trococnf;
+	}
+
+	public Long getCodigovendacnf() {
+		return codigovendacnf;
+	}
+
+	public void setCodigovendacnf(Long codigovendacnf) {
+		this.codigovendacnf = codigovendacnf;
+	}
+	   	
 }

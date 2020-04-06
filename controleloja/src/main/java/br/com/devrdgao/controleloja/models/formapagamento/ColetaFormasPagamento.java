@@ -11,6 +11,7 @@ public class ColetaFormasPagamento {
 	private String dinheiro;
 	private String debito;
 	private String credito;
+	private String desconto;
 
 	public BigDecimal getValorrecebido() {
 		return valorrecebido;
@@ -54,6 +55,11 @@ public class ColetaFormasPagamento {
 	public void setDinheiro(String dinheiro) {
 		this.dinheiro = dinheiro;
 	}
-		
-
+	public String getDesconto() {
+		return desconto;
+	}
+	public void setDesconto(String desconto) {
+		this.desconto = desconto;
+	}
+	
 }

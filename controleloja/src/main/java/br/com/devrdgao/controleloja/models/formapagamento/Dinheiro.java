@@ -1,6 +1,7 @@
 package br.com.devrdgao.controleloja.models.formapagamento;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import javax.persistence.Embeddable;
 
@@ -16,23 +17,22 @@ public class Dinheiro extends Pagamento {
 	}
 	
 	public Dinheiro(String dinheiro, BigDecimal valorrecebido, BigDecimal valortroco, 
-					BigDecimal desconto, BigDecimal totalpago) {
+					String desconto, BigDecimal totalpago) {
 		
-		if(dinheiro.equals("dinheiro")) {
+		if(dinheiro.equals("Dinheiro")) {
 			
 			this.dinheiro = dinheiro;
 			this.valorrecebido = valorrecebido;
 			this.valortroco = valortroco;
-			this.desconto = desconto;
-			this.totalpago = totalpago;
-				
-		}else {
+			desconto(desconto,totalpago);
+			//super.totalpago = totalpago;
+						
+		} else {
 			
 			this.dinheiro = "";
 			this.valorrecebido = new BigDecimal("0.00");
 			this.valortroco = new BigDecimal("0.00");
-			this.desconto = new BigDecimal("0.00");
-			this.totalpago = new BigDecimal("0.00");
+			super.totalpago = new BigDecimal("0.00");
 		   
 		}
 		
@@ -57,6 +57,20 @@ public class Dinheiro extends Pagamento {
 
 	public void setDinheiro(String dinheiro) {
 		this.dinheiro = dinheiro;
+	}
+
+	@Override
+	protected BigDecimal desconto(String desconto, BigDecimal totalpago) {
+		
+	  if(desconto != "") {
+		  
+		  BigDecimal totaldesc = new BigDecimal("0.00");
+          BigDecimal porcentagem = (new BigDecimal(desconto)).divide(new BigDecimal(100));	
+          totaldesc = totalpago.multiply(porcentagem).setScale(2, RoundingMode.DOWN); 
+		  return super.desconto = totaldesc;
+	  }
+	  return super.desconto = new BigDecimal("0.00");    
+	  	
 	}
 		
 }

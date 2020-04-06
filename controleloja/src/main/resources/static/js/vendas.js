@@ -20,14 +20,35 @@ $("#exibiritem").click(function(event){
   event.preventDefault();
 
   var codigovenda = $("#codvenda").val();
+  var imprimir = false;
   
- $.get("itensvenda",{"codigovenda": codigovenda},
+ $.get("itensvenda",{"codigovenda": codigovenda,
+                      "imprimir": imprimir})
 
- 	 function(result){ 
-        $("#itemvenda").html(result);
+ 	   .done (function(result){ 
+         $("#itemvenda").html(result);
     
-  })
+      }).fail (function(result){
+           console.log("Erro ajax");
+         }); 
 });
+
+$("#imprimiritem").click(function(){
+	
+  var codigovenda = $("#codvenda").val();	
+  var imprimir = true;	
+  $.get("itensvenda",{"codigovenda": codigovenda, 
+	  				          "imprimir": imprimir})
+
+ 	  .done (function(result){ 
+        $("#itemvenda").html(result);
+		    
+     }).fail (function(result){
+         console.log("Erro ajax");
+        }); 		
+});
+
+
 
  $('.deletar').click(function(event){
      
