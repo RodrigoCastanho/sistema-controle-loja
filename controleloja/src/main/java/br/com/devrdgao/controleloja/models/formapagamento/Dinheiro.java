@@ -69,7 +69,7 @@ public class Dinheiro extends Pagamento {
           totaldesc = totalpago.multiply(porcentagem).setScale(2, RoundingMode.DOWN); 
 		  return super.desconto = totaldesc;
 	  }
-	  return super.desconto = new BigDecimal("0.00");    
+	  return super.desconto = new BigDecimal("0.00");  
 	  	
 	}
 		
