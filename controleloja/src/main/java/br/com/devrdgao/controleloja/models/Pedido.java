@@ -8,9 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+<<<<<<< HEAD
 import br.com.devrdgao.controleloja.models.formapagamento.Credito;
 import br.com.devrdgao.controleloja.models.formapagamento.Debito;
 import br.com.devrdgao.controleloja.models.formapagamento.Dinheiro;
+=======
+import br.com.devrdgao.controleloja.models.formapagamento.ColetaFormasPagamento;
+
+>>>>>>> 646df419dc62f550a431b1dd2f01a60ce08cf1b2
 
 
 @Entity
@@ -39,11 +44,19 @@ public class Pedido extends CupomNF {
 		this.valoritem = valoritem;
 		this.precoitem = precoitem;
 		super.datacnf = data;
+<<<<<<< HEAD
 		super.totalcnf = valortotal.subtract(dh.getDesconto());
 		super.tipopagamentocnf = dh.getDinheiro()
 							    .concat(db.getDebito())
 							    .concat(cd.getCredito()); 
 		super.trococnf = dh.getValortroco();
+=======
+		super.totalcnf = valortotal;
+		super.tipopagamentocnf = pagamento.getDinheiro()
+							    .concat(pagamento.getDebito())
+							    .concat(pagamento.getCredito()); 
+		super.trococnf = pagamento.getTroco();
+>>>>>>> 646df419dc62f550a431b1dd2f01a60ce08cf1b2
 		
 	}
 		
