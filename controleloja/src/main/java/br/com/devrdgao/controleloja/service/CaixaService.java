@@ -204,15 +204,15 @@ public class CaixaService {
 		LocalDateTime datahora = LocalDateTime.now();
       		
 	  if(!itenspedido.isEmpty()) {
-		  
+
 		Dinheiro dinheiro = new Dinheiro(fpagamento.getDinheiro(), fpagamento.getValorrecebido(), fpagamento.getTroco(), 
 										 fpagamento.getDesconto(), valortotal);
 		Debito debito = new Debito(fpagamento.getDebito(), fpagamento.getDesconto(), valortotal); 
 		Credito credito = new Credito(fpagamento.getCredito(), fpagamento.getParcela(), fpagamento.getValorparcela(), 
 									  fpagamento.getDesconto(), valortotal);
-		
+
+
 	    List<Pedido> pedidos = new ArrayList<Pedido>();
-	    
 	    estoqueservice.controleQuantEstoque(itenspedido, mvcx);
 	    
 	    fluxoValorCaixa(dinheiro.getValortroco());
@@ -220,7 +220,7 @@ public class CaixaService {
 	    itenspedido.forEach(i -> { 
 	    	   
 	      Pedido pedido = new Pedido(i.getCodigoitem(), i.getDescricao(), i.getQuantidade(), i.getValoritem(), i.getPrecovenda(), 
-	    		  					datahora, valortotal, dinheiro, debito, credito);  
+	    		  		datahora, valortotal, fpagamento);  
 		  pedidos.add(pedido); 	  
 		 			  		  	  
 	    });
@@ -228,6 +228,7 @@ public class CaixaService {
 	    usuario = usuariorepo.findByLogin(sessaousuario);
 	   	    
 		pedidorepo.saveAll(pedidos); 
+
 		Venda venda = new Venda(datahora.withSecond(0).withNano(0), dinheiro, debito, credito, descontos, valortotal, pedidos, usuario);
 				
 		vendarepo.save(venda);
