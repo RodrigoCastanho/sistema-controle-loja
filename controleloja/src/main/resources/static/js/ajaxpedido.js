@@ -41,9 +41,13 @@
 
   formaPagamento(); //Função usada para controlar acesso as forma de pagamento no click dos botões.
   pagamentoDinheiro();//Função que calcula o Troco da forma de pagamento em Dinheiro.
+  //pagamentoDebito();//Função da forma de pagamento Débito.
   pagamentoCredito();//Função que calcula quantidade de parcelas de uma compra, forma de pagamento Crédito.
+  exibirValorAberturaCaixa();
+  exibeDescontoValorTotal();
+
    
-  function formaPagamento(){
+  function formaPagamento(){    
 
       $('#pagdinheiro').click(function() {
         $('.dinheiro').toggle(100);
@@ -82,10 +86,9 @@
 
   function pagamentoDinheiro(){
 
-      
-      $('input#valReb').on('keyup',function(){
+	  
+      $('#valReb').on('keyup',function() {
            
-
            var valorrecebido = $("#valReb").val().replace(".","").replace(",",".");
             
            var valorvenda = $("#valVenda").html().replace(".","").replace(",",".");
@@ -96,15 +99,18 @@
         	   
         	   $("#valTro").val(valortroco.toFixed(2).replace(".",",").replace("-",""));
         	   
-           } else { 
-        	   
+           } else {
         	   $("#valTro").val("");
-           }     
+           }
+           
 
       });
-
+                   
   }
-
+  
+  //Funçao pode ser utilizada futuramente.
+  //function pagamentoDebito() {}
+  
   function pagamentoCredito(){
 
    $('.nparcelas').change(function(){
@@ -119,13 +125,33 @@
 
     });
   }
+   
+  function exibeDescontoValorTotal() {
+     
+      $('#descValorTotal').on('keyup',function() { 
+        
+          var valorvenda = $("#valVenda").html().replace(".","").replace(",",".");                
+          var porcentagem = (valorvenda * (parseFloat($("#descValorTotal").val()/100)));
+          
+        if($('#descValorTotal').val() != "") {
+          
+          $('.resultdesc').html("R$:" +(valorvenda - porcentagem).toFixed(2).replace(".",",").replace("-","")); 
+          
+        } else {
+        
+          $('.resultdesc').html("");   
+          
+        }
+          
+      });
+
+  }
 
   var usuario = $('.usuario').html();
   $('.sessao').val(usuario); 
 
-  exibirValorAberturaCaixa();
    
-  function exibirValorAberturaCaixa(){
+  function exibirValorAberturaCaixa() {
           
 
       $('.btiniciar').click(function(){
@@ -159,6 +185,4 @@
 
       });
       
-   
-  
   }

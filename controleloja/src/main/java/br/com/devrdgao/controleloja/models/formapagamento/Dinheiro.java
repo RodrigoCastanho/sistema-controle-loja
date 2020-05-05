@@ -16,16 +16,13 @@ public class Dinheiro extends Pagamento {
 		super(); 
 	}
 	
-	public Dinheiro(String dinheiro, BigDecimal valorrecebido, BigDecimal valortroco, 
-					String desconto, BigDecimal totalpago) {
+	public Dinheiro(String dinheiro, BigDecimal valorrecebido, BigDecimal valortroco, BigDecimal totalpago) {
 		
 		if(dinheiro.equals("Dinheiro")) {
 			
 			this.dinheiro = dinheiro;
 			this.valorrecebido = valorrecebido;
 			this.valortroco = valortroco;
-			desconto(desconto,totalpago);
-			//super.totalpago = totalpago;
 						
 		} else {
 			
@@ -57,20 +54,6 @@ public class Dinheiro extends Pagamento {
 
 	public void setDinheiro(String dinheiro) {
 		this.dinheiro = dinheiro;
-	}
-
-	@Override
-	protected BigDecimal desconto(String desconto, BigDecimal totalpago) {
-		
-	  if(desconto != "") {
-		  
-		  BigDecimal totaldesc = new BigDecimal("0.00");
-          BigDecimal porcentagem = (new BigDecimal(desconto)).divide(new BigDecimal(100));	
-          totaldesc = totalpago.multiply(porcentagem).setScale(2, RoundingMode.DOWN); 
-		  return super.desconto = totaldesc;
-	  }
-	  return super.desconto = new BigDecimal("0.00");  
-	  	
 	}
 		
 }

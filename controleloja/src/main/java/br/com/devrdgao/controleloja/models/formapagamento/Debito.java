@@ -1,6 +1,7 @@
 package br.com.devrdgao.controleloja.models.formapagamento;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import javax.persistence.Embeddable;
 
@@ -13,35 +14,25 @@ public class Debito extends Pagamento{
 		super();	
 	}
 
-	public Debito(String debito, String desconto, BigDecimal totalpago) {
+	public Debito(String debito, BigDecimal totalpago) {
 				
 		if(debito.equals("Débito")) {	
-		
-		  //this.desconto = desconto;
-	      this.totalpago = totalpago;
+			
 		  this.debito = debito;
 		  
-		}else {
+		} else {
 		  	
-		  //this.desconto = new BigDecimal("0.00");
-		  this.totalpago = new BigDecimal("0.00");
+		  super.totalpago = new BigDecimal("0.00");
 		  this.debito = "";	
 			
-		}
-	
-	}
+		} 
+	} 
 
-	public String getDebito() {
+	public String getDebito() { 
 		return debito;
-	}
+	} 
 	public void setDebito(String debito) {
 		this.debito = debito;
 	}
-	
-	@Override
-	protected BigDecimal desconto(String desconto, BigDecimal totalpago) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+	 	
 }

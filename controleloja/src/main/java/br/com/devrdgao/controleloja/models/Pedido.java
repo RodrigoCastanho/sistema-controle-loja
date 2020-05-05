@@ -38,13 +38,15 @@ public class Pedido extends CupomNF {
 		this.quantidade = quantidade;
 		this.valoritem = valoritem;
 		this.precoitem = precoitem;
-		super.datacnf = data;
-		super.totalcnf = valortotal.subtract(dh.getDesconto());
+		super.datacnf = data;					
+		super.totalcnf = valortotal;	
 		super.tipopagamentocnf = dh.getDinheiro()
 							    .concat(db.getDebito())
 							    .concat(cd.getCredito()); 
 		super.trococnf = dh.getValortroco();
 
+	}
+	
 	public Long getCodigopedido() {
 		return codigopedido;
 	}
@@ -116,6 +118,5 @@ public class Pedido extends CupomNF {
 		DecimalFormat df = new DecimalFormat("#,##0.00"); 
 		return df.format(super.trococnf);
 	}
-	
-		
+			
 }

@@ -7,6 +7,7 @@ public abstract class Pagamento {
 	 protected BigDecimal desconto;
 	 protected BigDecimal totalpago;
 	 
+	 
 	public BigDecimal getDesconto() {
 		return desconto;
 	}
@@ -19,7 +20,5 @@ public abstract class Pagamento {
 	public void setTotalpago(BigDecimal totalpago) {
 		this.totalpago = totalpago;
 	}
-	
-	protected abstract BigDecimal desconto(String desconto, BigDecimal totalpago);
-	
+		
 }

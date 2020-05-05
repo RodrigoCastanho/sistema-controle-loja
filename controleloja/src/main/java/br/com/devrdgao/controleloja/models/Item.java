@@ -3,6 +3,7 @@ package br.com.devrdgao.controleloja.models;
 import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -12,30 +13,25 @@ public class Item {
 	
 	@Id
 	@NotBlank(message="Insira um Código")
-	private String codigoitem;
-	
+	private String codigoitem;	
 	@NotBlank(message="Insira uma Descrição")
-	private String descricao;
-	
+	private String descricao;	
 	private BigDecimal precovenda;
-	private BigDecimal valoritem;
-	
+	private BigDecimal valoritem;	
+	@Transient
+	private BigDecimal obterdesconto;
 	@NotNull(message="Insira quantidade de itens?")
 	private Integer quantidade;
-	
 	@NotNull(message="Insira quantidade de itens em estoque")
 	private Integer quantminima;
-	
 	@NotNull(message="Escolha categoria do item")
 	private String categoria;
 		
-	
 	public Item() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-
 	public String getCodigoitem() {
 		return codigoitem;
 	}
@@ -64,6 +60,15 @@ public class Item {
 		return valoritem;
 	}
 	
+	public BigDecimal getObterdesconto() {
+		return obterdesconto;
+	}
+
+
+	public void setObterdesconto(BigDecimal obterdesconto) {
+		this.obterdesconto = obterdesconto;
+	}
+
 	public void setValoritem(BigDecimal valoritem) {
 		this.valoritem = valoritem;
 	}
@@ -91,8 +96,4 @@ public class Item {
 	public void setCategoria(String categoria) {
 		this.categoria = categoria;
 	}
-
-	
-	
-
 }

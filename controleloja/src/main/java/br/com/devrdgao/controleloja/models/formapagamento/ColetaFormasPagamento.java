@@ -60,6 +60,5 @@ public class ColetaFormasPagamento {
 	}
 	public void setDesconto(String desconto) {
 		this.desconto = desconto;
-	}
-	
+	}	
 }

@@ -15,13 +15,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class Usuario implements UserDetails {
 	
 	@Id
+	private Integer idusuario;
 	private String login;
 	private String nome;
 	private String senha;
 	
 	@ManyToMany
 	@JoinTable(name="usuario_acesso", 
-	   joinColumns = @JoinColumn(name = "id_usuario", referencedColumnName = "login"),
+	   joinColumns = @JoinColumn(name = "id_usuario", referencedColumnName = "idusuario"),
 	   inverseJoinColumns = @JoinColumn(name = "id_acesso", referencedColumnName= "tipoAcesso"))	
 	private Collection<RegrasAcesso> regrasAcesso;
 		

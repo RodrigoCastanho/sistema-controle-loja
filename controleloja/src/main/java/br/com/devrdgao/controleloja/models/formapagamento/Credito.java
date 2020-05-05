@@ -15,14 +15,13 @@ public class Credito extends Pagamento {
 		super();
 	}
 	
-	public Credito(String credito, Integer parcelas, BigDecimal valorparcelado, String desconto, BigDecimal totalpago) {
+	public Credito(String credito, Integer parcelas, BigDecimal valorparcelado, BigDecimal totalpago) {
 				
 	  if(credito.equals("Crédito")) {
 		    
 		  this.credito = credito; 
 		  this.valorparcelado = valorparcelado;	
 		  this.parcelas = parcelas;
-		  //this.desconto = desconto;
 		  this.totalpago = totalpago;
  
 	  }else {
@@ -30,7 +29,6 @@ public class Credito extends Pagamento {
 		  this.credito = "";
 		  this.valorparcelado = new BigDecimal("0.00");	
 		  this.parcelas = 0;
-		  //this.desconto = new BigDecimal("0.00");
 		  this.totalpago = new BigDecimal("0.00");	
 	  
 	  }
@@ -60,13 +58,5 @@ public class Credito extends Pagamento {
 	public void setCredito(String credito) {
 		this.credito = credito;
 	}
-
-	@Override
-	protected BigDecimal desconto(String desconto, BigDecimal totalpago) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 
 }

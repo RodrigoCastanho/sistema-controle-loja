@@ -59,8 +59,8 @@ public class Venda {
 		this.formpagdinheiro = formpagdinheiro;
 		this.formpagdebito = formpagdebito;
 		this.formpagcredito = formpagcredito;
-		this.desconto = desconto.add(formpagdinheiro.getDesconto());
-		this.valorvenda = valorvenda.subtract(formpagdinheiro.getDesconto());
+		this.desconto = desconto;
+		this.valorvenda = valorvenda;
 		this.pedidos = pedidos;
 		this.usuario = usuario;
 		
@@ -136,7 +136,5 @@ public class Venda {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	
-	
-	
+		
 }

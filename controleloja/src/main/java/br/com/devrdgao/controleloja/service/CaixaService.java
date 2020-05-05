@@ -68,7 +68,7 @@ public class CaixaService {
 	private CaixaAbertura cxabertura = new CaixaAbertura();
 	
 	public void calculoValoresItem(List<Item> item, ModelAndView mv, String quantidade, BigDecimal desconto, String descontop) {
-			
+		
 		try { 
 		   
 		   BigDecimal precoitem = item.iterator().next().getPrecovenda();
@@ -79,16 +79,17 @@ public class CaixaService {
 
 		   totalitem = precoitem.multiply(quantitem);
 		   porcentagem = (new BigDecimal(descontop)).divide(new BigDecimal(100));
-		   descporcent = totalitem.multiply(porcentagem).setScale(2, RoundingMode.DOWN); 
+		   descporcent = totalitem.multiply(porcentagem).setScale(2, RoundingMode.HALF_EVEN); 
 		   descontoreal = desconto;
 
 		   descontos = descontos.add(descporcent).add(descontoreal);
            	   
-		   valortotalitem = totalitem.subtract(descporcent).subtract(desconto);
+		   valortotalitem = totalitem.subtract(descporcent).subtract(descontoreal);
 		   
 		   item.iterator().next().setValoritem(precoitem);
 		   item.iterator().next().setPrecovenda(valortotalitem);
 		   item.iterator().next().setQuantidade(Integer.valueOf(quantidade));
+		   item.iterator().next().setObterdesconto(descporcent.add(descontoreal));
 		                
            valortotal = valortotal.add(valortotalitem);
            		   
@@ -137,6 +138,7 @@ public class CaixaService {
 			if(codigoitem.equals(itenspedido.get(p).getCodigoitem())) {
 					 
 				 valortotal = valortotal.subtract(itenspedido.get(p).getPrecovenda());
+				 descontos = descontos.subtract(itenspedido.get(p).getObterdesconto()); 
 				 
 				 itenspedido.get(p).setPrecovenda(valortotal);
 				 
@@ -198,6 +200,22 @@ public class CaixaService {
 		}
 				
 	}  
+	
+	protected BigDecimal descontoValorTotal(String desconto) {
+		
+      BigDecimal totaldesconto = new BigDecimal("0.00");
+		
+		if(desconto != "") {
+			  
+          BigDecimal porcentagem = (new BigDecimal(desconto)).divide(new BigDecimal(100));	
+          totaldesconto = valortotal.multiply(porcentagem).setScale(2, RoundingMode.HALF_EVEN); 
+          descontos = descontos.add(totaldesconto);
+		  return totaldesconto;
+		  
+		}
+		return totaldesconto; 
+		
+	}
 				
 	public void concluirCompra(ColetaFormasPagamento fpagamento, ModelAndView mvcx, String sessaousuario) {
 		
@@ -205,13 +223,12 @@ public class CaixaService {
       		
 	  if(!itenspedido.isEmpty()) {
 
-		Dinheiro dinheiro = new Dinheiro(fpagamento.getDinheiro(), fpagamento.getValorrecebido(), fpagamento.getTroco(), 
-										 fpagamento.getDesconto(), valortotal);
-		Debito debito = new Debito(fpagamento.getDebito(), fpagamento.getDesconto(), valortotal); 
-		Credito credito = new Credito(fpagamento.getCredito(), fpagamento.getParcela(), fpagamento.getValorparcela(), 
-									  fpagamento.getDesconto(), valortotal);
-
-
+		Dinheiro dinheiro = new Dinheiro(fpagamento.getDinheiro(), fpagamento.getValorrecebido(), fpagamento.getTroco(), valortotal);
+		Debito debito = new Debito(fpagamento.getDebito(), valortotal); 
+		Credito credito = new Credito(fpagamento.getCredito(), fpagamento.getParcela(), fpagamento.getValorparcela(), valortotal);
+		
+		valortotal = valortotal.subtract(descontoValorTotal(fpagamento.getDesconto()));
+		
 	    List<Pedido> pedidos = new ArrayList<Pedido>();
 	    estoqueservice.controleQuantEstoque(itenspedido, mvcx);
 	    
@@ -220,9 +237,9 @@ public class CaixaService {
 	    itenspedido.forEach(i -> { 
 	    	   
 	      Pedido pedido = new Pedido(i.getCodigoitem(), i.getDescricao(), i.getQuantidade(), i.getValoritem(), i.getPrecovenda(), 
-	    		  		datahora, valortotal, fpagamento);  
+	    		  		             datahora, valortotal, dinheiro, debito, credito);  
 		  pedidos.add(pedido); 	  
-		 			  		  	  
+
 	    });
 	    	    
 	    usuario = usuariorepo.findByLogin(sessaousuario);
@@ -240,6 +257,7 @@ public class CaixaService {
         itenspedido.clear();
         valortotal = new BigDecimal("0.00");
         descontos = new BigDecimal("0.00");
+       
         
 	  } else { 
 		  
@@ -248,6 +266,5 @@ public class CaixaService {
 				  
 	  }  
              			
-	}
-			
+	}			
 }
