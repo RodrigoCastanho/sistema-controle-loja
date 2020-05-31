@@ -3,6 +3,8 @@ package br.com.devrdgao.controleloja.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.com.devrdgao.controleloja.models.CaixaAbertura;
@@ -28,7 +30,7 @@ public class VendaService {
 	@Autowired
 	private ImpressaoService impressaoservice;
 		
-	public List<Pedido> exibirPedidoVenda(Long codigovenda, boolean imprimir) {
+	public List<Pedido> exibirPedidoVenda(Long codigovenda, boolean imprimir, HttpServletResponse response) {
 	   
 	   List<Pedido> vendaspedido = new ArrayList<Pedido>();			
 		               
@@ -51,7 +53,7 @@ public class VendaService {
     		     		  
     	  }); 
     	  
-    	  impressaoservice.impremirPedidos(vendaspedido);
+    	  //impressaoservice.impremirPedidos(vendaspedido, response);
     	   
        }
                

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -125,13 +127,14 @@ public class CaixaController {
 	}
 
 	@PostMapping("/concluircompra")
-	public ModelAndView concluirCompra(@ModelAttribute("ColetaFormasPagamento") ColetaFormasPagamento formaspagamento, 
+	public ModelAndView concluirCompra(@ModelAttribute("ColetaFormasPagamento") ColetaFormasPagamento formaspagamento,
+										HttpServletResponse response,
 			                           @RequestParam(value = "sessaousuario") String sessaousuario) {
-
+		
 		ModelAndView mvcx = new ModelAndView("index");
-
-		caixaservice.concluirCompra(formaspagamento, mvcx, sessaousuario);
-
+		
+		caixaservice.concluirCompra(formaspagamento, mvcx, response, sessaousuario);
+		
 		return mvcx;
 	}
 

@@ -3,6 +3,8 @@ package br.com.devrdgao.controleloja.service;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,68 +17,64 @@ import br.com.devrdgao.controleloja.repository.ItemRepository;
 
 @Service
 public class EstoqueService {
-	
+
 	@Autowired
 	private FornecedorRepository fornecedorrepo;
-	
+
 	@Autowired
 	private ItemRepository itemrepo;
-	
+
 	private List<Item> itens = new ArrayList<Item>();
 
-	public void controleQuantEstoque(List<Item> itenspedido, ModelAndView mvcx) {
-		
-	    List<String> iditens = new ArrayList<String>();
-					
-		for(Item itid: itenspedido) { 
-			iditens.add(itid.getCodigoitem()); 
-		}
+	public void controleQuantEstoque(List<Item> itpedido, ModelAndView mv) {
 
-		itens = itemrepo.findAllById(iditens);
+		List<Item> calculoestoque = new ArrayList<Item>();
 
-	    for(Item it: itens) {
-	      for(Item itp: itenspedido) {		 
-	    	if(it.getCodigoitem().equals(itp.getCodigoitem())) {
-	    	   it.setQuantidade(it.getQuantidade()-itp.getQuantidade());
-	    	   itemrepo.saveAll(itens);
-	    	      
-	    	}
-	      }	
-	      
-	        if(it.getQuantidade() <= it.getQuantminima()) {	
-			  mvcx.addObject("notificacao", "Itens em falta no estoque!");
-			  mvcx.addObject("itensfalta", itens);
-			  
-		    }	  
-	     }
-	       
+		Optional<Item> item = itemrepo.findById(itpedido.iterator().next().getCodigoitem());
+
+		calculoestoque.add(item.filter(itestoque -> itestoque.getCodigoitem().equals(itpedido.iterator().next().getCodigoitem())).get());
+		calculoestoque.forEach(itestoque -> {
+			itestoque.setQuantidade(itestoque.getQuantidade() - itpedido.iterator().next().getQuantidade());
+			itens.add(itestoque);
+			itemrepo.saveAll(calculoestoque);
+
+			itens.forEach(itstoque -> {
+				if (itstoque.getQuantidade() <= itstoque.getQuantminima()) {
+					mv.addObject("notificacao", "Itens em falta no estoque!");
+					mv.addObject("itensfalta", itens.stream().filter(it -> it.getQuantidade() <= it.getQuantminima())
+							.collect(Collectors.toList()));
+				}
+			});
+		});
+
 	}
 	
+	public void limparItensListNotificaoEstoque() {
+		   itens.clear();	
+	}
+
 	public void deletarItemEstoque(String codigoitem) {
-				
-		Iterable<Fornecedor> fornecedor = fornecedorrepo.findAll(); 
-  		
+
+		Iterable<Fornecedor> fornecedor = fornecedorrepo.findAll();
+		
 		fornecedor.forEach(listitem -> {
-						 
-		  try {
-			  
-			   listitem.getItens().forEach(itens -> {
-				
-			   listitem.getItens().removeIf(codigo -> codigoitem.equals(itens.getCodigoitem()));   	 
-				                
-			 });
-			 
-		     }catch (ConcurrentModificationException e) {
-		    	 
-		    	  System.out.println(" Erro " + e); 
-		    	  	 
-			} 
+			try {
+
+				listitem.getItens().forEach(itens -> {
+
+					listitem.getItens().removeIf(codigo -> codigoitem.equals(itens.getCodigoitem()));
+				});
+
+			} catch (ConcurrentModificationException e) {
+				System.out.println(" Erro " + e);
+
+			}
 
 		});
-		
+
 		fornecedorrepo.saveAll(fornecedor);
 		itemrepo.deleteById(codigoitem);
-			
-	}	
-	
+
+	}
+
 }

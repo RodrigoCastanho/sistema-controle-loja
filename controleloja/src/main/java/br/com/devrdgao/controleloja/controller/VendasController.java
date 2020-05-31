@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -53,11 +55,12 @@ public class VendasController {
 	
 	@GetMapping("itensvenda") 
 	public ModelAndView itensVenda(@RequestParam(value="codigovenda") Long codigovenda,
+			                       HttpServletResponse response,
 								   @RequestParam(value="imprimir") boolean imprimir) {
 			
 	    ModelAndView mvvd = new ModelAndView("vendatabelaitens");
     
-		mvvd.addObject("vendaspedido", vendaservice.exibirPedidoVenda(codigovenda, imprimir));
+		mvvd.addObject("vendaspedido", vendaservice.exibirPedidoVenda(codigovenda, imprimir, response));
         
 	    return mvvd;
 			  

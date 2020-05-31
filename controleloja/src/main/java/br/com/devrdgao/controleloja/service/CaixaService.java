@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,7 +29,6 @@ import br.com.devrdgao.controleloja.repository.PedidoRepository;
 import br.com.devrdgao.controleloja.repository.SaqueCaixaRepository;
 import br.com.devrdgao.controleloja.repository.UsuarioRepository;
 import br.com.devrdgao.controleloja.repository.VendaRepository;
-import net.bytebuddy.implementation.bytecode.Throw;
 
    
 @Service
@@ -94,6 +95,8 @@ public class CaixaService {
            valortotal = valortotal.add(valortotalitem);
            		   
 		   itenspedido.addAll(item);
+		   estoqueservice.controleQuantEstoque(item, mv);
+		   
 		   		   
 		   mv.addObject("listapedido", itenspedido);
 		   mv.addObject("total",valortotal);
@@ -191,7 +194,7 @@ public class CaixaService {
 				
 		if(!troco.equals(new BigDecimal("0.00"))) {
 				
-			 new Thread(() ->{	
+			 new Thread(() -> {	
 				     cxabertura = vendaservice.buscaAberturaValorCaixa();   
 				 	 cxabertura.calculoValorFechamento(troco); 
 					 caixaberturarepo.save(cxabertura);
@@ -217,7 +220,7 @@ public class CaixaService {
 		
 	}
 				
-	public void concluirCompra(ColetaFormasPagamento fpagamento, ModelAndView mvcx, String sessaousuario) {
+	public void concluirCompra(ColetaFormasPagamento fpagamento, ModelAndView mvcx, HttpServletResponse response, String sessaousuario) {
 		
 		LocalDateTime datahora = LocalDateTime.now();
       		
@@ -230,7 +233,7 @@ public class CaixaService {
 		valortotal = valortotal.subtract(descontoValorTotal(fpagamento.getDesconto()));
 		
 	    List<Pedido> pedidos = new ArrayList<Pedido>();
-	    estoqueservice.controleQuantEstoque(itenspedido, mvcx);
+	    //estoqueservice.controleQuantEstoque(itenspedido, mvcx);
 	    
 	    fluxoValorCaixa(dinheiro.getValortroco());
 	    
@@ -252,17 +255,16 @@ public class CaixaService {
 		
 		pedidos.iterator().next().setCodigovendacnf(venda.getCodigovenda());
 						
-		impressaoservice.impremirPedidos(pedidos);
-								
+		impressaoservice.impremirPedidos(pedidos, response);
+											
         itenspedido.clear();
+        estoqueservice.limparItensListNotificaoEstoque();
         valortotal = new BigDecimal("0.00");
         descontos = new BigDecimal("0.00");
        
         
-	  } else { 
-		  
-		System.out.println("Não tem pedidos...");
-		
+	  } else { 		  
+		System.out.println("Não tem pedidos...");	
 				  
 	  }  
              			
