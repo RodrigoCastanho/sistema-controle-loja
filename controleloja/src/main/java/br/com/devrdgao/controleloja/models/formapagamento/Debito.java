@@ -1,7 +1,6 @@
 package br.com.devrdgao.controleloja.models.formapagamento;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 import javax.persistence.Embeddable;
 

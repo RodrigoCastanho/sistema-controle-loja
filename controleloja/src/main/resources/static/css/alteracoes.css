@@ -27,5 +27,14 @@ Materialize*/
   top: 96px;
 }
 
+/*Posição do botao print da Tela Vendas dentro do modal dos item*/
+.posicao-botao-print {
+	position: absolute;
+	left: 160px;
+	bottom: 0px;
+	top: 152px;
+		
+}
+
 
 

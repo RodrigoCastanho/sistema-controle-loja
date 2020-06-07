@@ -30,48 +30,51 @@ public class VendaService {
 	@Autowired
 	private ImpressaoService impressaoservice;
 		
-	public List<Pedido> exibirPedidoVenda(Long codigovenda, boolean imprimir, HttpServletResponse response) {
+	public List<Pedido> exibirPedidoVenda(Long codigovenda) {
 	   
 	   List<Pedido> vendaspedido = new ArrayList<Pedido>();			
 		               
        Iterable<Venda> venda = vendarepo.buscarVendas(codigovenda); 
              
        venda.forEach(itenvenda -> itenvenda.getPedidos().forEach(pedido -> vendaspedido.add(pedido)));
-       
-       if(imprimir) {
-    	   
-    	  venda.forEach(v -> {         		          
-    		  vendaspedido.forEach(vp -> {vp.setDatacnf(v.getData()); 
-    		  							  vp.setCodigovendacnf(v.getCodigovenda());		
-    			  	                      vp.setTipopagamentocnf(v.getFormpagdinheiro().getDinheiro()
-    			  	                    		  				  .concat(v.getFormpagdebito().getDebito())
-    			  	                    		  				  .concat(v.getFormpagcredito().getCredito()));     		  				  
-    			  	                      vp.setTrococnf(v.getFormpagdinheiro().getValortroco());
-    			  	                      vp.setTotalcnf(v.getValorvenda());
-    			  
-    		  });
-    		     		  
-    	  }); 
-    	  
-    	  //impressaoservice.impremirPedidos(vendaspedido, response);
-    	   
-       }
-               
-	   return vendaspedido; 	
-	  
+          
+	   return vendaspedido; 	  
+	}
+	
+	public void imprimePedidoVenda(Long codigovendaimp, HttpServletResponse response) {
+		
+		List<Pedido> vendaspedido = new ArrayList<Pedido>();
+		
+		Iterable<Venda> venda = vendarepo.buscarVendas(codigovendaimp);
+		
+		venda.forEach(itenvenda -> itenvenda.getPedidos().forEach(pedido -> vendaspedido.add(pedido)));
+		
+		 venda.forEach(v -> {         		          
+   		  vendaspedido.forEach(vp -> {vp.setDatacnf(v.getData()); 
+   		  							  vp.setCodigovendacnf(v.getCodigovenda());		
+   			  	                      vp.setTipopagamentocnf(v.getFormpagdinheiro().getDinheiro()
+   			  	                    		  				  .concat(v.getFormpagdebito().getDebito())
+   			  	                    		  				  .concat(v.getFormpagcredito().getCredito()));     		  				  
+   			  	                      vp.setTrococnf(v.getFormpagdinheiro().getValortroco());
+   			  	                      vp.setTotalcnf(v.getValorvenda());
+   			  
+   		  });
+   		     		  
+   	  }); 
+		impressaoservice.impremirPedidos(vendaspedido, response);	
 	}
 	
 	public CaixaAbertura buscaAberturaValorCaixa() {
 		
-		    List<CaixaAbertura> cxAbertura = caixaberturarepo.findAll();
-	        	   
-				if(!cxAbertura.isEmpty()) {	      
-			    	  
-			    	  return cxAbertura.get(cxAbertura.size()-1); 		    	  
-			    
-		        } 
-			   		  	   
-		        return null;
+	    List<CaixaAbertura> cxAbertura = caixaberturarepo.findAll();
+	    	   
+			if(!cxAbertura.isEmpty()) {	      
+		    	  
+		    	  return cxAbertura.get(cxAbertura.size()-1); 		    	  
+		    
+	        } 
+		   		  	   
+	        return null;
 
 	}
 				

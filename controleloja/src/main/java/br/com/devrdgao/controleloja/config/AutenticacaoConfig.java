@@ -20,11 +20,12 @@ public class AutenticacaoConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception  {
+		 http.sessionManagement().maximumSessions(300);
 		 http.authorizeRequests()
 		 		.anyRequest()
 		 		.authenticated()
 		    .and()
-		       .exceptionHandling().accessDeniedPage("/index")
+		       .exceptionHandling().accessDeniedPage("/caixa")
 		    .and()         
 		    .formLogin()
 		    	.loginPage("/acessar")

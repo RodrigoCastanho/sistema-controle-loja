@@ -22,35 +22,46 @@ public class EstoqueService {
 	private FornecedorRepository fornecedorrepo;
 
 	@Autowired
-	private ItemRepository itemrepo;
+	private ItemRepository itemrepo, itemrepo1;
 
 	private List<Item> itens = new ArrayList<Item>();
 
-	public void controleQuantEstoque(List<Item> itpedido, ModelAndView mv) {
+	public void controleQuantEstoque(List<Item> itenspedido, ModelAndView mv) {
 
 		List<Item> calculoestoque = new ArrayList<Item>();
+		
+		Optional<Item> item = itemrepo.findById(itenspedido.iterator().next().getCodigoitem());
 
-		Optional<Item> item = itemrepo.findById(itpedido.iterator().next().getCodigoitem());
-
-		calculoestoque.add(item.filter(itestoque -> itestoque.getCodigoitem().equals(itpedido.iterator().next().getCodigoitem())).get());
-		calculoestoque.forEach(itestoque -> {
-			itestoque.setQuantidade(itestoque.getQuantidade() - itpedido.iterator().next().getQuantidade());
-			itens.add(itestoque);
-			itemrepo.saveAll(calculoestoque);
-
-			itens.forEach(itstoque -> {
-				if (itstoque.getQuantidade() <= itstoque.getQuantminima()) {
+		calculoestoque.add(item.filter(ite -> ite.getCodigoitem().equals(itenspedido.iterator().next().getCodigoitem())).get());
+		calculoestoque.forEach(ite -> { 
+				ite.setQuantidade(ite.getQuantidade()-itenspedido.iterator().next().getQuantidade());
+				itens.add(ite);
+				itemrepo.saveAll(calculoestoque);
+				itens.forEach(its -> {
+				if (its.getQuantidade() <= its.getQuantminima()) {
 					mv.addObject("notificacao", "Itens em falta no estoque!");
 					mv.addObject("itensfalta", itens.stream().filter(it -> it.getQuantidade() <= it.getQuantminima())
-							.collect(Collectors.toList()));
+							                                 .collect(Collectors.toList()));
 				}
 			});
 		});
-
 	}
 	
+	public void controleQuantEstoqueReporQuantItem(String codigoitem, Integer quantidade) {
+		 		
+		if((codigoitem != null) && (!codigoitem.isEmpty()) && (quantidade != null)) {       
+		   for(Item it:itens) { 
+		     if (codigoitem.equals(it.getCodigoitem())) {
+		    	    it.setQuantidade(it.getQuantidade()+quantidade); 
+		    	    itemrepo1.save(it); 
+		     }  
+			   
+		   } 	  	
+		}
+	}
+
 	public void limparItensListNotificaoEstoque() {
-		   itens.clear();	
+		   itens.clear();
 	}
 
 	public void deletarItemEstoque(String codigoitem) {
@@ -74,7 +85,5 @@ public class EstoqueService {
 
 		fornecedorrepo.saveAll(fornecedor);
 		itemrepo.deleteById(codigoitem);
-
 	}
-
 }

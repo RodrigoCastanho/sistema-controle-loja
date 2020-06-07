@@ -40,7 +40,7 @@ public class CaixaService {
 	private BigDecimal descontos = new BigDecimal("0.00");
 	private BigDecimal valortotal = new BigDecimal("0.00");
 	private int codigo = 0; /*<-Variavel usada para incrementar o valor do código a cada chamada do metodo "adicionarItemNãoCadastrado"
-	                         sempre ter um código com valor diferente caso usario insira mais itens desse porte. */
+	                         sempre ter um código com valor diferente caso usuario insira mais itens desse porte. */
 	@Autowired
 	private VendaRepository vendarepo;
 	
@@ -142,9 +142,8 @@ public class CaixaService {
 					 
 				 valortotal = valortotal.subtract(itenspedido.get(p).getPrecovenda());
 				 descontos = descontos.subtract(itenspedido.get(p).getObterdesconto()); 
-				 
-				 itenspedido.get(p).setPrecovenda(valortotal);
-				 
+				 estoqueservice.controleQuantEstoqueReporQuantItem(codigoitem, itenspedido.get(p).getQuantidade());
+				 itenspedido.get(p).setPrecovenda(valortotal);				 
 				 itenspedido.remove(p);
 				 				 			
 				 mv.addObject("listapedido", itenspedido);
@@ -152,7 +151,7 @@ public class CaixaService {
 				
 			}
 			 	
-		} 
+		}
 		 		
 	}
 	
@@ -233,7 +232,6 @@ public class CaixaService {
 		valortotal = valortotal.subtract(descontoValorTotal(fpagamento.getDesconto()));
 		
 	    List<Pedido> pedidos = new ArrayList<Pedido>();
-	    //estoqueservice.controleQuantEstoque(itenspedido, mvcx);
 	    
 	    fluxoValorCaixa(dinheiro.getValortroco());
 	    
@@ -261,8 +259,7 @@ public class CaixaService {
         estoqueservice.limparItensListNotificaoEstoque();
         valortotal = new BigDecimal("0.00");
         descontos = new BigDecimal("0.00");
-       
-        
+              
 	  } else { 		  
 		System.out.println("Não tem pedidos...");	
 				  

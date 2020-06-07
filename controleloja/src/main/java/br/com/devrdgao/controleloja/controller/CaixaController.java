@@ -20,13 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.devrdgao.controleloja.models.Item;
-import br.com.devrdgao.controleloja.models.Usuario;
 import br.com.devrdgao.controleloja.models.formapagamento.ColetaFormasPagamento;
 import br.com.devrdgao.controleloja.repository.ItemRepository;
-import br.com.devrdgao.controleloja.repository.UsuarioRepository;
 import br.com.devrdgao.controleloja.service.BigDecimalConverter;
 import br.com.devrdgao.controleloja.service.DataConverter;
-import br.com.devrdgao.controleloja.service.EstoqueService;
 import br.com.devrdgao.controleloja.service.CaixaService;
 
 @Controller
@@ -38,15 +35,12 @@ public class CaixaController {
 	@Autowired
 	private CaixaService caixaservice;
 
-	@Autowired
-	private EstoqueService estoqueservice;
-
 	private List<Item> itens = new ArrayList<Item>();
 
 	@GetMapping("/")
 	public ModelAndView caixa() {
 
-		ModelAndView mvcx = new ModelAndView("index");
+		ModelAndView mvcx = new ModelAndView("caixa");
 		return mvcx;
 
 	}
@@ -69,7 +63,7 @@ public class CaixaController {
 			                          @RequestParam(value="desc") BigDecimal desconto,
 			                          @RequestParam(value="descp") String descontop) {
 		        	   
-		       ModelAndView mvcx = new ModelAndView("index");
+		       ModelAndView mvcx = new ModelAndView("caixa");
        
 		       caixaservice.calculoValoresItem(itens, mvcx, quantidade, desconto, descontop);
 		       
@@ -82,7 +76,7 @@ public class CaixaController {
 												   @RequestParam(value="precoitem") BigDecimal preco) {
 	  
         			       
-		    ModelAndView mvcx = new ModelAndView("index");
+		    ModelAndView mvcx = new ModelAndView("caixa");
 		    
 		    caixaservice.adicionarItemNaoCadastrado(descricao, preco, mvcx);
             
@@ -93,7 +87,7 @@ public class CaixaController {
 	@GetMapping("{codigoitem}")
 	public ModelAndView deletarItem(@PathVariable(value="codigoitem") String codigoitem) {
 				   
-		   ModelAndView mvcx = new ModelAndView("index");
+		   ModelAndView mvcx = new ModelAndView("caixa");
 		    
 		   caixaservice.deletarItemLista(codigoitem, mvcx);
 		   
@@ -106,7 +100,7 @@ public class CaixaController {
 	public ModelAndView valorCaixa(@RequestParam(value = "valorinicial") BigDecimal valorinicial, 
 								   @RequestParam(value = "sessaousuario") String sessaousuario) {
 		
-		ModelAndView mvcx = new ModelAndView("index");
+		ModelAndView mvcx = new ModelAndView("caixa");
 		
 		caixaservice.aberturaCaixa(valorinicial, sessaousuario);
 				
@@ -119,7 +113,7 @@ public class CaixaController {
 			                          @RequestParam(value = "justificativa") String justificativa,
 			                          @RequestParam(value = "sessaousuario") String sessaousuario) {
 
-		ModelAndView mvcx = new ModelAndView("index");
+		ModelAndView mvcx = new ModelAndView("caixa");
 		
 		caixaservice.saqueValorCaixa(valorretirado, justificativa, sessaousuario);
 
@@ -131,7 +125,7 @@ public class CaixaController {
 										HttpServletResponse response,
 			                           @RequestParam(value = "sessaousuario") String sessaousuario) {
 		
-		ModelAndView mvcx = new ModelAndView("index");
+		ModelAndView mvcx = new ModelAndView("caixa");
 		
 		caixaservice.concluirCompra(formaspagamento, mvcx, response, sessaousuario);
 		

@@ -162,16 +162,19 @@
 				<div class="col s6">
 					<input id="codvenda" type="text" readonly="readonly"
 						name="codigovenda"> <label for="codvenda">COD.VENDA:</label>
-		
 				</div>
 
 				<button id="exibiritem" class="waves-effect waves-light btn deep-orange accent-2"
-					type="submit" title="Lista com os itens da venda">EXIBIR ITENS</button>
-					
-				<button id="imprimiritem" class="waves-effect waves-light btn deep-orange accent-2"
-					type="button" title="Imprimir cupom da venda efetuada"><i class="large material-icons">print</i>
-                </button>
-                			 
+					type="submit" title="Lista com os itens da venda">EXIBIR ITENS</button> 
+			</form>
+			
+			<form class="col s4" action="imprimevenda" method="get" target="_blank">   
+			     
+			     <input id="codvendaimp" type="hidden" name="codigovendaimp"> 
+			     
+				<button id="impitensvenda" class="waves-effect waves-light btn deep-orange accent-2 posicao-botao-print"
+					type="submit" title="Imprimir cupom da venda efetuada"><i class="large material-icons">print</i>
+                </button>      			
 			</form>
 		
 			<br />

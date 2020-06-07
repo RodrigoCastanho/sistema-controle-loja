@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import br.com.devrdgao.controleloja.models.formapagamento.Credito;
 import br.com.devrdgao.controleloja.models.formapagamento.Debito;
 import br.com.devrdgao.controleloja.models.formapagamento.Dinheiro;
-import br.com.devrdgao.controleloja.models.formapagamento.ColetaFormasPagamento;
 
 @Entity
 public class Pedido extends CupomNF {

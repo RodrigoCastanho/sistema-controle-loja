@@ -54,18 +54,25 @@ public class VendasController {
 	} 
 	
 	@GetMapping("itensvenda") 
-	public ModelAndView itensVenda(@RequestParam(value="codigovenda") Long codigovenda,
-			                       HttpServletResponse response,
-								   @RequestParam(value="imprimir") boolean imprimir) {
+	public ModelAndView itensVenda(@RequestParam(value="codigovenda") Long codigovenda) {
 			
 	    ModelAndView mvvd = new ModelAndView("vendatabelaitens");
     
-		mvvd.addObject("vendaspedido", vendaservice.exibirPedidoVenda(codigovenda, imprimir, response));
+		mvvd.addObject("vendaspedido", vendaservice.exibirPedidoVenda(codigovenda));
         
 	    return mvvd;
 			  
-	}    
-		
+	}  
+	
+	@GetMapping("imprimevenda")
+	public ModelAndView imprimeCupomVendaEfetuada(@RequestParam(value="codigovendaimp") Long codigovendaimp,
+			                                       HttpServletResponse response) {
+		   
+	   vendaservice.imprimePedidoVenda(codigovendaimp, response);
+	
+       return null;
+	}
+	
 	@GetMapping("/buscar")
 	public ModelAndView buscarAberturaCaixa() {
 		
@@ -108,7 +115,6 @@ public class VendasController {
         return mvvd;	
 		
 	}
-	
 			
 	@GetMapping("venda{codigovenda}")
 	public ModelAndView deletarVenda(@PathVariable(value="codigovenda") Long codigovenda) {

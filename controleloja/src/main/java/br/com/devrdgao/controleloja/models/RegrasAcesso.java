@@ -1,10 +1,8 @@
 package br.com.devrdgao.controleloja.models;
 
-import java.util.Collection;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 
 import org.springframework.security.core.GrantedAuthority;
 

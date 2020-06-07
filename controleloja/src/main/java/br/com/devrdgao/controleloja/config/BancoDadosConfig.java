@@ -1,40 +1,47 @@
 package br.com.devrdgao.controleloja.config;
 
-import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 
 @Configuration
 public class BancoDadosConfig {
 	
 	@Bean
-	public DataSource dataSource() {
+	public HikariDataSource dataSource() {
 		
-		DriverManagerDataSource ds = new DriverManagerDataSource();
-	    ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
-	    ds.setUrl("jdbc:mysql://localhost:3306/lojafran?useTimezone=true&serverTimezone=America/Sao_Paulo");
-		ds.setUsername("root");
-		ds.setPassword("test");
-		return ds;		
-		
+		HikariConfig hk = new HikariConfig();
+		hk.setJdbcUrl("jdbc:mysql://localhost:3306/lojafran?useTimezone=true&serverTimezone=America/Sao_Paulo");
+		hk.setUsername("root");
+		hk.setPassword("test");
+		hk.addDataSourceProperty("cachePrepStmts", "true");
+		hk.addDataSourceProperty("prepStmtCacheSize", "250");
+		hk.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+				
+        return new HikariDataSource(hk);			
 	}
-	/*@Bean
-	public DataSource dataSource() {
-		
-		DriverManagerDataSource ds = new DriverManagerDataSource();
-	    ds.setDriverClassName("com.mysql.jdbc.Driver");
-	    ds.setUrl("jdbc:mysql://localhost:3306/lojafran");
-		ds.setUsername("root");
-		ds.setPassword("test");
-		return ds;		
-		
-	}*/
 	
+	
+//	@Bean
+//	public DataSource dataSource() {
+//		
+//		
+//		DriverManagerDataSource ds = new DriverManagerDataSource();
+//	    ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
+//	    ds.setUrl("jdbc:mysql://localhost:3306/lojafran?useTimezone=true&serverTimezone=America/Sao_Paulo");
+//		ds.setUsername("root");
+//		ds.setPassword("test");
+//		return ds;		
+//		
+//	}
+
 	@Bean
 	public JpaVendorAdapter jpaVendorAdapter() {
 		 HibernateJpaVendorAdapter ad = new HibernateJpaVendorAdapter();

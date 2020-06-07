@@ -9,8 +9,7 @@ public class ControlelojaApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ControlelojaApplication.class, args);
-		System.out.println(" Senha Gerada " +new BCryptPasswordEncoder().encode("123"));
-		
+		System.out.println("-- SISTEMA INICIADO --");	
 	}
 
 }

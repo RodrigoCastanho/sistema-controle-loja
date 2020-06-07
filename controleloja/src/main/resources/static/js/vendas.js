@@ -20,10 +20,8 @@ $("#exibiritem").click(function(event){
   event.preventDefault();
 
   var codigovenda = $("#codvenda").val();
-  var imprimir = false;
   
- $.get("itensvenda",{"codigovenda": codigovenda,
-                      "imprimir": imprimir})
+ $.get("itensvenda",{"codigovenda": codigovenda })
 
  	   .done (function(result){ 
          $("#itemvenda").html(result);
@@ -32,21 +30,31 @@ $("#exibiritem").click(function(event){
            console.log("Erro ajax");
          }); 
 });
+      
+$("#impitensvenda").click(function(event) {
+       
+   $("#codvendaimp").val($("#codvenda").val());
+      
+}); 
 
-$("#imprimiritem").click(function(){
+
+
+
+
+// $("#imprimiritem").click(function(){
 	
-  var codigovenda = $("#codvenda").val();	
-  var imprimir = true;	
-  $.get("itensvenda",{"codigovenda": codigovenda, 
-	  				          "imprimir": imprimir})
+//   var codigovenda = $("#codvenda").val();	
+//   var imprimir = true;	
+//   $.get("itensvenda",{"codigovenda": codigovenda, 
+// 	  				          "imprimir": imprimir})
 
- 	  .done (function(result){ 
-        $("#itemvenda").html(result);
+//  	  .done (function(result){ 
+//         $("#itemvenda").html(result);
 		    
-     }).fail (function(result){
-         console.log("Erro ajax");
-        }); 		
-});
+//      }).fail (function(result){
+//          console.log("Erro ajax");
+//         }); 		
+// });
 
 
 
