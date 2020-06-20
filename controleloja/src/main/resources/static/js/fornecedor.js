@@ -78,7 +78,7 @@ $("#adicionaitem").click(function(event){
 
   $.ajax({
 
-        type : "POST",
+        type : "GET",
         url : "additem",
         data : {"cnpj": cnpjadd, 
                 "codigoitem": coditem },

@@ -198,7 +198,7 @@ public class CaixaService {
 				 	 cxabertura.calculoValorFechamento(troco); 
 					 caixaberturarepo.save(cxabertura);
 			   }).start();	
-									
+			 
 		}
 				
 	}  

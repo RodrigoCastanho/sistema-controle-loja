@@ -19,6 +19,7 @@ public class BancoDadosConfig {
 		
 		HikariConfig hk = new HikariConfig();
 		hk.setJdbcUrl("jdbc:mysql://localhost:3306/lojafran?useTimezone=true&serverTimezone=America/Sao_Paulo");
+		hk.setDriverClassName("com.mysql.cj.jdbc.Driver");
 		hk.setUsername("root");
 		hk.setPassword("test");
 		hk.addDataSourceProperty("cachePrepStmts", "true");

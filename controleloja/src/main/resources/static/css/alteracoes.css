@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*Arquivo com algumas alteraçoes CSS  em conjunto Framework
+/*Arquivo com algumas alteraçoes CSS em conjunto Framework
 Materialize*/
 
  /*Muda a cor dos link do navbar*/
@@ -35,6 +35,25 @@ Materialize*/
 	top: 152px;
 		
 }
+
+/*Resolução de tela para tag*/
+@media screen and (max-width: 1186px) {
+	.posicao-botao-print {
+	  position: absolute;
+      top: 148px;
+    
+	}	
+}
+
+@media screen and (max-width: 982px) {
+	.posicao-botao-print {
+	  position: absolute;
+      top: 145px;
+    
+	}	
+}
+
+
 
 
 

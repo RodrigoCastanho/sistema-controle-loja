@@ -41,7 +41,7 @@ public class Venda {
 	@JoinColumn(name = "usuario_login")
 	private Usuario usuario;
     
-	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	@JoinTable(name="venda_pedido", 
 			   joinColumns = @JoinColumn(name = "cod_venda"),
 			   inverseJoinColumns = @JoinColumn(name = "cod_pedido"))

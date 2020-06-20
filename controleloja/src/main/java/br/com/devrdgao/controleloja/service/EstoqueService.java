@@ -49,14 +49,15 @@ public class EstoqueService {
 	
 	public void controleQuantEstoqueReporQuantItem(String codigoitem, Integer quantidade) {
 		 		
-		if((codigoitem != null) && (!codigoitem.isEmpty()) && (quantidade != null)) {       
-		   for(Item it:itens) { 
-		     if (codigoitem.equals(it.getCodigoitem())) {
-		    	    it.setQuantidade(it.getQuantidade()+quantidade); 
-		    	    itemrepo1.save(it); 
-		     }  
-			   
-		   } 	  	
+		if((codigoitem != null) && (!codigoitem.isEmpty()) && (quantidade != null)) { 
+			for(int p = 0; p < itens.size(); p++) {
+				if (codigoitem.equals(itens.get(p).getCodigoitem())) {
+		    	    itens.get(p).setQuantidade(itens.get(p).getQuantidade()+quantidade); 
+		    	    itemrepo1.save(itens.get(p)); 
+		    	    itens.remove(p);	    
+		        }		
+		    }
+	  	
 		}
 	}
 

@@ -69,7 +69,7 @@ public class FornecedorController {
 	 
 	}
 	
-	@PostMapping("additem")
+	@GetMapping("additem")
 	public ModelAndView adicionarItem(@RequestParam(value="codigoitem") String codigoitem,
 			                          @RequestParam(value="cnpj") String cnpj) {
 		
