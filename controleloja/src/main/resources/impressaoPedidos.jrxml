@@ -44,7 +44,10 @@
 			</textField>
 			<staticText>
 				<reportElement x="-18" y="10" width="157" height="35" uuid="9cbf2a25-056c-4948-b9bb-cb53351d0a0d"/>
-				<text><![CDATA[Rua Pepina Ôngaro - 375 Res. Portal Bordon - Sumaré-SP CNPJ:13.851.988/0001-44                                                       ]]></text>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Rua Pepina Ôngaro - 375                   Res. Portal Bordon - Sumaré-SP     CNPJ: 13.851.988/0001-44  ]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -91,15 +94,15 @@
 				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="45" y="8" width="37" height="17" uuid="8b1286ea-266c-4284-b0f0-485eb923fdee"/>
+				<reportElement x="45" y="12" width="37" height="17" uuid="8b1286ea-266c-4284-b0f0-485eb923fdee"/>
 				<textFieldExpression><![CDATA[$F{quantidade}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="70" y="8" width="40" height="18" uuid="6e075d0a-c3a9-41d6-8294-8cd5ecf4a8d3"/>
+				<reportElement x="70" y="12" width="40" height="18" uuid="6e075d0a-c3a9-41d6-8294-8cd5ecf4a8d3"/>
 				<textFieldExpression><![CDATA[$F{valoritemcnf}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="100" y="8" width="45" height="15" uuid="11df9aba-4074-43d8-b425-1e5f30d6a878"/>
+				<reportElement x="100" y="12" width="45" height="15" uuid="11df9aba-4074-43d8-b425-1e5f30d6a878"/>
 				<textFieldExpression><![CDATA[$F{precoitemcnf}]]></textFieldExpression>
 			</textField>
 		</band>

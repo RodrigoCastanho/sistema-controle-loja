@@ -239,22 +239,20 @@ public class CaixaService {
 	    	   
 	      Pedido pedido = new Pedido(i.getCodigoitem(), i.getDescricao(), i.getQuantidade(), i.getValoritem(), i.getPrecovenda(), 
 	    		  		             datahora, valortotal, dinheiro, debito, credito);  
-		  pedidos.add(pedido); 	  
+		  pedidos.add(pedido);
 
 	    });
 	    	    
-	    usuario = usuariorepo.findByLogin(sessaousuario);
-	   	    
+	    usuario = usuariorepo.findByLogin(sessaousuario);	   	    
 		pedidorepo.saveAll(pedidos); 
 
-		Venda venda = new Venda(datahora.withSecond(0).withNano(0), dinheiro, debito, credito, descontos, valortotal, pedidos, usuario);
-				
+ 		Venda venda = new Venda(datahora.withSecond(0).withNano(0), dinheiro, debito, credito, descontos, valortotal, pedidos, usuario);		
 		vendarepo.save(venda);
 		
 		pedidos.iterator().next().setCodigovendacnf(venda.getCodigovenda());
-						
+		
 		impressaoservice.impremirPedidos(pedidos, response);
-											
+		 		    
         itenspedido.clear();
         estoqueservice.limparItensListNotificaoEstoque();
         valortotal = new BigDecimal("0.00");

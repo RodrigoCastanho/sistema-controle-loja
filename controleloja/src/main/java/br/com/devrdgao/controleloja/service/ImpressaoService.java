@@ -1,9 +1,9 @@
 package br.com.devrdgao.controleloja.service;
 
 
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -25,12 +25,11 @@ import net.sf.jasperreports.engine.util.JRSaver;
 public class ImpressaoService {
 	
 	
-  public void impremirPedidos(List<Pedido> pedidos, HttpServletResponse response) {
+   public void impremirPedidos(List<Pedido> pedidos, HttpServletResponse response) {
 		
-		//Map não esta passando valor nenhum...
+	    //Map não esta passando valor nenhum...
 		Map<String, Object> params = new HashedMap<>();
-			  
-		
+			  	
 			try {
 				//String path = "/home/rodrigo/";
 				//File arquivo = ResourceUtils.getFile("classpath:impressaoPedidos.jrxml");
@@ -44,19 +43,19 @@ public class ImpressaoService {
 				response.reset();
 				response.setContentType("application/pdf");
 				response.setHeader("Content-Disposition", String.format("inline; filename=\"Cupom não fiscal.pdf\""));
-							
-				BufferedOutputStream outimp = new BufferedOutputStream(response.getOutputStream()); 
-				JasperExportManager.exportReportToPdfStream(print, outimp);
 				
-				outimp.flush();
+		        OutputStream outimp = response.getOutputStream(); 
+		        outimp.flush();
+				JasperExportManager.exportReportToPdfStream(print, outimp);
+
 				outimp.close();
 						
 			} catch (JRException e) { 
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
-			}	
+			}		
 				
-	 }
+    }
 			
 }
