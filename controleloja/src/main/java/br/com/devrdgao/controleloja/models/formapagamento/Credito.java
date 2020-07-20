@@ -10,26 +10,27 @@ public class Credito extends Pagamento {
 	private String credito;
 	private Integer parcelas;
 	private BigDecimal valorparcelado;
+	private BigDecimal valorcredito;
 	
 	public Credito() {
 		super();
 	}
 	
-	public Credito(String credito, Integer parcelas, BigDecimal valorparcelado, BigDecimal totalpago) {
+	public Credito(String credito, Integer parcelas, BigDecimal valorparcelado, BigDecimal valorcredito) {
 				
 	  if(credito.equals("Crédito")) {
 		    
 		  this.credito = credito; 
 		  this.valorparcelado = valorparcelado;	
 		  this.parcelas = parcelas;
-		  this.totalpago = totalpago;
+		  this.valorcredito = valorcredito;
  
 	  }else {
 		  
 		  this.credito = "";
 		  this.valorparcelado = new BigDecimal("0.00");	
 		  this.parcelas = 0;
-		  this.totalpago = new BigDecimal("0.00");	
+		  this.valorcredito = new BigDecimal("0.00");	
 	  
 	  }
 					
@@ -59,4 +60,12 @@ public class Credito extends Pagamento {
 		this.credito = credito;
 	}
 
+	public BigDecimal getValorcredito() {
+		return valorcredito;
+	}
+
+	public void setValorcredito(BigDecimal valorcredito) {
+		this.valorcredito = valorcredito;
+	}
+	
 }

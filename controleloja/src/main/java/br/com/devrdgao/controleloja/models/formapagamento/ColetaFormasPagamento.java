@@ -8,6 +8,9 @@ public class ColetaFormasPagamento {
 	private BigDecimal troco;
 	private Integer parcela;
 	private BigDecimal valorparcela;
+	private BigDecimal valorcredito;
+	private BigDecimal valordinheiro;
+	private BigDecimal valordebito;
 	private String dinheiro;
 	private String debito;
 	private String credito;
@@ -18,7 +21,7 @@ public class ColetaFormasPagamento {
 	}
 	public void setValorrecebido(BigDecimal valorrecebido) {
 		this.valorrecebido = valorrecebido;
-	}
+	}	
 	public BigDecimal getTroco() {
 		return troco;
 	}
@@ -36,6 +39,25 @@ public class ColetaFormasPagamento {
 	}
 	public void setValorparcela(BigDecimal valorparcela) {
 		this.valorparcela = valorparcela;
+	}
+	public BigDecimal getValorcredito() {
+		return valorcredito;
+	}
+	public void setValorcredito(BigDecimal valorcredito) {
+		this.valorcredito = valorcredito;
+	}
+	
+	public BigDecimal getValordinheiro() {
+		return valordinheiro;
+	}
+	public void setValordinheiro(BigDecimal valordinheiro) {
+		this.valordinheiro = valordinheiro;
+	}
+	public BigDecimal getValordebito() {
+		return valordebito;
+	}
+	public void setValordebito(BigDecimal valordebito) {
+		this.valordebito = valordebito;
 	}
 	public String getDebito() {
 		return debito;

@@ -39,6 +39,7 @@ public class EstoqueService {
 				itemrepo.saveAll(calculoestoque);
 				itens.forEach(its -> {
 				if (its.getQuantidade() <= its.getQuantminima()) {
+					its.setQuantidade(0);
 					mv.addObject("notificacao", "Itens em falta no estoque!");
 					mv.addObject("itensfalta", itens.stream().filter(it -> it.getQuantidade() <= it.getQuantminima())
 							                                 .collect(Collectors.toList()));

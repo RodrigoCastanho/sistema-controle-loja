@@ -98,7 +98,7 @@
                
              </div>
              
-            
+           <div class="table-venda"> 
 			<table class="striped grey lighten-1 tabelaVenda">
 				<thead>
 					<tr>
@@ -106,10 +106,13 @@
 						<th class="center-align" title="Vendedor(a)">Vendedor(a)</th>
 						<th class="center-align" title="Data da venda">Data</th>
 						<th title="Forma de Pagamento">F.Pagamento</th>
+						<th title="Valor Débito">V.Débito</th>
 						<th title="Valor recebido em dinheiro">V.Recebido</th>
 						<th title="Valor do troco">V.Troco</th>
+						<th title="Valor dinheiro">V. Dinheiro</th>
 						<th title="Números de parcelas">Parcelas</th>
 						<th title="Valor parcelado">V.Parcelado</th>
+						<th title="Valor crédito">V.Crédito</th>
 						<th title="Total de desconto por item">T.Descontos</th>
 						<th title="Valor da venda">Valor Venda</th>
 						<th title="Itens vendido">Itens</th>
@@ -123,18 +126,23 @@
 						<td title="Vendedor(a)"><span th:text="${venda.usuario.nome}"></span></td>
 						<td title="Data da venda"><span
 							th:text="${#temporals.format(venda.data,'dd/MM/yyyy HH:mm')}"></span></td>
-						<td title="Forma de Pagamento"><span th:text="${venda.formpagdebito.debito + 
-						 					 venda.formpagdinheiro.dinheiro + 
+						<td title="Forma de Pagamento"><span th:text="${venda.formpagdebito.debito + ' ' + 
+						 					 venda.formpagdinheiro.dinheiro + '' + 
 						 					 venda.formpagcredito.credito}" ></span></td>
-						 					 
+						<td title="Valor Débito">
+						   <span class="monetaria-masc" th:text="${venda.formpagdebito.valordebito}"></span></td>					 
 						<td title="Valor recebido em dinheiro">
 						   <span class="monetaria-masc" th:text="${venda.formpagdinheiro.valorrecebido}"></span></td>
 						<td title="Valor do troco">
 						  <span class="monetaria-masc" th:text="${venda.formpagdinheiro.valortroco}"></span></td>
+						<td title="Valor dinheiro">
+						  <span class="monetaria-masc" th:text="${venda.formpagdinheiro.valordinheiro}"></span></td>
 						<td title="Números de parcelas">
 						  <span th:text="${venda.formpagcredito.parcelas}"></span></td>
 						<td title="Valor parcelado">
 						  <span class="monetaria-masc" th:text="${venda.formpagcredito.valorparcelado}"></span></td>
+						<td title="Valor credito">
+						  <span class="monetaria-masc" th:text="${venda.formpagcredito.valorcredito}"></span></td>
 						<td title="Total de desconto por item">
 						  <span class="monetaria-masc" th:text="${venda.desconto}"></span></td>
 						<td title="Valor da venda">
@@ -147,8 +155,8 @@
 					</tr>
 				</tbody>
 
-			</table>
-
+			 </table>
+	       </div>
 		</div>
 	</div>
 

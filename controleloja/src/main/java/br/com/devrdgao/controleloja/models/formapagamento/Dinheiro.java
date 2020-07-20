@@ -10,25 +10,28 @@ public class Dinheiro extends Pagamento {
 	private String dinheiro;
 	private BigDecimal valorrecebido;
 	private BigDecimal valortroco;
+	private BigDecimal valordinheiro;
 
 	public Dinheiro() { 
 		super(); 
 	}
 	
-	public Dinheiro(String dinheiro, BigDecimal valorrecebido, BigDecimal valortroco, BigDecimal totalpago) {
+	public Dinheiro(String dinheiro, BigDecimal valorrecebido, BigDecimal valortroco, BigDecimal valordinheiro) {
 		
 		if(dinheiro.equals("Dinheiro")) {
 			
 			this.dinheiro = dinheiro;
 			this.valorrecebido = valorrecebido;
 			this.valortroco = valortroco;
+			this.valordinheiro = valordinheiro;
+		
 						
 		} else {
 			
 			this.dinheiro = "";
 			this.valorrecebido = new BigDecimal("0.00");
 			this.valortroco = new BigDecimal("0.00");
-			super.totalpago = new BigDecimal("0.00");
+			this.valordinheiro = new BigDecimal("0.00");
 		   
 		}
 		
@@ -54,5 +57,13 @@ public class Dinheiro extends Pagamento {
 	public void setDinheiro(String dinheiro) {
 		this.dinheiro = dinheiro;
 	}
-		
+
+	public BigDecimal getValordinheiro() {
+		return valordinheiro;
+	}
+
+	public void setValordinheiro(BigDecimal valordinheiro) {
+		this.valordinheiro = valordinheiro;
+	}
+			
 }

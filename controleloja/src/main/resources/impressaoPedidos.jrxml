@@ -84,25 +84,25 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="31" splitType="Stretch">
-			<textField>
-				<reportElement x="-15" y="0" width="55" height="19" uuid="041d8c60-6200-4eb4-84a1-dc98e3516a66"/>
+		<band height="42" splitType="Stretch">
+			<textField textAdjust="StretchHeight">
+				<reportElement stretchType="RelativeToTallestObject" x="-15" y="0" width="55" height="19" uuid="041d8c60-6200-4eb4-84a1-dc98e3516a66"/>
 				<textFieldExpression><![CDATA[$F{codigoitem}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="40" y="0" width="106" height="19" uuid="dadca00a-54a9-42b5-bf24-8709abdea88a"/>
+			<textField textAdjust="StretchHeight">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="40" y="0" width="107" height="16" uuid="dadca00a-54a9-42b5-bf24-8709abdea88a"/>
 				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="45" y="12" width="37" height="17" uuid="8b1286ea-266c-4284-b0f0-485eb923fdee"/>
+				<reportElement positionType="Float" x="48" y="16" width="37" height="17" uuid="8b1286ea-266c-4284-b0f0-485eb923fdee"/>
 				<textFieldExpression><![CDATA[$F{quantidade}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="70" y="12" width="40" height="18" uuid="6e075d0a-c3a9-41d6-8294-8cd5ecf4a8d3"/>
+				<reportElement positionType="Float" x="73" y="16" width="40" height="17" uuid="6e075d0a-c3a9-41d6-8294-8cd5ecf4a8d3"/>
 				<textFieldExpression><![CDATA[$F{valoritemcnf}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="100" y="12" width="45" height="15" uuid="11df9aba-4074-43d8-b425-1e5f30d6a878"/>
+				<reportElement positionType="Float" x="103" y="16" width="45" height="17" uuid="11df9aba-4074-43d8-b425-1e5f30d6a878"/>
 				<textFieldExpression><![CDATA[$F{precoitemcnf}]]></textFieldExpression>
 			</textField>
 		</band>

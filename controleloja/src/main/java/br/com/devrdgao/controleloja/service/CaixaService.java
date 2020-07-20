@@ -207,7 +207,7 @@ public class CaixaService {
 		
       BigDecimal totaldesconto = new BigDecimal("0.00");
 		
-		if(desconto != "") {
+		if(!desconto.equals("")) {
 			  
           BigDecimal porcentagem = (new BigDecimal(desconto)).divide(new BigDecimal(100));	
           totaldesconto = valortotal.multiply(porcentagem).setScale(2, RoundingMode.HALF_EVEN); 
@@ -225,9 +225,9 @@ public class CaixaService {
       		
 	  if(!itenspedido.isEmpty()) {
 
-		Dinheiro dinheiro = new Dinheiro(fpagamento.getDinheiro(), fpagamento.getValorrecebido(), fpagamento.getTroco(), valortotal);
-		Debito debito = new Debito(fpagamento.getDebito(), valortotal); 
-		Credito credito = new Credito(fpagamento.getCredito(), fpagamento.getParcela(), fpagamento.getValorparcela(), valortotal);
+		Dinheiro dinheiro = new Dinheiro(fpagamento.getDinheiro(), fpagamento.getValorrecebido(), fpagamento.getTroco(), fpagamento.getValordinheiro());
+		Debito debito = new Debito(fpagamento.getDebito(), fpagamento.getValordebito()); 
+		Credito credito = new Credito(fpagamento.getCredito(), fpagamento.getParcela(), fpagamento.getValorparcela(), fpagamento.getValorcredito());
 		
 		valortotal = valortotal.subtract(descontoValorTotal(fpagamento.getDesconto()));
 		

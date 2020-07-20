@@ -40,9 +40,10 @@
    }
 
   formaPagamento(); //Função usada para controlar acesso as forma de pagamento no click dos botões.
-  pagamentoDinheiro();//Função que calcula o Troco da forma de pagamento em Dinheiro.
+  pagamentoDinheiro("valReb","valTro");//Função que calcula o Troco da forma de pagamento em Dinheiro.
   //pagamentoDebito();//Função da forma de pagamento Débito.
-  pagamentoCredito();//Função que calcula quantidade de parcelas de uma compra, forma de pagamento Crédito.
+  pagamentoCredito("nparcelas", "valVenda","valorparcela");//Função que calcula quantidade de parcelas de uma compra, forma de pagamento Crédito.
+  pagamentoMisto();
   exibirValorAberturaCaixa();
   exibeDescontoValorTotal();
 
@@ -54,8 +55,11 @@
         $("#valordinheiro").val("Dinheiro");
         $("#valordebito").val("");
         $("#valorcredito").val("");
+        $('#descontofinal').show();
         $('.debito').hide();
         $('.credito').hide();
+        $('.misto').hide();
+        pagamentoMistoLimpaCampos();
 
 
       });
@@ -66,30 +70,175 @@
          $("#valordebito").val("Débito");
          $("#valorcredito").val("");
          $("#valordinheiro").val("");
+         $('#descontofinal').show();
          $('.credito').hide();
          $('.dinheiro').hide();
+         $('.misto').hide();
+         pagamentoMistoLimpaCampos();
 
- 
        });
           
-
        $('#pagcredito').click(function() {
         $('.credito').toggle(100);
         $("#valorcredito").val("Crédito");
         $("#valordebito").val("");
         $("#valordinheiro").val("");
+        $('#descontofinal').show();
         $('.dinheiro').hide();
         $('.debito').hide();
+        $('.misto').hide();
+         pagamentoMistoLimpaCampos();
+
 
        });
-   }
 
-  function pagamentoDinheiro(){
+       $('#pagmisto').click(function() {
+         $('.misto').toggle(100);
+         $('#valordinheiro').val("");
+         $('#valordebito').val("");
+         $('#valorcredito').val("");
+         $('#totalmisto').show();
+         $('.descvalor').val("");
+         $('.dinheiro').hide();
+         $('.debito').hide();
+         $('.credito').hide();
 
-	  
-      $('#valReb').on('keyup',function() {
+       });
+
+   } 
+
+   var valoresArray = [];
+   function pagamentoMisto() {
+       
+       $('.formdin').on('click',function() {
+         if($( ".formdin:checked" ).val()) {
+
+            $('#valordinheiro').val("Dinheiro"); 
+            $('.tbformpg .dinheirotr').show();
+            $('#descontofinal').show();
+
+
+            //Calculo do troco se necessario
+             pagamentoDinheiro("valReb", "valTro");
+             exibeDescontoValorTotal("descvalortotal");
+      
+             $('#totaldinheiro').on('blur',function() {
+                  var valordinheiro = $(this).val().replace(".","").replace(",",".");
+                  soma(valordinheiro,"Dinheiro");   
+              });
+
+
+          }else {
+             $('.tbformpg .dinheirotr').hide(); 
+             $('#totaldinheiro').val("");
+             $('#valordinheiro').val("");
+             $('#descontofinal').hide();
+             $('#descvalortotal').val("");
+             valoresArray.splice(0,1);
+
+          } 
+       });
+
+       $('.formdeb').on('click',function() {
+          if($( ".formdeb:checked" ).val()){
+
+            $('#valordebito').val("Débito");
+            $('.tbformpg .debitotr').show();
+            $('#descontofinal').show();
+
+            exibeDescontoValorTotal("descvalortotal");
+
+            $('#totaldebito').on('blur',function() {
+               var valordebito = $(this).val().replace(".","").replace(",",".");
+                soma(valordebito,"Debito");
+
+            });
+
+           }else {
+              $('.tbformpg .debitotr').hide(); 
+              $('#totaldebito').val("");
+              $('#valordebito').val("");
+              $('#descontofinal').hide();
+              $('#descvalortotal').val("");
+              valoresArray.splice(1,1);
+
+            }   
+          
+       });
+
+       $('.formcred').on('click',function() {
+          if($( ".formcred:checked" ).val()) { 
+              $('#valorcredito').val("Crédito");
+              $('.tbformpg .creditotr').show();
+
+               //Calculo das parcelas se necessario
+               pagamentoCredito("parcelas", "valorparc", "totalcredito");
+
+              $('#totalcredito').on('blur',function(){
+                  var valorcredito = $(this).val().replace(".","").replace(",",".");
+                  soma(valorcredito,"Credito");  
+
+              });
            
-           var valorrecebido = $("#valReb").val().replace(".","").replace(",",".");
+            }else {
+                $('.tbformpg .creditotr').hide(); 
+                $('#totalcredito').val("");
+                $('#valorcredito').val("");
+                valoresArray.splice(2,1);
+
+             }         
+
+        }); 
+
+
+      function soma(valormisto, pagamento) {
+         
+         switch (pagamento) {
+             case 'Dinheiro':   
+             valoresArray[0] = valormisto;
+             break;
+
+             case 'Debito':
+             valoresArray[1] = valormisto; 
+             break;
+
+             case 'Credito':
+             valoresArray[2] = valormisto;
+             break;
+
+         }
+
+         var total = valoresArray.reduce(function(ant, at) {
+            return valortotal = (parseFloat(ant || 0) + parseFloat(at || 0)).toFixed(2).replace(".",",");        
+         });
+          
+         $('#totalmisto').html(" R$ "+total); 
+
+      }
+
+   }
+   
+  function pagamentoMistoLimpaCampos() {
+
+     $("#mvalordinheiro").val("");
+     $("#mvalordebito").val("");
+     $("#mvalorcredito").val(""); 
+     $('.checkbox').prop('checked',false);
+     valoresArray = [];
+     $('#totalmisto').hide();
+     $('#totalmisto').html("");
+     $('.tbformpg .dinheirotr').hide();
+     $('.tbformpg .debitotr').hide();
+     $('.tbformpg .creditotr').hide();
+    
+   }
+  
+
+  function pagamentoDinheiro(valReb, valTro) {
+
+      $('#'+valReb).on('keyup',function() {
+           
+           var valorrecebido = $('#'+valReb).val().replace(".","").replace(",",".");
             
            var valorvenda = $("#valVenda").html().replace(".","").replace(",",".");
            
@@ -97,10 +246,10 @@
         	   
         	   var valortroco = (parseFloat(valorvenda || 0) - parseFloat(valorrecebido || 0));  
         	   
-        	   $("#valTro").val(valortroco.toFixed(2).replace(".",",").replace("-",""));
+        	   $('#'+valTro).val(valortroco.toFixed(2).replace(".",",").replace("-",""));
         	   
            } else {
-        	   $("#valTro").val("");
+        	   $('#'+valTro).val("");
            }
            
 
@@ -111,35 +260,48 @@
   //Funçao pode ser utilizada futuramente.
   //function pagamentoDebito() {}
   
-  function pagamentoCredito(){
+  function pagamentoCredito(parcelas, valorparc, totalcredito) {
 
-   $('.nparcelas').change(function(){
+   $('#'+parcelas).change(function() {
 
-        var valorvenda = $("#valVenda").html().replace(".","").replace(",",".");
+          
+            var valorparcela = $('#'+valorparc).val().replace(".","").replace(",",".");
+            var parcelas = ($(this).val());
+            var valorparcelado = (valorparcela * parcelas);
+            $('#'+totalcredito).val(valorparcelado.toFixed(2).replace(".",","));   
+             
+      
+     }); 
 
-        var parcelas = ($(this).val());
+     //  $('.nparcelas').change(function() {
 
-        var valorparcelado = (parseFloat(valorvenda) / parcelas);
+    //     var valorvenda = $("#valVenda").html().replace(".","").replace(",",".");
 
-        $("#valorparcela").val(valorparcelado.toFixed(2).replace(".",","));
+    //     var parcelas = ($(this).val());
 
-    });
+    //     var valorparcelado = (parseFloat(valorvenda) / parcelas);
+
+    //     $("#valorparcela").val(valorparcelado.toFixed(2).replace(".",","));
+
+    //   });
+
+
   }
    
-  function exibeDescontoValorTotal() {
+  function exibeDescontoValorTotal(descValorTotal) {
      
-      $('#descValorTotal').on('keyup',function() { 
+      $('#'+descValorTotal).on('keyup',function() { 
         
           var valorvenda = $("#valVenda").html().replace(".","").replace(",",".");                
-          var porcentagem = (valorvenda * (parseFloat($("#descValorTotal").val()/100)));
+          var porcentagem = (valorvenda * (parseFloat($('#'+descValorTotal).val()/100)));
           
-        if($('#descValorTotal').val() != "") {
+        if($('#'+descValorTotal).val() != "") {
           
-          $('.resultdesc').html("R$:" +(valorvenda - porcentagem).toFixed(2).replace(".",",").replace("-","")); 
+          $('#resultdesc').html("R$:" +(valorvenda - porcentagem).toFixed(2).replace(".",",").replace("-","")); 
           
         } else {
         
-          $('.resultdesc').html("");   
+          $('#resultdesc').html("");   
           
         }
           
