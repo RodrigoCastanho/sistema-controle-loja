@@ -34,12 +34,18 @@ public class EstoqueService {
 
 		calculoestoque.add(item.filter(ite -> ite.getCodigoitem().equals(itenspedido.iterator().next().getCodigoitem())).get());
 		calculoestoque.forEach(ite -> { 
-				ite.setQuantidade(ite.getQuantidade()-itenspedido.iterator().next().getQuantidade());
-				itens.add(ite);
-				itemrepo.saveAll(calculoestoque);
+			   if(ite.getQuantidade() == 0) {
+				   mv.addObject("notificacao1", "Item código:"+ite.getCodigoitem()+" já acabou verificar estoque!"); 
+				   mv.addObject("itensfalta", calculoestoque);
+			   }else if(ite.getQuantidade() <= 0) {
+				  ite.setQuantidade(0); 
+			   }else {
+				  ite.setQuantidade(ite.getQuantidade()-itenspedido.iterator().next().getQuantidade());
+			      itens.add(ite);
+			      itemrepo.saveAll(calculoestoque);
+			   }	
 				itens.forEach(its -> {
 				if (its.getQuantidade() <= its.getQuantminima()) {
-					its.setQuantidade(0);
 					mv.addObject("notificacao", "Itens em falta no estoque!");
 					mv.addObject("itensfalta", itens.stream().filter(it -> it.getQuantidade() <= it.getQuantminima())
 							                                 .collect(Collectors.toList()));

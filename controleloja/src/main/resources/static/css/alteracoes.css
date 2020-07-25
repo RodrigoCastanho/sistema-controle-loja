@@ -21,10 +21,17 @@ Materialize*/
 	overflow-y: auto;
 }
 
+/*Notificações de estoque*/
 .alerta-item {
   position: absolute;
   left: 77%;
   top: 96px;
+}
+
+.alerta-item1 {
+  position: absolute;
+  left: 77%;
+  top: 150px;
 }
 
 /*Posição do botao print da Tela Vendas dentro do modal dos item*/

@@ -84,8 +84,10 @@
                                                               
              </div>
              <br/>
-              <h6><a class="red-text alerta-item modal-trigger" title="Click para exibir os itens em falta no estoque" 
-              		 							  th:text="${notificacao}" href="#modNt"></a></h6>
+              <h6><a class="yellow-text alerta-item modal-trigger" title="Click para exibir os itens em falta no estoque" 
+              		 							  th:text="${notificacao}" href="#modNt"></a></h6> 
+			  <h6><a class="red-text alerta-item1 modal-trigger" th:text="${notificacao1}"></a></h6>
+      							  
              
             <form class="col s12" action="itemcaixa" method="get">
                    
@@ -246,74 +248,9 @@
                     <div class="row">
 	                   <form class="col s10 m12" th:action="@{/concluircompra}" th:object="${ColetaFormasPagamento}" method="post"> 
 	                   
-	                   		  <div class="usuario" sec:authentication="name" style="display: none"></div>
-	                          <input id="idSessaoUsuario" class="sessao" type="hidden" name="sessaousuario">	
-	                     
-                              <!-- <input id="pagdinheiro" type="button" value="Dinheiro"/>
-                              <input id="pagdebito" type="button" value="Débito"/>
-                              <input id="pagcredito" type="button" value="Crédito"/>
-                              <input id="pagmisto" type="button" value="Misto"/> -->
-                              
-                             
-                       <!--   <div class="dinheiro" style="display:none">
-                                                                                                       	  
- 	                       <div class="row"> 	                            
-                               <div class="input-field col s10">
-                               
-                                  <input id="valordinheiro" type="hidden" th:name="@{dinheiro}">
-                                  
-                                  Valor Recebido:
-                                 <input class="monetaria-masc" th:name="@{valorrecebido}" style="font-family: Tahoma; 
-                                 font-size: 26px; color: green;" id="valReb" type="text">
-                              </div>
-                           </div>
-                          
-                           <div class="row">
-                               <div class="input-field col s10">
-                                  Troco:
-                                 <input class="monetaria-masc" th:name="@{troco}" style="font-family: Tahoma; 
-                                 font-size: 26px; color: red;" id="valTro" type="text">
-                              </div>
-                            </div>
-                                  
-                          </div> -->
-                         
-                        <!-- <div class="debito" style="display:none">
-                         	 
-                         	 <h5>Pagamento no Débito:</h5>
-                         	 
-                         	 <input id="valordebito" type="hidden" th:name="@{debito}">
-                         	        	                       	                           	  
-                         </div> -->
-                         
-                        <!-- <div class="credito" style="display:none">
-                         
-                          <input id="valorcredito" type="hidden" th:name="@{credito}">
-                         	
-                            <br/> 
-                            Nº Parcelas:
-                            <select id="nparcelas" th:name="@{parcela}">
-							  <option value="0" selected>0x</option> 
-							  <option value="1">1x</option>
-							  <option value="2">2x</option>
-							  <option value="3">3x</option>
-							  <option value="4">4x</option>
-							  <option value="5">5x</option>
-							  <option value="6">6x</option>
-							  <option value="7">7x</option>
-							  <option value="8">8x</option>
-							  <option value="9">9x</option>
-							  <option value="10">10x</option>
-							  <option value="11">11x</option>
-							  <option value="12">12x</option>  
-							</select>
-							
-                             <br/> 
-                             Valor da Parcela R$: 
-                             <input id="valorparcela" th:name="@{valorparcela}" style="font-family: Tahoma; 
-                                 font-size: 19px; color: green;" type="text">                                    
-                         </div>  -->
-                         
+	                   		 <div class="usuario" sec:authentication="name" style="display: none"></div>
+	                         <input id="idSessaoUsuario" class="sessao" type="hidden" name="sessaousuario">	
+	                      
 	                         <div class="misto">
 	                            <div class="col s10 m12 card-panel">
 	                        
@@ -334,7 +271,6 @@
 	                              <table class="centered tbformpg col m12">
 							        <thead>
 							          <tr>
-							            
 							              <th>Valor RB</th>
 							              <th>Troco</th> 
 							              <th>Valor P</th>
@@ -345,12 +281,12 @@
 							
 							        <tbody>
 							        	 <tr class="dinheirotr" style="display:none">
-						                   <td><input id="valReb" class="monetaria-masc" type="text" th:name="@{valorrecebido}">
-						                   	   <input id="valordinheiro" type="hidden" th:name="@{dinheiro}"></td>
-						                   <td><input id="valTro" class="monetaria-masc" type="text" th:name="@{troco}"></td>
+						                   <td><input id="valReb" class="monetaria-masc" style="font-family: Tahoma; font-size: 19px;" type="text" th:name="@{valorrecebido}">
+						                   	   <input id="valordinheiro" style="font-family: Tahoma; font-size: 19px;" type="hidden" th:name="@{dinheiro}"></td>
+						                   <td><input id="valTro" style="font-family: Tahoma; font-size: 19px;" class="monetaria-masc" type="text" th:name="@{troco}"></td>
 						                   <td>&nbsp;</td>
 						                   <td>&nbsp;</td>
-						                   <td><input id="totaldinheiro" class="monetaria-masc" th:name="@{valordinheiro}" type="text"></td>
+						                   <td><input id="totaldinheiro" class="monetaria-masc" style="font-family: Tahoma; font-size: 19px;" th:name="@{valordinheiro}" type="text"></td>
 						                  </tr> 
 						                 
 						                 <tr class="debitotr" style="display:none">
@@ -358,14 +294,14 @@
 						                    <td>&nbsp;</td>
 						                    <td>&nbsp;</td>
 						                    <td>&nbsp;</td>
-						                    <td><input id="totaldebito" class="monetaria-masc" th:name="@{valordebito}" type="text"></td>
+						                    <td><input id="totaldebito" class="monetaria-masc" style="font-family: Tahoma; font-size: 19px;" th:name="@{valordebito}" type="text"></td>
 						                 </tr>
 						                 
 						                  <tr class="creditotr" style="display:none">
 						                     <td>&nbsp;</td>
 						                     <td>&nbsp;</td>
-						                     <td><input id="valorparc" class="monetaria-masc" type="text" th:name="@{valorparcela}">
-						                         <input id="valorcredito" type="hidden" th:name="@{credito}"></td>
+						                     <td><input id="valorparc" class="monetaria-masc" style="font-family: Tahoma; font-size: 19px;" type="text" th:name="@{valorparcela}">
+						                         <input id="valorcredito" type="hidden" style="font-family: Tahoma; font-size: 19px;" th:name="@{credito}"></td>
 						                     <td><select id="parcelas" th:name="@{parcela}">
 						                              <option value="" selected>Selecione Parcela</option>
 													  <option value="1">1x</option>
@@ -381,7 +317,7 @@
 													  <option value="11">11x</option>
 													  <option value="12">12x</option>  
 												 </select></td>
-						                     <td><input id="totalcredito" class="monetaria-masc" th:name="@{valorcredito}" type="text"></td>
+						                     <td><input id="totalcredito" class="monetaria-masc" style="font-family: Tahoma; font-size: 19px;" th:name="@{valorcredito}" type="text"></td>
 						                   </tr>    
 	                                 </tbody> 
 	                               </table>
@@ -407,9 +343,7 @@
 	                                 <div id="resultdesc" class="green-text" style="font-family: Tahoma; 
 	                                      font-size:19px;"></div>
 	                             </div> 
-							  	
-							  	<!-- <div id="resultdesc" class="green-text" style="font-family: Tahoma; font-size: 18px;" ></div> -->
-			
+							  				
 							 <div class="col s10 offset-s4">
                            	   <button class="waves-effect waves-light btn-large deep-orange accent-2" type="submit">CONCLUIR COMPRA</button>    
                              </div>

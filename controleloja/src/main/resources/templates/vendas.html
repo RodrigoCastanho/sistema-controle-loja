@@ -127,7 +127,7 @@
 						<td title="Data da venda"><span
 							th:text="${#temporals.format(venda.data,'dd/MM/yyyy HH:mm')}"></span></td>
 						<td title="Forma de Pagamento"><span th:text="${venda.formpagdebito.debito + ' ' + 
-						 					 venda.formpagdinheiro.dinheiro + '' + 
+						 					 venda.formpagdinheiro.dinheiro + ' ' + 
 						 					 venda.formpagcredito.credito}" ></span></td>
 						<td title="Valor Débito">
 						   <span class="monetaria-masc" th:text="${venda.formpagdebito.valordebito}"></span></td>					 

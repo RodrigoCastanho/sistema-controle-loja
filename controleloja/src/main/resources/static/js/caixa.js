@@ -31,84 +31,18 @@
 
   });
    
-   //Habilita botao "Adicionar Pedido", quando botao "Pedido" for precionado
+   //Habilita botao "Adicionar Pedido", quando botao "Pedido" for prescionado
    function habilitaBotao(){
-  
-    
       $("#adicionapedido").removeAttr('disabled');
-
    }
 
-  formaPagamento(); //Função usada para controlar acesso as forma de pagamento no click dos botões.
-  pagamentoDinheiro("valReb","valTro");//Função que calcula o Troco da forma de pagamento em Dinheiro.
-  //pagamentoDebito();//Função da forma de pagamento Débito.
-  pagamentoCredito("nparcelas", "valVenda","valorparcela");//Função que calcula quantidade de parcelas de uma compra, forma de pagamento Crédito.
-  pagamentoMisto();
+  
+  formasPagamento();//Funçao controla interaçao das formas de pagamentos
   exibirValorAberturaCaixa();
-  exibeDescontoValorTotal();
 
    
-  function formaPagamento(){    
-
-      $('#pagdinheiro').click(function() {
-        $('.dinheiro').toggle(100);
-        $("#valordinheiro").val("Dinheiro");
-        $("#valordebito").val("");
-        $("#valorcredito").val("");
-        $('#descontofinal').show();
-        $('.debito').hide();
-        $('.credito').hide();
-        $('.misto').hide();
-        pagamentoMistoLimpaCampos();
-
-
-      });
-
-       $('#pagdebito').click(function() {
-
-         $('.debito').toggle(100);
-         $("#valordebito").val("Débito");
-         $("#valorcredito").val("");
-         $("#valordinheiro").val("");
-         $('#descontofinal').show();
-         $('.credito').hide();
-         $('.dinheiro').hide();
-         $('.misto').hide();
-         pagamentoMistoLimpaCampos();
-
-       });
-          
-       $('#pagcredito').click(function() {
-        $('.credito').toggle(100);
-        $("#valorcredito").val("Crédito");
-        $("#valordebito").val("");
-        $("#valordinheiro").val("");
-        $('#descontofinal').show();
-        $('.dinheiro').hide();
-        $('.debito').hide();
-        $('.misto').hide();
-         pagamentoMistoLimpaCampos();
-
-
-       });
-
-       $('#pagmisto').click(function() {
-         $('.misto').toggle(100);
-         $('#valordinheiro').val("");
-         $('#valordebito').val("");
-         $('#valorcredito').val("");
-         $('#totalmisto').show();
-         $('.descvalor').val("");
-         $('.dinheiro').hide();
-         $('.debito').hide();
-         $('.credito').hide();
-
-       });
-
-   } 
-
    var valoresArray = [];
-   function pagamentoMisto() {
+   function formasPagamento() {
        
        $('.formdin').on('click',function() {
          if($( ".formdin:checked" ).val()) {
@@ -184,6 +118,8 @@
                 $('.tbformpg .creditotr').hide(); 
                 $('#totalcredito').val("");
                 $('#valorcredito').val("");
+                $('#descontofinal').hide();
+                $('#descvalortotal').val("");
                 valoresArray.splice(2,1);
 
              }         
@@ -217,22 +153,7 @@
       }
 
    }
-   
-  function pagamentoMistoLimpaCampos() {
-
-     $("#mvalordinheiro").val("");
-     $("#mvalordebito").val("");
-     $("#mvalorcredito").val(""); 
-     $('.checkbox').prop('checked',false);
-     valoresArray = [];
-     $('#totalmisto').hide();
-     $('#totalmisto').html("");
-     $('.tbformpg .dinheirotr').hide();
-     $('.tbformpg .debitotr').hide();
-     $('.tbformpg .creditotr').hide();
     
-   }
-  
 
   function pagamentoDinheiro(valReb, valTro) {
 
@@ -257,8 +178,6 @@
                    
   }
   
-  //Funçao pode ser utilizada futuramente.
-  //function pagamentoDebito() {}
   
   function pagamentoCredito(parcelas, valorparc, totalcredito) {
 

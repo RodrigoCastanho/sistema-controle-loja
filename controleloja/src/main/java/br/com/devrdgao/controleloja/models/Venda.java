@@ -60,7 +60,7 @@ public class Venda {
 		this.formpagdebito = formpagdebito;
 		this.formpagcredito = formpagcredito;
 		this.desconto = desconto;
-		this.valorvenda = valorvenda;
+		this.valorvenda = validadorPGCreditoValorTotal(formpagcredito, formpagdinheiro, formpagdebito, valorvenda); //define valor da venda
 		this.pedidos = pedidos;
 		this.usuario = usuario;
 		
@@ -135,6 +135,20 @@ public class Venda {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+	
+	private BigDecimal validadorPGCreditoValorTotal(Credito cd, Dinheiro dh, Debito db, BigDecimal valortotal) {
+			
+		if(cd.getCredito().equals("Crédito") && (dh.getDinheiro().equals("Dinheiro"))) {
+			return valortotal;	
+		}else if(cd.getCredito().equals("Crédito") && (db.getDebito().equals("Débito"))) {
+			return valortotal;
+	    }else if(cd.getCredito().equals("Crédito") && (!cd.getValorcredito().equals(new BigDecimal("0.00")))) {
+	    	return cd.getValorcredito(); 
+	    }else {
+	    	return valortotal;
+	    }
+			
 	}
 		
 }

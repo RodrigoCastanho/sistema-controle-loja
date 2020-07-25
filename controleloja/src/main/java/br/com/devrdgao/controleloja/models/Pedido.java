@@ -37,11 +37,9 @@ public class Pedido extends CupomNF {
 		this.quantidade = quantidade;
 		this.valoritem = valoritem;
 		this.precoitem = precoitem;
-		super.datacnf = data;					
-		super.totalcnf = valortotal;	
-		super.tipopagamentocnf = dh.getDinheiro()
-							    .concat(db.getDebito())
-							    .concat(cd.getCredito()); 
+		super.datacnf = data;	
+		super.totalcnf = validadorPGCreditoValorTotal(cd,dh,db,valortotal);
+		super.tipopagamentocnf =  "Pagamento: "+dh.getDinheiro()+ " " +db.getDebito()+ " "+cd.getCredito()+ " "; 
 		super.trococnf = dh.getValortroco();
 
 	}
@@ -81,6 +79,20 @@ public class Pedido extends CupomNF {
 	}
 	public void setPrecoitem(BigDecimal precoitem) {
 		this.precoitem = precoitem;
+	}
+	
+    private BigDecimal validadorPGCreditoValorTotal(Credito cd, Dinheiro dh, Debito db, BigDecimal valortotal) {
+		
+		if(cd.getCredito().equals("Crédito") && (dh.getDinheiro().equals("Dinheiro"))) {
+			return valortotal;	
+		}else if(cd.getCredito().equals("Crédito") && (db.getDebito().equals("Débito"))) {
+	    	return valortotal;
+	    }else if(cd.getCredito().equals("Crédito") && (!cd.getValorcredito().equals(new BigDecimal("0.00")))) {
+	    	return cd.getValorcredito(); 
+	    }else {
+	    	return valortotal;
+	    }
+		
 	}
 	
 	@Override
